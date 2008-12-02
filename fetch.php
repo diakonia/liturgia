@@ -1,20 +1,14 @@
 <?php
 
-	$aFetch  = $_REQUEST;
-	
-	$sPath = '../OpenSong/';
-	switch ($aFetch['type'])
-	{
-		case 'song':
-			$sPath .= 'Songs/';
-			break;
-		case 'set':
-			$sPath .= 'Sets/';
-			break;
-	}
-	
-	$sPath .= $aFetch['file'];
-	
-	header('Content-type: text/xml');
-	
-	readfile($sPath);
+  require_once('core.php');
+  $oFilePath = new filepath($_REQUEST);
+  $sFullFilePath = $oFilePath->getFullFile();
+  $sContent = @file_get_contents($sFullFilePath);
+  if($sContent)
+  {
+    header('Content-type: text/xml');
+    echo $sContent;
+    exit;
+  }
+  header('HTTP/1.1 404 Not Found', true, 404);
+?>
