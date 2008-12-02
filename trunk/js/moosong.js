@@ -36,6 +36,7 @@ window.addEvent('domready', function(){
     method:'get',
 		url: "list.php?type=set",
 		onComplete: function(jsonObj) {
+        $('selectSetChooser').empty();
         var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
         $('selectSetChooser').adopt(myEl);
         jsonObj.setlist.each(function(item, index){
