@@ -1,22 +1,8 @@
 <?php
 
-	$aFetch  = $_REQUEST;
-	//echo "\n<br><pre>\naFetch   =" .var_export($aFetch  , TRUE)."</pre>";
-	
-	$sPath = '../OpenSong/';
-	switch ($aFetch['type'])
-	{
-		case 'song':
-			$sPath .= 'Songs/';
-			break;
-		case 'set':
-			$sPath .= 'Sets/';
-			break;
-	}
-	
-  /**
-  * example of use:
-  */
+  require_once('core.php');
+	$oFilePath = new filepath($_REQUEST);
+  
   $sQ = $_REQUEST['q'];
   $sQ = str_replace(' ','.+', $sQ);
   if(empty($sQ))
@@ -26,13 +12,15 @@
   $sPattern = '/'.$sQ.'/i';
   
   $aResults = array();
-  $d = new RecDir($sPath, false);
+  $d = new RecDir($sData = $oFilePath->getFullDataFolder(), false);
   while (false !== ($entry = $d->read())) {
     $iRes = preg_match($sPattern, $entry);
     if($iRes)
     {
-      $sLocalPath = str_replace($sPath, '', $entry);
-      $aResults[$sLocalPath] = array('name'=>basename($entry), 'file' => $sLocalPath);
+      $oFilePath->setFullFile($entry);
+      $sFile = $oFilePath->getFile();
+      $sName = $oFilePath->getName();
+      $aResults[$sName] = array('name'=>$sName, 'file' => $sFile);
     }
     
   
@@ -41,7 +29,7 @@
   asort($aResults);
 
 
-	$sTest = json_encode(array($aFetch['type'].'list' => array_values($aResults)));
+	$sTest = json_encode(array($oFilePath->getType().'list' => array_values($aResults)));
 	echo $sTest;
 
 
