@@ -172,6 +172,10 @@ window.addEvent('domready', function(){
   {
     var xmlnode = eLi.retrieve('xmlnode');
     var sPath = xmlnode.getAttribute('path');
+    if (sPath == null)
+    {
+      sPath = '';
+    }
     var sName = xmlnode.getAttribute('name');
     var sFile = sPath+sName;
     oSongFetchRequest.send({data:{type:'song', file:sFile}});
@@ -389,7 +393,7 @@ window.addEvent('domready', function(){
       $('displayChooseSong').empty(); 
 		}
     oSongFetchRequest.send({data:{type:'song', file:sFile}});
-    $('selectSetChooser').empty();
+    //$('selectSetChooser').empty();
 	});
   
   $('btnNewSong').addEvent('click',  function(e) {
