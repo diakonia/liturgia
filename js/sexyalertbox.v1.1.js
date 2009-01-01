@@ -78,12 +78,12 @@ var SexyAlertBox = new Class({
 
   setWidth: function(val){
     this.options.BoxStyles.width = val;
-    this.Box.setStyle('width',this.options.BoxStyles['width'] + 'px');
+    this.Box.setStyle('width',this.options.BoxStyles.width + 'px');
   },
   
   setHeight: function(val){
     this.options.BoxStyles.height = val;
-    this.Box.setStyle('height',this.options.BoxStyles['height'] + 'px');
+    this.Box.setStyle('height',this.options.BoxStyles.height + 'px');
   },
   
   
@@ -124,7 +124,7 @@ var SexyAlertBox = new Class({
 				'position': 'absolute',
 				'top': '0',
 				'left': '0',
-				'width': this.options.BoxStyles['width'] + 'px'
+				'width': this.options.BoxStyles.width + 'px'
 			}
 		}).adopt(this.Content);
 
@@ -160,16 +160,19 @@ var SexyAlertBox = new Class({
 		option - integer, 1 to Show box and 0 to close box (with a transition).
 	*/	
 	display: function(option){
-    console.log("this.Box =", this.Box);
+    //console.log("this.Box =", this.Box);
 		if(this.Transition)
+    {
 			this.Transition.cancel();				
-
+    }
 		// Show Box	
-		if(this.options.display == 0 && option != 0 || option == 1) {
+		if(this.options.display === 0 && option !== 0 || option === 1) {
 
       if(Browser.Engine.trident4)
-        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'hidden' });
-
+      {
+        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'hidden';});
+      }
+      
 			this.Overlay.setStyle('display', 'block');
 			this.options.display = 1;
 			this.fireEvent('onShowStart', [this.Overlay]);
@@ -186,7 +189,7 @@ var SexyAlertBox = new Class({
 						this.Box.setStyles({
                 
 							'display': 'block',
-							'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt()
+							'left': (scrollito.x + (sizes.x - this.options.BoxStyles.width) / 2).toInt()
 						});
 
 						this.replaceBox();
@@ -194,15 +197,17 @@ var SexyAlertBox = new Class({
 
 					}.bind(this)
 				}
-			).start(this.options.OverlayStyles['opacity']);
+			).start(this.options.OverlayStyles.opacity);
 
 		}
 		// Close Box
 		else {
 
       if(Browser.Engine.trident4)
-        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'visible' });
-
+      {
+        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'visible'; });
+      }
+      
       this.queue.delay(500,this);
 
 			this.Box.setStyles({
@@ -240,16 +245,16 @@ var SexyAlertBox = new Class({
       scrollito = window.getScroll();
 
 			if(this.MoveBox)
+      {
 				this.MoveBox.cancel();
-			
+			}
+      
 			this.MoveBox = new Fx.Morph(this.Box, {
 				duration: this.options.moveDuration,
 				transition: this.options.moveEffect
 			}).start({
-
-				'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt(),
+				'left': (scrollito.x + (sizes.x - this.options.BoxStyles.width) / 2).toInt(),
 				'top': (scrollito.y + (sizes.y - this.Box.offsetHeight) / 2).toInt()
-
 			});
 
 		}
@@ -316,11 +321,17 @@ var SexyAlertBox = new Class({
           }.bind(this));
         
           if(type == 'alert')
+          {
             this.clase = 'BoxAlert';
+          }
           else if(type == 'error')
+          {
             this.clase = 'BoxError';
+          }
           else if(type == 'info')
+          {
             this.clase = 'BoxInfo';
+          }
         
           this.Content.setProperty('class',this.clase).set('html',message);
 
@@ -353,7 +364,7 @@ var SexyAlertBox = new Class({
            this.clase = 'BoxIFrame';
         
           this.Content.setProperty('class',this.clase);
-          console.log("this.Content =", this.Content);
+          //console.log("this.Content =", this.Content);
 
 
                   
@@ -376,7 +387,7 @@ var SexyAlertBox = new Class({
           
           this.PrintBtnOk.addEvent('click', function() {
             this.ConfirmIFrame.focus();
-            console.log("this.ConfirmIFrame =", this.ConfirmIFrame);
+            //console.log("this.ConfirmIFrame =", this.ConfirmIFrame);
             this.ConfirmIFrame.print();
           }.bind(this));
 
@@ -471,7 +482,7 @@ var SexyAlertBox = new Class({
 
           this.Content.setProperty('class','BoxPrompt').set('html',message + '<br />');
           this.PromptInput.injectInside(this.Content);
-          new Element('br').injectInside(this.Content);
+          var Junk = new Element('br').injectInside(this.Content);
           this.PromptBtnOk.injectInside(this.Buttons);
           this.PromptBtnCancel.injectInside(this.Buttons);
 
@@ -490,8 +501,10 @@ var SexyAlertBox = new Class({
 
 		this.i++;
 
-		if(this.i==1) this.callChain();
-
+		if(this.i==1)
+    {
+      this.callChain();
+    }
 	},
 
 	/*
@@ -561,4 +574,4 @@ var SexyAlertBox = new Class({
 	}
 });
 
-SexyAlertBox.implement(new Events, new Options);
+SexyAlertBox.implement(new Events(), new Options());
