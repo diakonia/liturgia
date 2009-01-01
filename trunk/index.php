@@ -2,23 +2,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link rel="stylesheet" href="css/moosong.css" type="text/css" />
+	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
+  <link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>
 	<script type="text/javascript" src="js/mootools.js"></script>
-	<script type="text/javascript" src="js/moosong.js"></script>
-	<title>MooSong</title>
+  <script type="text/javascript" src="js/moosong.js"></script>
+	<link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
+  <script src="js/sexyalertbox.v1.1.js" type="text/javascript"></script>
+  <title>MooSong</title>
 </head>
 <body>
-  <!--TODO: download the SET, Full text search, Print out-->
+  
   
 	<div id="setpanel">
     <h4>Set</h4>
     <form id="SetChooser">
-			<select id="selectSetChooser"><option value="null">Loading ....</option></select>
-			<input id="btnSetNew" type="submit" value="New" />
+			<select id="selectSetChooser"><option value="null">Loading ....</option></select><br />
+			Set:
+      <input id="btnSetNew" type="submit" value="New" />
       <input id="btnSetSave" type="submit" value="Save" />
-      
+      <input id="btnSetDownload" type="submit" value="Download" />
+      <input id="btnSetPrint" type="submit" value="Print" />
       <br />
-      New:
+      Insert:
       <input id="btnNewSong" type="submit" value="Song" />
       <input id="btnNewSetSlide" type="submit" value="Slide" />
       <input id="btnNewSetReading" type="submit" value="Reading" />
@@ -51,7 +56,12 @@
     <div id="chooseSongPanel">
       <h4>Choose Song</h4>
       <form id="chooseSong">
-        <input type="text" id="textChooseSong" /><input id="btnChooseSongSearch" type="submit" value="Search" /><br />
+        <input type="text" id="textChooseSong" /><input id="btnChooseSongSearch" type="submit" value="Search" />
+        <select id="selectChooseSongSearchType">
+          <option value="name">Name Only</option>
+          <option value="full">Full Text</option>
+          </select>
+          <br />
         <select id="selectChooseSong" size="10" multiple="multiple" >
         </select>
         <br />
