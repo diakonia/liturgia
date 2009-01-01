@@ -2,6 +2,7 @@
 // DONE: Full text search
 // TODO: Print out
 
+
 window.addEvent('domready', function(){
 	// You can skip the following line. We need it to make sure demos
 	// are runnable on MooTools demos web page.
@@ -29,7 +30,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+			Sexy.alert( 'The Blanks request failed.');
 		}
 
 	});
@@ -52,7 +53,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+			Sexy.alert( 'The Set List request failed.');
 		}
 	});
   
@@ -76,7 +77,21 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+      //console.log("set fetch failure this =", this);
+      var sName = getDefaultSetName();
+      Sexy.confirm('<h1>The Set Fetch request failed.</h1>Would you like to create '+sName+' ?', { onComplete: 
+        function(returnvalue) {
+          if(returnvalue)
+          {
+             oSetNewRequest.send({'data':{name:sName}});
+          }
+          else
+          {
+            //nowt
+          }
+        }
+      });
+			
 		}
 
 	});
@@ -87,12 +102,19 @@ window.addEvent('domready', function(){
 		onComplete: function(jsonObj) {
       if($chk(jsonObj.exists))
       {
-        var sName = prompt('Name in use, please try again', jsonObj.exists.name);
-        if(sName === null)
-        {
-          return;
-        }
-        oSetNewRequest.send({'data':{name:sName}});
+        Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
+          function(returnvalue) {
+            if(returnvalue)
+            {
+               oSetNewRequest.send({'data':{name:returnvalue}});
+            }
+            else
+            {
+              //nowt
+            }
+          }
+        });
+        
         return;
       }
       
@@ -108,7 +130,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+			Sexy.alert( 'The New Set request failed.');
 		}
 	});
   
@@ -127,7 +149,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+			Sexy.alert( 'The Song List request failed.');
 		}
 	});
 	
@@ -148,7 +170,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			alert( 'The request failed.');
+			Sexy.alert( 'The Song Fetch request failed.');
 		}
 	});
 
@@ -337,7 +359,7 @@ window.addEvent('domready', function(){
       method:'get',
 			url: "save.php?type=set",
 			onSuccess: function(txt){
-				alert(txt);
+				Sexy.alert(txt);
 			}
 		});
     
@@ -489,12 +511,14 @@ window.addEvent('domready', function(){
   
   $('btnSetNew').addEvent('click',  function(e) {
 		e.stop();
-		var sName = prompt('Name For New Set', getDefaultSetName());
-    if(sName === null)
-    {
-      return;
-    }
-    oSetNewRequest.send({'data':{name:sName}});
+    Sexy.prompt('<h1>Name For New Set.</h1>', getDefaultSetName(), { onComplete: 
+        function(returnvalue) {
+          if(returnvalue)
+          {
+             oSetNewRequest.send({'data':{name:returnvalue}});
+          }
+        }
+      });
 	});
   
 //Doing
