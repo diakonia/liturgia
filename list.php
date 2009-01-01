@@ -15,6 +15,16 @@
   $d = new RecDir($sData = $oFilePath->getFullDataFolder(), false);
   while (false !== ($entry = $d->read())) {
     $iRes = preg_match($sPattern, $entry);
+    if(!$iRes && $_REQUEST['s'] == 'full' )
+    {
+      $oFilePath->setFullFile($entry);
+      $sFullFilePath = $oFilePath->getFullFile();
+      $sContent = @file_get_contents($sFullFilePath);
+      if($sContent)
+      {
+        $iRes = preg_match($sPattern, $sContent);
+      }
+    }
     if($iRes)
     {
       $oFilePath->setFullFile($entry);

@@ -1,8 +1,11 @@
+// DONE: download the SET
+// DONE: Full text search
+// TODO: Print out
+
 window.addEvent('domready', function(){
 	// You can skip the following line. We need it to make sure demos
 	// are runnable on MooTools demos web page.
 	
-  
 //Variables
   var eBlanksDoc = null;
 	var aBlankNodes = {};
@@ -85,7 +88,7 @@ window.addEvent('domready', function(){
       if($chk(jsonObj.exists))
       {
         var sName = prompt('Name in use, please try again', jsonObj.exists.name);
-        if(sName == null)
+        if(sName === null)
         {
           return;
         }
@@ -149,6 +152,47 @@ window.addEvent('domready', function(){
 		}
 	});
 
+//XML / Data Stuff
+
+
+  
+  var getSetXML = function()
+  {
+    var eSGs = eSetDoc.getElement('slide_groups');
+		eSGs.empty();
+		
+    var items = $('slidegroups').childNodes;
+		
+		for(var i = 0; i < items.length; i++)
+		{
+			item = items[i];
+      eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
+		}
+		
+		var xmlString = new XMLSerializer().serializeToString( eSetDoc );
+    xmlString = xmlString.replace(/SLIDE_GROUP/g, 'slide_group');
+    xmlString = xmlString.replace(/SLIDES/g, 'slides');
+    xmlString = xmlString.replace(/SLIDE/g, 'slide');
+    xmlString = xmlString.replace(/BODY/g, 'body');
+    xmlString = xmlString.replace(/SONG_SUBTITLE/g, 'song_subtitle');
+    xmlString = xmlString.replace(/SUBTITLE/g, 'subtitle');
+    xmlString = xmlString.replace(/TITLE/g, 'title');
+    xmlString = xmlString.replace(/NOTES/g, 'notes');
+    xmlString = xmlString.replace(/STYLE/g, 'style');
+    xmlString = xmlString.replace(/BACKGROUND/g, 'background');
+		
+    return xmlString;
+    
+  };
+  
+  var getDefaultSetName = function()
+  {
+    var oDate = new Date();
+    oDate.setDate(oDate.getDate() + (7 - oDate.getDay()));
+    var sNextSunday = oDate.getFullYear() +'-'+(1+oDate.getMonth())+'-'+oDate.getDate() + '-Morning';
+    return sNextSunday;
+  };
+  
 
 //GUI stuff
   var editSetItem = function(eLi)
@@ -172,7 +216,7 @@ window.addEvent('domready', function(){
   {
     var xmlnode = eLi.retrieve('xmlnode');
     var sPath = xmlnode.getAttribute('path');
-    if (sPath == null)
+    if (sPath === null)
     {
       sPath = '';
     }
@@ -202,15 +246,6 @@ window.addEvent('domready', function(){
     
   };
   
-  
-  var getDefaultSetName = function()
-  {
-    var oDate = new Date();
-    oDate.setDate(oDate.getDate() + (7 - oDate.getDay()));
-    var sNextSunday = oDate.getFullYear() +'-'+(1+oDate.getMonth())+'-'+oDate.getDate() + '-Morning';
-    return sNextSunday;
-  }
-  
   //This code initalizes the sortable list.
 	var oSlideGroups = new Sortables('.slidegroups', {
 		handle: '.drag-handle',
@@ -220,7 +255,7 @@ window.addEvent('domready', function(){
 		clone: true,
     snap:0,
 		//This function will happen when the user 'drops' an item in a new place.
-		onStart: function(eLi){editSetItem(eLi)},
+		onStart: function(eLi){editSetItem(eLi);}
 	});
 
   
@@ -242,7 +277,7 @@ window.addEvent('domready', function(){
     li.store('xmlnode',  xNode.clone(true));
     //Do a fancy effect on the <li>.
 		li.highlight();
-    li.addEvent('click', function(e){editSetItem(this)});
+    li.addEvent('click', function(e){editSetItem(this);});
 		//We have to add the list item to our Sortable object so it's sortable.
 		oSlideGroups.addItems(li);
 		return li;
@@ -253,7 +288,7 @@ window.addEvent('domready', function(){
       ['chooseSong',         new Fx.Slide('chooseSongPanel', {'mode':'vertical'}).slideOut()],
       ['editSetSong',        new Fx.Slide('editSetSongPanel', {'mode':'vertical'}).slideOut()],
       ['displaySongLyrics',  new Fx.Slide('displaySongLyricsPanel', {'mode':'vertical'}).slideOut()],
-      ['editSetSlide',       new Fx.Slide('editSetSlidePanel', {'mode':'vertical'}).slideOut()],
+      ['editSetSlide',       new Fx.Slide('editSetSlidePanel', {'mode':'vertical'}).slideOut()]
     ],
     
     add:  function(aNames)
@@ -271,8 +306,7 @@ window.addEvent('domready', function(){
           {
             this.aSliders[i][1].slideIn();
           }
-          
-      };
+      }
     },
     
     show: function(aNames)
@@ -290,8 +324,7 @@ window.addEvent('domready', function(){
           {
             this.aSliders[i][1].slideIn();
           }
-          
-      };
+      }
     }
   };
   
@@ -299,29 +332,7 @@ window.addEvent('domready', function(){
 //Buttons
 	$('btnSetSave').addEvent('click', function(e){
     e.stop();
-		var eSGs = eSetDoc.getElement('slide_groups');
-		eSGs.empty();
-		
-    var items = $('slidegroups').childNodes;
-		
-		for(var i = 0; i < items.length; i++)
-		{
-			item = items[i];
-      eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
-		}
-		
-		var xmlString = new XMLSerializer().serializeToString( eSetDoc );
-    xmlString = xmlString.replace(/SLIDE_GROUP/g, 'slide_group');
-    xmlString = xmlString.replace(/SLIDES/g, 'slides');
-    xmlString = xmlString.replace(/SLIDE/g, 'slide');
-    xmlString = xmlString.replace(/BODY/g, 'body');
-    xmlString = xmlString.replace(/SONG_SUBTITLE/g, 'song_subtitle');
-    xmlString = xmlString.replace(/SUBTITLE/g, 'subtitle');
-    xmlString = xmlString.replace(/TITLE/g, 'title');
-    xmlString = xmlString.replace(/NOTES/g, 'notes');
-    xmlString = xmlString.replace(/STYLE/g, 'style');
-    xmlString = xmlString.replace(/BACKGROUND/g, 'background');
-		
+		var xmlString = getSetXML();
 		var oSetSaveRequest = new Request({
       method:'get',
 			url: "save.php?type=set",
@@ -344,6 +355,31 @@ window.addEvent('domready', function(){
 		}
     oSetFetchRequest.send({data:{file:sFile}});
 	});
+  
+  $('btnSetDownload').addEvent('click', function(e) {
+		e.stop();
+		//Get the value of the text input.
+		var sFile = $('selectSetChooser').get('value');
+		//The code here will execute if the input is empty.
+		var sURL = 'fetch.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to clc the URL
+    //console.log("sURL =", sURL);
+    window.location = sURL;
+	});
+  
+  $('btnSetPrint').addEvent('click', function(e) {
+		e.stop();
+		//Get the value of the text input.
+		var sFile = $('selectSetChooser').get('value');
+		//The code here will execute if the input is empty.
+		var sURL = 'print.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to clc the URL
+    //console.log("sURL =", sURL);
+    
+    Sexy.iframe(sURL);
+    
+    
+	});
+  
+  
   
   $('textChooseSong').addEvent('change', function(e) {
 		e.stop();
@@ -375,7 +411,8 @@ window.addEvent('domready', function(){
 		e.stop();
 		//Get the value of the text input.
 		var val = $('textChooseSong').get('value');
-		oSongListFetchRequest.send({data:{q:val}});
+    var sType = $('selectChooseSongSearchType').get('value');
+		oSongListFetchRequest.send({data:{q:val, s:sType}});
 	});
   
   $('btnDeleteSetItem').addEvent('click', function(e) {
@@ -404,10 +441,10 @@ window.addEvent('domready', function(){
   $('btnNewSetSlide').addEvent('click', function(e){
     e.stop();
     var sName = prompt('Name For New Slides');
-    if(sName == null)
+    if(sName === null)
     {
       return;
-    }   
+    }
     
     var newSG = aBlankNodes.slide.clone(true);
     newSG.setAttribute('name', sName);
@@ -453,7 +490,7 @@ window.addEvent('domready', function(){
   $('btnSetNew').addEvent('click',  function(e) {
 		e.stop();
 		var sName = prompt('Name For New Set', getDefaultSetName());
-    if(sName == null)
+    if(sName === null)
     {
       return;
     }
@@ -465,4 +502,6 @@ window.addEvent('domready', function(){
   oSetFetchRequest.send({data:{file:getDefaultSetName()}});
   oSongListFetchRequest.send();
 	oBlanksRequest.send();
+  Sexy = new SexyAlertBox();
+  
 });
