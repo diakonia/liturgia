@@ -30,7 +30,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			Sexy.alert( 'The Blanks request failed.');
+			Sexy.error( 'The "Blanks" request failed.');
 		}
 
 	});
@@ -53,7 +53,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			Sexy.alert( 'The Set List request failed.');
+			Sexy.error( 'The "Set List" request failed.');
 		}
 	});
   
@@ -130,7 +130,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			Sexy.alert( 'The New Set request failed.');
+			Sexy.error( 'The "New Set" request failed.');
 		}
 	});
   
@@ -149,7 +149,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			Sexy.alert( 'The Song List request failed.');
+			Sexy.error( 'The "Song List" request failed.');
 		}
 	});
 	
@@ -170,7 +170,7 @@ window.addEvent('domready', function(){
 		// Our request will most likely succeed, but just in case, we'll add an
 		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-			Sexy.alert( 'The Song Fetch request failed.');
+			Sexy.error( 'The "Song Fetch" request failed.');
 		}
 	});
 
@@ -362,7 +362,7 @@ window.addEvent('domready', function(){
 				Sexy.info(txt);
 			},
       onFailure: function(){
-			Sexy.alert( 'The Save Set request failed.');
+        Sexy.error( 'The "Save Set" request failed.');
 		}
 		});
     
