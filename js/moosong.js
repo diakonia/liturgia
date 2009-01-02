@@ -1,12 +1,4 @@
-// DONE: download the SET
-// DONE: Full text search
-// TODO: Print out
-
-
-window.addEvent('domready', function(){
-	// You can skip the following line. We need it to make sure demos
-	// are runnable on MooTools demos web page.
-	
+window.addEvent('domready', function(){	
 //Variables
   var eBlanksDoc = null;
 	var aBlankNodes = {};
@@ -27,8 +19,6 @@ window.addEvent('domready', function(){
       });
     },
 
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
 			Sexy.error( 'The "Blanks" request failed.');
 		}
@@ -50,14 +40,11 @@ window.addEvent('domready', function(){
         $('selectSetChooser').set('value', getDefaultSetName());
 			},
 			
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
 			Sexy.error( 'The "Set List" request failed.');
 		}
 	});
   
-	//We can use one Request object many times.
 	var oSetFetchRequest = new Request({
     method:'get',
 		url: "fetch.php?type=set",
@@ -74,20 +61,13 @@ window.addEvent('domready', function(){
       });
     },
 
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
-      //console.log("set fetch failure this =", this);
       var sName = getDefaultSetName();
       Sexy.confirm('<h1>The Set Fetch request failed.</h1>Would you like to create '+sName+' ?', { onComplete: 
         function(returnvalue) {
           if(returnvalue)
           {
              oSetNewRequest.send({'data':{name:sName}});
-          }
-          else
-          {
-            //nowt
           }
         }
       });
@@ -108,10 +88,6 @@ window.addEvent('domready', function(){
             {
                oSetNewRequest.send({'data':{name:returnvalue}});
             }
-            else
-            {
-              //nowt
-            }
           }
         });
         
@@ -127,8 +103,6 @@ window.addEvent('domready', function(){
       }
 		},
 			
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
 			Sexy.error( 'The "New Set" request failed.');
 		}
@@ -146,8 +120,6 @@ window.addEvent('domready', function(){
 			});
     },
 			
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
 			Sexy.error( 'The "Song List" request failed.');
 		}
@@ -167,8 +139,6 @@ window.addEvent('domready', function(){
       oPanelSliders.add('displaySongLyrics');
     },
 
-		// Our request will most likely succeed, but just in case, we'll add an
-		// onFailure method which will let the user know what happened.
 		onFailure: function(){
 			Sexy.error( 'The "Song Fetch" request failed.');
 		}
@@ -316,10 +286,8 @@ window.addEvent('domready', function(){
     add:  function(aNames)
     {
       aNames = $splat(aNames);
-      //console.log("aNames =", aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
-          //console.log("this.aSliders["+i+"] =", this.aSliders[i]);
           if(aNames.indexOf(this.aSliders[i][0]) == -1)
           {
            
@@ -334,10 +302,8 @@ window.addEvent('domready', function(){
     show: function(aNames)
     {
       aNames = $splat(aNames);
-      //console.log("aNames =", aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
-          //console.log("this.aSliders["+i+"] =", this.aSliders[i]);
           if(aNames.indexOf(this.aSliders[i][0]) == -1)
           {
             this.aSliders[i][1].slideOut();
@@ -386,8 +352,7 @@ window.addEvent('domready', function(){
 		//Get the value of the text input.
 		var sFile = $('selectSetChooser').get('value');
 		//The code here will execute if the input is empty.
-		var sURL = 'fetch.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to clc the URL
-    //console.log("sURL =", sURL);
+		var sURL = 'fetch.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
     window.location = sURL;
 	});
   
@@ -396,11 +361,8 @@ window.addEvent('domready', function(){
 		//Get the value of the text input.
 		var sFile = $('selectSetChooser').get('value');
 		//The code here will execute if the input is empty.
-		var sURL = 'print.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to clc the URL
-    //console.log("sURL =", sURL);
-    
+		var sURL = 'print.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
     Sexy.iframe(sURL);
-    
     
 	});
   
@@ -416,11 +378,8 @@ window.addEvent('domready', function(){
   $('btnChooseSong').addEvent('click', function(e) {
       e.stop();
       var sFile = $('selectChooseSong').get('value');
-      //console.log("sFile =", sFile);
       var iSelectedIndex = $('selectChooseSong').selectedIndex;
-      //console.log("iSelectedIndex =", iSelectedIndex);
       var eOption = $('selectChooseSong').options[iSelectedIndex];
-      //console.log("eOption =", eOption);
       var sName = eOption.get('text');
       if (sFile)
       {
@@ -434,7 +393,6 @@ window.addEvent('domready', function(){
   
   $('btnChooseSongSearch').addEvent('click', function(e) {
 		e.stop();
-		//Get the value of the text input.
 		var val = $('textChooseSong').get('value');
     var sType = $('selectChooseSongSearchType').get('value');
 		oSongListFetchRequest.send({data:{q:val, s:sType}});
@@ -448,9 +406,7 @@ window.addEvent('domready', function(){
   
   $('selectChooseSong').addEvent('change', function(e) {
 		e.stop();
-		//Get the value of the text input.
 		var sFile = this.get('value');
-		//The code here will execute if the input is empty.
 		if (!sFile || sFile == 'null') {
       $('displayChooseSong').empty(); 
 		}
