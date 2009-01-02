@@ -356,11 +356,14 @@ window.addEvent('domready', function(){
     e.stop();
 		var xmlString = getSetXML();
 		var oSetSaveRequest = new Request({
-      method:'get',
+      method:'post',
 			url: "save.php?type=set",
 			onSuccess: function(txt){
-				Sexy.alert(txt);
-			}
+				Sexy.info(txt);
+			},
+      onFailure: function(){
+			Sexy.alert( 'The Save Set request failed.');
+		}
 		});
     
     var sFilePath = $('selectSetChooser').get('value');
