@@ -5,6 +5,7 @@ window.addEvent('domready', function(){
   var eSetDoc = null;
 	var eSongDoc = null;
 	var sCurrLiID = '';
+  var aBibleData = {};
   
 	
 //REQUEST OBJECTS
@@ -25,8 +26,56 @@ window.addEvent('domready', function(){
 
 	});
   
+  //need to sort out the cloning ids problem
   
-		var oSetListFetchRequest = new Request.JSON({
+  var renderBibleLookUp = function (aBible, book, chapter, verse)
+  {
+    aBible = new Hash(aBible);
+    if ($('bookReading').options.length < 2)
+    {
+      $('bookReading').empty();
+      aBible.each(function(aChapters, sBook)
+      {
+        var myEl = new Element('option', {'value':sBook, 'text':sBook});
+        $('bookReading').adopt(myEl);
+      });
+    }
+    $('bookReading').set('value', book);
+    /*
+    $('chapterReading').empty();
+    var oChapter = new Hash(aBible[book]);
+    oChapter.each(function(aPages, iChapter)
+    {
+      var myEl = new Element('option', {'value':iChapter, 'text':iChapter});
+      $('chapterReading').adopt(myEl);
+    });
+    $('chapterReading').set('value', chapter);
+    $('verseReading').empty();
+    var oPages = new Hash(aBible[book][chapter]);
+    var aPageKeys = oPages.getKeys();
+    
+    for(var i = 1 ; i < aPageKeys[aPageKeys.length - 1]; i++)
+    {
+      var myEl = new Element('option', {'value':i, 'text':i});
+      $('verseReading').adopt(myEl);
+    }
+    $('verseReading').set('value', verse);
+    */
+  };
+  
+  var oBibleDataRequest = new Request.JSON({
+    method: 'get',
+    url: "bibledata.php?bible=NIV",
+    onComplete: function(jsonObj) {
+      aBibleData = jsonObj;
+      renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
+    },
+    onFailure: function(){
+      Sexy.error( 'The "Bible Data" request failed.');
+    }
+  });
+  
+	var oSetListFetchRequest = new Request.JSON({
     method:'get',
 		url: "list.php?type=set",
 		onComplete: function(jsonObj) {
@@ -233,7 +282,7 @@ window.addEvent('domready', function(){
     var sText = aText.join("\n---\n");
     $('bodySetSlide').set('value',  sText);
     $('notesSetSlide').set('value', xmlnode.getElement('notes').get('text'));
-    $('titleSetSlide').set('value', xmlnode.getElement('notes').get('text'));
+    $('titleSetSlide').set('value', xmlnode.getElement('title').get('text'));
     $('nameSetSlide').set('value', xmlnode.getAttribute('name'));
     
   };
@@ -318,6 +367,8 @@ window.addEvent('domready', function(){
   
   
 //Buttons
+
+
 	$('btnSetSave').addEvent('click', function(e){
     e.stop();
 		var xmlString = getSetXML();
@@ -393,7 +444,7 @@ window.addEvent('domready', function(){
   
   $('btnChooseSongSearch').addEvent('click', function(e) {
 		e.stop();
-		var val = $('textChooseSong').get('value');
+    var val = $('textChooseSong').get('value');
     var sType = $('selectChooseSongSearchType').get('value');
 		oSongListFetchRequest.send({data:{q:val, s:sType}});
 	});
@@ -433,11 +484,48 @@ window.addEvent('domready', function(){
     editSetItem(li);
   });
   
+  
+  
   $('btnNewSetReading').addEvent('click', function(e){
     e.stop();
-    var newSG = aBlankNodes.reading.clone(true);
-    var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
-    editSetItem(li);
+    var oForm = Sexy.form($('readinglookup').get('html'), { onComplete: 
+        
+        function(returnvalue) {
+          if(returnvalue)
+          {
+            returnvalue = new Hash(returnvalue);
+            var iReturnVerse = parseInt(returnvalue.verse, 10);
+            var newSG = aBlankNodes.reading.clone(true);
+            var sName = newSG.getAttribute('name')+' [[book]] [[chapter]]:[[verse]]';
+            
+            var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
+            var iCurrPage = 0;
+            var aVerses = oPages.getKeys();
+            var iVerseKey = -1;
+            do
+            {
+                iVerseKey ++;
+            }
+            while (iReturnVerse > aVerses[iVerseKey]);
+            returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
+            
+            returnvalue.each(function(xFieldValue, sFieldName){
+                var myBodys = newSG.getElements('body');
+                myBodys.each(function(item, index){
+                    var nextText =  item.get('text');
+                    if(nextText.trim().length)
+                    {
+                      item.set('text', nextText.replace('[['+sFieldName+']]', xFieldValue));
+                    }
+                });
+                sName = sName.replace('[['+sFieldName+']]', xFieldValue);
+            });
+            newSG.setAttribute('name', sName);
+            var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
+            editSetItem(li);
+          }
+        }
+      });
 	});
    
   $('btnNewSetGospelReading').addEvent('click', function(e){
@@ -484,7 +572,44 @@ window.addEvent('domready', function(){
   oSetListFetchRequest.send();
   oSetFetchRequest.send({data:{file:getDefaultSetName()}});
   oSongListFetchRequest.send();
+  oBibleDataRequest.send();
 	oBlanksRequest.send();
   Sexy = new SexyAlertBox();
   
 });
+
+
+	
+Element.implement({
+  getValues: function(options) {
+    var form = this;
+		if (form.get("tag") == "form") {
+			options = $extend({
+				fStartProportion: [0, 0], //The start position from 0 -1  [X, Y]
+        iFPS: 16, //Frames per second
+        iSecondsAtTopSpeed: [2, 2], // how long from one extreme to the other at full speed [X, Y]
+        fDeadZone: [0.3, 0.3] // the size of the central dead zone 0  = no dead zone 1 turns off scrolling for that direction [X, Y]
+			}, options);
+      
+      this.options = options;
+      var aValues = {};
+      
+      var aControls = this.getElements('input,select').each(function(item, index){
+        var sName = item.get('name');
+        if (sName === null)
+        {
+          sName = item.get('id');
+        }
+        var xValue = item.get('value');
+        if (item.get('type') != 'submit' && sName)
+        {
+          aValues[sName] = xValue;
+        }
+      });
+      return aValues;
+    }
+	  return form;
+  }
+});
+  
+

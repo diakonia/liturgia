@@ -390,12 +390,9 @@ var SexyAlertBox = new Class({
             //console.log("this.ConfirmIFrame =", this.ConfirmIFrame);
             this.ConfirmIFrame.print();
           }.bind(this));
-
-          
-          
           
           this.ConfirmIFrame.injectInside(this.Content);
-
+          
           this.PrintBtnOk.injectInside(this.Buttons);
           this.ConfirmBtnOk.injectInside(this.Buttons);
           this.Buttons.injectInside(this.Content);
@@ -491,6 +488,57 @@ var SexyAlertBox = new Class({
 
           this.display(1);
       }
+      else if(type == 'form')
+      {
+          this.FormBtnOk = new Element('input', {
+            'id': 'BoxFormBtnOk',
+            'type': 'submit',
+            'value': properties.textBoxBtnOk,
+            'styles': {
+              'width': '70px'
+            }
+          });
+
+          this.FormBtnCancel = new Element('input', {
+            'id': 'BoxFormBtnCancel',
+            'type': 'submit',
+            'value': properties.textBoxBtnCancel,
+            'styles': {
+              'width': '70px'
+            }
+          });
+          
+          this.FormForm = new Element('form', {
+            'id': 'BoxFormForm',
+            'styles': {
+              //'width': '250px'
+            }
+          });
+
+          this.FormBtnOk.addEvent('click', function() {
+            this.options.onReturn = this.FormForm.getValues();
+            this.display(0);
+          }.bind(this));
+
+          this.FormBtnCancel.addEvent('click', function() {
+            this.options.onReturn = false;
+            this.display(0);
+          }.bind(this));
+
+          //this.Content.setProperty('class','BoxForm').set('html',message );
+          this.Content.setProperty('class','BoxForm');
+          this.FormForm.set('html',message );
+          this.FormForm.injectInside(this.Content);
+          Junk = new Element('br').injectInside(this.Content);
+          this.FormBtnOk.injectInside(this.Buttons);
+          this.FormBtnCancel.injectInside(this.Buttons);
+
+
+          this.Buttons.injectInside(this.Content);
+          //TODO: Could probably use the input to poputale the fields,
+          this.display(1);
+      }
+      
       else
       {
           this.options.onReturn = false;
@@ -561,6 +609,20 @@ var SexyAlertBox = new Class({
 	iframe: function(message, properties){
 		this.messageBox('iframe', message, properties);
 	},
+  
+  
+  
+  /*
+	Property: form
+		Shortcut for form
+		
+	Argument:
+		properties - see Options in messageBox
+	*/
+	form: function(message, properties){
+		this.messageBox('form', message, properties);
+	},
+  
   
 	/*
 	Property: prompt

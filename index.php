@@ -103,5 +103,8 @@
     
     
   </div>
+  <div id="forms" style="display:none; visibility:hidden;">
+  <?php include('forms.html'); ?>
+  </div>
 </body>
 </html>
