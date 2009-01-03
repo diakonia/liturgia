@@ -134,7 +134,8 @@ class RecDir
          }
          else
          {
-            array_pop($this->recursiveTree)->close();
+            $junk = array_pop($this->recursiveTree);
+            $junk->close();
          }
       }
       return false;
