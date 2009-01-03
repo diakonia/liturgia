@@ -13,9 +13,9 @@
 </style>
   <slides>
   <slide>
-  <body>Page ?
+  <body>Page [[page]]
 
-Reading is taken from ? chapter ? begining at verse ?.</body></slide>
+Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide>
   <slide>
   <body>Reader: This is the word of the Lord.
 All :        Thanks be to God.</body></slide></slides></slide_group>
@@ -31,9 +31,9 @@ All :        Thanks be to God.</body></slide></slides></slide_group>
 </style>
   <slides>
   <slide>
-  <body>Page ?
+  <body>Page [[page]]
 
-Reader: Hear the Gospel of our Lord Jesus Christ according to ? chapter ?  begining at verse ?.
+Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
 All :        Glory to you, O Lord</body></slide>
   <slide>
   <body>Reader: This is the Gospel of the Lord.
