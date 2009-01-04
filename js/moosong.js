@@ -282,6 +282,42 @@ window.addEvent('domready', function(){
           }
 		});
     var sText = aText.join("\n---\n");
+    
+    if(sText.match('[[book]]'))
+    {
+      Sexy.form($('readinglookup').get('html'), { onComplete: 
+        function(returnvalue) {
+          var sText = $('bodySetSlide').get('value');
+          if(returnvalue)
+          {
+            returnvalue = new Hash(returnvalue);
+            var iReturnVerse = parseInt(returnvalue.verse, 10);
+            var sName = $('nameSetSlide').get('value')+' [[book]] [[chapter]]:[[verse]]';
+            
+            var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
+            var iCurrPage = 0;
+            var aVerses = oPages.getKeys();
+            var iVerseKey = -1;
+            do
+            {
+                iVerseKey ++;
+            }
+            while (iReturnVerse > aVerses[iVerseKey]);
+            returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
+            
+            returnvalue.each(function(xFieldValue, sFieldName){
+                sText = sText.replace('[['+sFieldName+']]', xFieldValue);
+                
+                sName = sName.replace('[['+sFieldName+']]', xFieldValue);
+            });
+            $('nameSetSlide').set('value', sName);
+            $('bodySetSlide').set('value', sText);
+            saveSetSlide();
+          }
+        }
+      });
+    }
+    
     $('bodySetSlide').set('value',  sText);
     $('notesSetSlide').set('value', xmlnode.getElement('notes').get('text'));
     $('titleSetSlide').set('value', xmlnode.getElement('title').get('text'));
@@ -486,67 +522,8 @@ window.addEvent('domready', function(){
     editSetItem(li);
   });
   
-  var renderReading = function(newSG, returnvalue)
+  var saveSetSlide = function()
   {
-    returnvalue = new Hash(returnvalue);
-    var iReturnVerse = parseInt(returnvalue.verse, 10);
-    var sName = newSG.getAttribute('name')+' [[book]] [[chapter]]:[[verse]]';
-    
-    var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
-    var iCurrPage = 0;
-    var aVerses = oPages.getKeys();
-    var iVerseKey = -1;
-    do
-    {
-        iVerseKey ++;
-    }
-    while (iReturnVerse > aVerses[iVerseKey]);
-    returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
-    
-    returnvalue.each(function(xFieldValue, sFieldName){
-        var myBodys = newSG.getElements('body');
-        myBodys.each(function(item, index){
-            var nextText =  item.get('text');
-            if(nextText.trim().length)
-            {
-              item.set('text', nextText.replace('[['+sFieldName+']]', xFieldValue));
-            }
-        });
-        sName = sName.replace('[['+sFieldName+']]', xFieldValue);
-    });
-    newSG.setAttribute('name', sName);
-    var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
-    editSetItem(li);
-  };
-  
-  $('btnNewSetReading').addEvent('click', function(e){
-    e.stop();
-    Sexy.form($('readinglookup').get('html'), { onComplete: 
-        function(returnvalue) {
-          if(returnvalue)
-          {
-            var newSG = aBlankNodes.reading.clone(true);
-            renderReading(newSG, returnvalue);
-          }
-        }
-      });
-	});
-   
-  $('btnNewSetGospelReading').addEvent('click', function(e){
-    e.stop();
-    Sexy.form($('gospellookup').get('html'), { onComplete: 
-        function(returnvalue) {
-          if(returnvalue)
-          {
-            var newSG = aBlankNodes.gospelreading.clone(true);
-            renderReading(newSG, returnvalue);
-          }
-        }
-      });
-	});
-  
-  $('btnSaveSetSlide').addEvent('click',  function(e) {
-		e.stop();
     var aText = $('bodySetSlide').get('value').split('\n---\n');
     var li = $(sCurrLiID);
     var xNode = li.retrieve('xmlnode');
@@ -564,6 +541,11 @@ window.addEvent('domready', function(){
       eSlides.adopt(mySlide);
     });
     li.store('xmlnode',  xNode);
+  };
+  
+  $('btnSaveSetSlide').addEvent('click',  function(e) {
+		e.stop();
+    saveSetSlide();
   });
   
   $('btnSetNew').addEvent('click',  function(e) {

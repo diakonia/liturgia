@@ -24,8 +24,6 @@
       Insert:
       <input id="btnNewSong" type="submit" value="Song" />
       <input id="btnNewSetSlide" type="submit" value="Slide" />
-      <input id="btnNewSetReading" type="submit" value="Reading" />
-      <input id="btnNewSetGospelReading" type="submit" value="Gospel" />
       <!--<input id="btnNewSetNotices" type="submit" value="Gospel" /> GO FETCH THE NOTICES-->
       
       <br />
