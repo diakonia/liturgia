@@ -230,8 +230,9 @@ window.addEvent('domready', function(){
   var getDefaultSetName = function()
   {
     var oDate = new Date();
-    oDate.setDate(oDate.getDate() + (7 - oDate.getDay()));
-    var sNextSunday = oDate.getFullYear() +'-'+(1+oDate.getMonth())+'-'+oDate.getDate() + '-Morning';
+    var iHour = oDate.getHours();
+    oDate.setDate(oDate.getDate() + (7 - ((oDate.getDay() !== 0)?(oDate.getDay()):(oDate.getHours()<CONST_SundayCutOff?7:0))));
+    var sNextSunday = oDate.getFullYear() +'-'+PadDigits(1+oDate.getMonth(), 2)+'-'+PadDigits(oDate.getDate(), 2) + '-Morning';
     return sNextSunday;
   };
   
@@ -576,6 +577,23 @@ window.addEvent('domready', function(){
         }
       });
 	});
+  
+//Utils
+
+function PadDigits(n, totalDigits) 
+{ 
+  n = n.toString(); 
+  var pd = ''; 
+  if (totalDigits > n.length) 
+  { 
+    for (i=0; i < (totalDigits-n.length); i++) 
+    { 
+      pd += '0'; 
+    } 
+  } 
+  return pd + n.toString(); 
+} 
+  
   
 //Doing
   oSetListFetchRequest.send();

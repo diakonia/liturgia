@@ -4,11 +4,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
   <link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>
-	<script type="text/javascript" src="js/mootools.js"></script>
-  <script type="text/javascript" src="js/moosong.js"></script>
-	<link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
-  <script src="js/sexyalertbox.v1.1.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
   <title>MooSong</title>
+  <?php require_once('core.php'); ?>
 </head>
 <body>
   
@@ -106,5 +104,12 @@
   <div id="forms" style="display:none; visibility:hidden;">
   <?php include('forms.html'); ?>
   </div>
+   <script type="text/javascript">
+   var CONST_SundayCutOff = <?php echo CONST_SundayCutOff ?>;
+  </script>
+  <script type="text/javascript" src="js/mootools.js"></script>
+  <script type="text/javascript" src="js/moosong.js"></script>
+  <script src="js/sexyalertbox.v1.1.js" type="text/javascript"></script>
+ 
 </body>
 </html>
