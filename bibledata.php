@@ -1,5 +1,6 @@
 <?php
   require_once('core.php');
+  
   $xmlDoc = new DOMDocument();
   $xmlDoc->load('bibles/'.$_REQUEST['bible'].'.xml');
   

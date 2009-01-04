@@ -27,7 +27,7 @@ window.addEvent('domready', function(){
 	});
   
   //need to sort out the cloning ids problem
-  
+  //TODO : remove renderBibleLookUp
   var renderBibleLookUp = function (aBible, book, chapter, verse)
   {
     aBible = new Hash(aBible);
@@ -65,10 +65,11 @@ window.addEvent('domready', function(){
   
   var oBibleDataRequest = new Request.JSON({
     method: 'get',
-    url: "bibledata.php?bible=NIV",
+    url: "bibles/poly_niv.json",
+    //url: "bibledata.php?bible=NIV",
     onComplete: function(jsonObj) {
       aBibleData = jsonObj;
-      renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
+      //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
     },
     onFailure: function(){
       Sexy.error( 'The "Bible Data" request failed.');
@@ -484,45 +485,47 @@ window.addEvent('domready', function(){
     editSetItem(li);
   });
   
-  
+  var renderReading = function(newSG, returnvalue)
+  {
+    returnvalue = new Hash(returnvalue);
+    var iReturnVerse = parseInt(returnvalue.verse, 10);
+    var sName = newSG.getAttribute('name')+' [[book]] [[chapter]]:[[verse]]';
+    
+    var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
+    var iCurrPage = 0;
+    var aVerses = oPages.getKeys();
+    var iVerseKey = -1;
+    do
+    {
+        iVerseKey ++;
+    }
+    while (iReturnVerse > aVerses[iVerseKey]);
+    returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
+    
+    returnvalue.each(function(xFieldValue, sFieldName){
+        var myBodys = newSG.getElements('body');
+        myBodys.each(function(item, index){
+            var nextText =  item.get('text');
+            if(nextText.trim().length)
+            {
+              item.set('text', nextText.replace('[['+sFieldName+']]', xFieldValue));
+            }
+        });
+        sName = sName.replace('[['+sFieldName+']]', xFieldValue);
+    });
+    newSG.setAttribute('name', sName);
+    var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
+    editSetItem(li);
+  };
   
   $('btnNewSetReading').addEvent('click', function(e){
     e.stop();
-    var oForm = Sexy.form($('readinglookup').get('html'), { onComplete: 
-        
+    Sexy.form($('readinglookup').get('html'), { onComplete: 
         function(returnvalue) {
           if(returnvalue)
           {
-            returnvalue = new Hash(returnvalue);
-            var iReturnVerse = parseInt(returnvalue.verse, 10);
             var newSG = aBlankNodes.reading.clone(true);
-            var sName = newSG.getAttribute('name')+' [[book]] [[chapter]]:[[verse]]';
-            
-            var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
-            var iCurrPage = 0;
-            var aVerses = oPages.getKeys();
-            var iVerseKey = -1;
-            do
-            {
-                iVerseKey ++;
-            }
-            while (iReturnVerse > aVerses[iVerseKey]);
-            returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
-            
-            returnvalue.each(function(xFieldValue, sFieldName){
-                var myBodys = newSG.getElements('body');
-                myBodys.each(function(item, index){
-                    var nextText =  item.get('text');
-                    if(nextText.trim().length)
-                    {
-                      item.set('text', nextText.replace('[['+sFieldName+']]', xFieldValue));
-                    }
-                });
-                sName = sName.replace('[['+sFieldName+']]', xFieldValue);
-            });
-            newSG.setAttribute('name', sName);
-            var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
-            editSetItem(li);
+            renderReading(newSG, returnvalue);
           }
         }
       });
@@ -530,9 +533,15 @@ window.addEvent('domready', function(){
    
   $('btnNewSetGospelReading').addEvent('click', function(e){
     e.stop();
-    var newSG = aBlankNodes.gospelreading.clone(true);
-    var li = addListItem('slidegroups', newSG.getAttribute('name'), newSG, 'custom'); 
-    editSetItem(li);
+    Sexy.form($('gospellookup').get('html'), { onComplete: 
+        function(returnvalue) {
+          if(returnvalue)
+          {
+            var newSG = aBlankNodes.gospelreading.clone(true);
+            renderReading(newSG, returnvalue);
+          }
+        }
+      });
 	});
   
   $('btnSaveSetSlide').addEvent('click',  function(e) {

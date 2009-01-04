@@ -11,7 +11,6 @@
     
     function __construct($aFileInfo)
     {
-      
       if (isset($aFileInfo['type'])) $this->setType($aFileInfo['type']);
       if (isset($aFileInfo['file'])) $this->setFile($aFileInfo['file']);
       if (isset($aFileInfo['name'])) $this->setName($aFileInfo['name']);
