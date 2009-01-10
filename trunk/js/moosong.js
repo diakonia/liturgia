@@ -451,8 +451,8 @@ window.addEvent('domready', function(){
 		var sFile = $('selectSetChooser').get('value');
 		//The code here will execute if the input is empty.
 		var sURL = 'print.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
-    Sexy.iframe(sURL);
-    
+    //Sexy.iframe(sURL);
+    window.location = sURL;
 	});
   
   
