@@ -14,22 +14,18 @@
     
     $proc = new XSLTProcessor();
     $proc->importStylesheet($xslDoc);
-    echo $proc->transformToXML($xmlDoc);
-/*
-    header('Content-type: text/xml');
     
-    $sTop = '
-<!DOCTYPE cv SYSTEM "http://demo1.cmjdevel.co.uk/~martyn/cv/cv.dtd"
-[
-<!ENTITY nbsp   "&#160;">
-<!ENTITY copy   "&#169;">
-<!ENTITY pound  "&#163;">
-]>
-<?xml-stylesheet type="text/xsl" href="css/'.$oFilePath->getType().'.xsl"?>
-';
-    $sTag = '<'.$oFilePath->getType().'';
-    $sContent = str_replace($sTag, $sTop.$sTag, $sContent);
-    echo $sContent;*/
+    $foDoc = $proc->transformToDoc($xmlDoc);
+    $sFoFile = tempnam(CONST_TEMP_PATH, "MooSongFO");
+    $sPdfFile = tempnam(CONST_TEMP_PATH, "MooSongPdf");
+    if($sFoFile && $sPdfFile)
+    {
+      $foDoc->save($sFoFile);
+      exec(CONST_FOP_PATH.' '.$sFoFile.' '.$sPdfFile);
+      header('Content-type: application/pdf');
+      header('Content-Disposition: attachment; filename="'.$oFilePath->getBaseName().'.pdf"');
+      readfile($sPdfFile);
+    }
     exit;
   }
   
