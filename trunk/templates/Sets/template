@@ -1,83 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <set name="template">
-  <slide_groups>
-  <slide_group name="Notices" type="custom" loop="true" seconds="10" print="true">
-  <title>Notices</title>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body>[[NOTICES]]</body></slide></slides></slide_group>
-  <slide_group name="Opening Songs" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body/>
-</slide></slides></slide_group>
-  
-  <slide_group name="Reading" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body>Page [[page]]
+  <slide_groups><slide_group name="Notices" type="custom" loop="true" seconds="10" print="true"><title>Notices</title><subtitle/><notes/><slides><slide><body>[[notices]]</body></slide></slides></slide_group><slide_group name="Opening Songs" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body/></slide></slides></slide_group><slide_group name="Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
 
-Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide>
-  <slide>
-  <body>Reader: This is the word of the Lord.
-All :        Thanks be to God.</body></slide></slides></slide_group>
-  <slide_group name="Gospel Reading" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
+Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
+All :        Thanks be to God.</body></slide></slides></slide_group><slide_group name="Psalm" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Psalm number [[chapter]] beginning at verse [[verse]].
   
-  <slides>
-  <slide>
-  <body>Page [[page]]
+Page [[page]]</body></slide></slides></slide_group><slide_group name="Epistle" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
+
+Epistle is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
+All :        Thanks be to God.</body></slide></slides></slide_group><slide_group name="Gospel Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
 
 Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
-All :        Glory to you, O Lord</body></slide>
-  <slide>
-  <body>Reader: This is the Gospel of the Lord.
-All :        Praise to you, O Christ.</body></slide></slides></slide_group>
-  <slide_group name="Talk" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body/>
-</slide></slides></slide_group>
-  <slide_group name="Prayers" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body/>
-</slide></slides></slide_group>
-  <slide_group name="Communion Notice" type="custom" print="true" seconds="0" loop="false">
-  <title></title>
-  <subtitle></subtitle>
-  <notes>test</notes>
-  <slides>
-  <slide>
-  <body>During Holy Communion prayer is available in the Lady Chapel.</body></slide></slides></slide_group>
-  <slide_group name="Closing Songs" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body/>
-</slide></slides></slide_group>
-  <slide_group name="Notices" type="custom" loop="true" seconds="10" print="true">
-  <title>Notices</title>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body>[[NOTICES]]</body></slide></slides></slide_group></slide_groups></set>
+All :        Glory to you, O Lord</body></slide><slide><body>Reader: This is the Gospel of the Lord.
+All :        Praise to you, O Christ.</body></slide></slides></slide_group><slide_group name="Talk" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body/></slide></slides></slide_group><slide_group name="Prayers" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body/></slide></slides></slide_group><slide_group name="Communion Notice" type="custom" print="true" seconds="0" loop="false"><title/><subtitle/><notes>test</notes><slides><slide><body>During Holy Communion prayer is available in the Lady Chapel.</body></slide></slides></slide_group><slide_group name="Closing Songs" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body/></slide></slides></slide_group><slide_group name="Notices" type="custom" loop="true" seconds="10" print="true"><title>Notices</title><subtitle/><notes/><slides><slide><body>[[notices]]</body></slide></slides></slide_group></slide_groups></set>

@@ -5,12 +5,6 @@
   <title/>
   <subtitle/>
   <notes/>
-  <style>
-  <title font="Helvetica" size="26" bold="true" italic="true" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#000000" align="center" valign="bottom"/>
-  <subtitle font="Helvetica" size="18" bold="true" italic="true" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#000000" align="center" valign="bottom" descriptive="false"/>
-  <body font="Helvetica" size="34" bold="true" italic="false" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#FF0000" align="left" valign="middle" highlight_chorus="false"/>
-  <song_subtitle/>
-</style>
   <slides>
   <slide>
   <body>Page [[page]]
@@ -23,12 +17,6 @@ All :        Thanks be to God.</body></slide></slides></slide_group>
   <title/>
   <subtitle/>
   <notes/>
-  <style>
-  <title font="Helvetica" size="26" bold="true" italic="true" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#000000" align="center" valign="bottom"/>
-  <subtitle font="Helvetica" size="18" bold="true" italic="true" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#000000" align="center" valign="bottom" descriptive="false"/>
-  <body font="Helvetica" size="34" bold="true" italic="false" underline="false" color="#FFFFFF" border="true" border_color="#000000" shadow="true" shadow_color="#000000" fill="false" fill_color="#FF0000" align="left" valign="middle" highlight_chorus="false"/>
-  <song_subtitle/>
-</style>
   <slides>
   <slide>
   <body>Page [[page]]
