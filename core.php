@@ -1,6 +1,25 @@
 <?php
-
+  
   require_once('config.php');
+  
+  if(!file_exists(CONST_OpenSongData))
+  {
+    throw(new exception('Open Song Data Directory Does Not Exist'));
+  }
+  
+  $aDefaultFiles = array('Sets/template', 'Sets/blanks'); 
+  
+  foreach($aDefaultFiles as $sDefaultFile)
+  {
+    if(!file_exists(CONST_OpenSongData.$sDefaultFile) || $_REQUEST['install'])
+    {
+      $bCopied = copy('templates/'.$sDefaultFile, CONST_OpenSongData.$sDefaultFile);
+      if(!$bCopied)
+      {
+        throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
+      }
+    }
+  }
   
   class filepath
   {
@@ -96,7 +115,7 @@
     
     function getBaseName()
     {
-      return  str_replace(array('\'','"','!','/'), '', $this->sName);
+      return  str_replace(array('!','/'), '', $this->sName);
     }
     
     function getFile()

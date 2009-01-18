@@ -283,7 +283,7 @@ window.addEvent('domready', function(){
 		});
     var sText = aText.join("\n---\n");
     
-    if(sText.match('[[book]]'))
+    if(sText.match('[[verse]]'))
     {
       Sexy.form($('readinglookup').get('html'), { onComplete: 
         function(returnvalue) {
