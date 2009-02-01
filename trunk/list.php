@@ -15,7 +15,7 @@
   $aResults = array();
   $d = new RecDir($sData = $oFilePath->getFullDataFolder(), false);
   while (false !== ($entry = $d->read())) {
-     if(strpos($entry, '.svn') === false)
+    if(strpos($entry, '.svn') === false && strpos($entry, '_cache') === false)
     {
       if(preg_match($sVisiblePattern, $entry))
       {
@@ -45,12 +45,17 @@
   if (false)
   {
     natcasesort($aResults);
-    $aResults = array_reverse( $aResults, true);
   }
   else
   {
-    arsort($aResults);
+    asort($aResults);
   }
+  
+  if($_REQUEST['type'] == 'set')
+  {
+    $aResults = array_reverse( $aResults, true);
+  }
+  
   
 	echo  json_encode(array($oFilePath->getType().'list' => array_values($aResults)));
 	
