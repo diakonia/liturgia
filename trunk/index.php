@@ -8,7 +8,7 @@
   <title>MooSong</title>
   <?php require_once('core.php'); ?>
 </head>
-<body>
+<body id="mainbody">
   
   
 	<div id="setpanel">

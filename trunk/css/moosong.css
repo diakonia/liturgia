@@ -2,7 +2,9 @@ body {
 	font-size: 85%;
 }
 	
-
+.thinking{
+  cursor: progress;
+}
 
 #result {
 	width: 500px;
