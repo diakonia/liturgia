@@ -6,6 +6,7 @@ window.addEvent('domready', function(){
 	var eSongDoc = null;
 	var sCurrLiID = '';
   var aBibleData = {};
+  var iThinking = 0;
   
 	
 //REQUEST OBJECTS
@@ -190,7 +191,17 @@ window.addEvent('domready', function(){
     {
       bShow = true;
     }
+    
     if (bShow)
+    {
+      iThinking ++;
+    }
+    else
+    {
+      iThinking --;
+    }
+    
+    if (iThinking > 0)
     {
       $('mainbody').getElements('body,div,select,input').addClass('thinking');
     }
@@ -221,18 +232,22 @@ window.addEvent('domready', function(){
 		}
 	});
 	
+  var showLyricsFromXML = function(xml)
+  {
+    eSongDoc = $(xml);
+    $('displaySongLyrics').empty(); 
+    var sLyrics = eSongDoc.getElement('lyrics').get('text').replace(/\n/g, '<br />');
+    var sTitle = eSongDoc.getElement('title').get('text');
+    $('displaySongTitle').set('html', sTitle);
+    $('displaySongLyrics').set('html', sLyrics);
+  };
   
-  var oSongFetchRequest = new Request({
+  var oSongEditFetchRequest = new Request({
     method:'get',
 		url: "fetch.php?type=song",
-    onSuccess: function(txt, xml){	
-      eSongDoc = $(xml);
-			$('displaySongLyrics').empty(); 
-      var sLyrics = eSongDoc.getElement('lyrics').get('text').replace(/\n/g, '<br />');
-      var sTitle = eSongDoc.getElement('title').get('text');
-      $('displaySongTitle').set('html', sTitle);
-			$('displaySongLyrics').set('html', sLyrics);
-      oPanelSliders.add('displaySongLyrics');
+    onSuccess: function(txt, xml){
+      showLyricsFromXML(xml);
+      oPanelSliders.show(['editSetSong', 'displaySongLyrics']);
     },
      onRequest: function(){
       showThinking(true);
@@ -241,7 +256,25 @@ window.addEvent('domready', function(){
       showThinking(false);
     },
 		onFailure: function(){
-			Sexy.error( 'The "Song Fetch" request failed.');
+			Sexy.error( 'The "Song Edit" request failed.');
+		}
+	});
+  
+  var oSongPreviewFetchRequest = new Request({
+    method:'get',
+		url: "fetch.php?type=song",
+    onSuccess: function(txt, xml){	
+      showLyricsFromXML(xml);
+      oPanelSliders.show(['chooseSong','displaySongLyrics']);
+    },
+     onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
+		onFailure: function(){
+			Sexy.error( 'The "Song Preview" request failed.');
 		}
 	});
 
@@ -293,6 +326,16 @@ window.addEvent('domready', function(){
   { 
     if (eLi.getAttribute('id') !== sCurrLiID)
     {
+      var eCurrEl = $(sCurrLiID);
+      if(eCurrEl)
+      {
+        eCurrEl.removeClass('highlight');
+        //console.log("eCurrEl =", eCurrEl);
+      }
+      
+      eLi.addClass('highlight');
+      //console.log("eLi =", eLi);
+      
       var sType = eLi.retrieve('xmlnode').getAttribute('type');
       if(sType == 'song')
       {
@@ -316,7 +359,8 @@ window.addEvent('domready', function(){
     }
     var sName = xmlnode.getAttribute('name');
     var sFile = sPath+sName;
-    oSongFetchRequest.send({data:{type:'song', file:sFile}});
+    //oSongEditFetchRequest.send({data:{type:'song', file:sFile}});
+    oSongEditFetchRequest.send({data:{file:sFile}});
   };
   
   var editSetSlide = function(eLi)
@@ -532,8 +576,9 @@ window.addEvent('domready', function(){
         sPath = sFile;
         sPath = sPath.replace(sName, '');
         var newSong = new Element('slide_group', {type: 'song', path:sPath, name:sName});
-        addListItem('slidegroups', sName, newSong, 'song'); 
-        oPanelSliders.show('none');
+        var newLi = addListItem('slidegroups', sName, newSong, 'song'); 
+        //oPanelSliders.show('none');
+        editSetItem(newLi);
       }
 	});
   
@@ -556,7 +601,8 @@ window.addEvent('domready', function(){
 		if (!sFile || sFile == 'null') {
       $('displayChooseSong').empty(); 
 		}
-    oSongFetchRequest.send({data:{type:'song', file:sFile}});
+    //oSongPreviewFetchRequest.send({data:{type:'song', file:sFile}});
+    oSongPreviewFetchRequest.send({data:{file:sFile}});
     //$('selectSetChooser').empty();
 	});
   
