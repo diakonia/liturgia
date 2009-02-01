@@ -19,7 +19,12 @@ window.addEvent('domready', function(){
           aBlankNodes[item.getAttribute('id')] = item;
       });
     },
-
+     onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
 			Sexy.error( 'The "Blanks" request failed.');
 		}
@@ -67,9 +72,15 @@ window.addEvent('domready', function(){
     method: 'get',
     url: "bibles/poly_niv.json",
     //url: "bibledata.php?bible=NIV",
-    onComplete: function(jsonObj) {
+    onSuccess: function(jsonObj) {
       aBibleData = jsonObj;
       //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
+    },
+     onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
     },
     onFailure: function(){
       Sexy.error( 'The "Bible Data" request failed.');
@@ -79,7 +90,7 @@ window.addEvent('domready', function(){
 	var oSetListFetchRequest = new Request.JSON({
     method:'get',
 		url: "list.php?type=set",
-		onComplete: function(jsonObj) {
+		onSuccess: function(jsonObj) {
         $('selectSetChooser').empty();
         var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
         $('selectSetChooser').adopt(myEl);
@@ -89,7 +100,12 @@ window.addEvent('domready', function(){
         });
         $('selectSetChooser').set('value', getDefaultSetName());
 			},
-			
+		onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
 			Sexy.error( 'The "Set List" request failed.');
 		}
@@ -110,7 +126,12 @@ window.addEvent('domready', function(){
         addListItem('slidegroups',sName , item, sType);
       });
     },
-
+    onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
       var sName = getDefaultSetName();
       Sexy.confirm('<h1>The Set Fetch request failed.</h1>Would you like to create '+sName+' ?', { onComplete: 
@@ -129,7 +150,7 @@ window.addEvent('domready', function(){
   var oSetNewRequest = new Request.JSON({
     method:'get',
 		url: "new.php?type=set",
-		onComplete: function(jsonObj) {
+		onSucess: function(jsonObj) {
       if($chk(jsonObj.exists))
       {
         Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
@@ -152,24 +173,49 @@ window.addEvent('domready', function(){
         oSetFetchRequest.send({data:{type:'set', file:jsonObj.newset.file}});
       }
 		},
-			
+		onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
 			Sexy.error( 'The "New Set" request failed.');
 		}
 	});
   
+  var showThinking = function(bShow)
+  {
+    if (bShow === null)
+    {
+      bShow = true;
+    }
+    if (bShow)
+    {
+      $('mainbody').getElements('body,div,select,input').addClass('thinking');
+    }
+    else
+    {
+      $('mainbody').getElements('body,div,select,input').removeClass('thinking');
+    }
+  };
   
   var oSongListFetchRequest = new Request.JSON({
     method:'get',
 		url: "list.php?type=song",
-		onComplete: function(jsonObj) {
+		onSuccess: function(jsonObj) {
       $('selectChooseSong').empty();
         jsonObj.songlist.each(function(item, index){
           var myEl = new Element('option', {'value':item.file, 'text':item.name});
           $('selectChooseSong').adopt(myEl);
 			});
     },
-			
+		 onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
 			Sexy.error( 'The "Song List" request failed.');
 		}
@@ -188,7 +234,12 @@ window.addEvent('domready', function(){
 			$('displaySongLyrics').set('html', sLyrics);
       oPanelSliders.add('displaySongLyrics');
     },
-
+     onRequest: function(){
+      showThinking(true);
+    },
+    onComplete: function(){
+      showThinking(false);
+    },
 		onFailure: function(){
 			Sexy.error( 'The "Song Fetch" request failed.');
 		}
@@ -416,6 +467,12 @@ window.addEvent('domready', function(){
 			onSuccess: function(txt){
 				Sexy.info(txt);
 			},
+      onRequest: function(){
+        showThinking(true);
+      },
+      onComplete: function(){
+        showThinking(false);
+      },
       onFailure: function(){
         Sexy.error( 'The "Save Set" request failed.');
 		}
@@ -603,7 +660,7 @@ Element.implement({
       this.options = options;
       var aValues = {};
       
-      var aControls = this.getElements('input,select').each(function(item, index){
+      var aControls = this.getElements('input,select,textarea').each(function(item, index){
         var sName = item.get('name');
         if (sName === null)
         {

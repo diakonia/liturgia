@@ -24,6 +24,18 @@
   }
     
   file_put_contents($sFullFilePath, $sTemplate);
+  
+  if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
+  {
+    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
+    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
+    $aCommitLog = svn_add(realpath($sFullFilePath));
+    if($aCommitLog === false)
+    {
+       throw(new exception('Could Not Add File'));
+    }
+  }
+  
   //chown  ( $sFullPath  , 'martyn'  );
   $sText = json_encode(array('newset' =>
                               array( 'file'  => $oFilePath->getFile(),
