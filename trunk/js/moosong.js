@@ -4,7 +4,7 @@ window.addEvent('domready', function(){
 	var aBlankNodes = {};
   var eSetDoc = null;
 	var eSongDoc = null;
-	var sCurrLiID = '';
+	//var sCurrLiID = '';
   var aBibleData = {};
   var iThinking = 0;
   
@@ -324,8 +324,10 @@ window.addEvent('domready', function(){
 //GUI stuff
   var editSetItem = function(eLi)
   { 
+    var sCurrLiID =  eLi.parentNode.retrieve('sCurrLiID');
     if (eLi.getAttribute('id') !== sCurrLiID)
     {
+      
       var eCurrEl = $(sCurrLiID);
       if(eCurrEl)
       {
@@ -346,7 +348,8 @@ window.addEvent('domready', function(){
         editSetSlide(eLi);
       }
     }
-    sCurrLiID = eLi.getAttribute('id');
+    //sCurrLiID = eLi.getAttribute('id');
+    eLi.parentNode.store('sCurrLiID', eLi.getAttribute('id'));
   };
   
   var editSetSong = function(eLi)
@@ -435,9 +438,9 @@ window.addEvent('domready', function(){
   
 	//This is the code that makes the text input add list items to the <ul>,
 	//which we then make sortable.
-	var addListItem = function (listid, val, xNode, sType){
-		var oList = $(listid);
-		var i = $(listid).childNodes.length + 1 ;
+	var addListItem = function (sListID, val, xNode, sType){
+		var oList = $(sListID);
+		var i = $(sListID).childNodes.length + 1 ;
 		var li = new Element('li', {id: 'item-'+i, text:val});
 		
 		//This handle element will serve as the point where the user 'picks up'
@@ -447,7 +450,15 @@ window.addEvent('domready', function(){
 		//Set the value of the form to '', since we've added its value to the <li>.
 		
 		//Add the <li> to our list.
-		$(listid).adopt(li);
+    var sCurrLiID = oList.retrieve('sCurrLiID');
+    if(sCurrLiID)
+    {
+      li.inject(sCurrLiID, 'after');
+    }
+    else
+    {
+      li.inject(sListID, 'bottom');
+    }
     li.store('xmlnode',  xNode.clone(true));
     //Do a fancy effect on the <li>.
 		li.highlight();
@@ -591,7 +602,8 @@ window.addEvent('domready', function(){
   
   $('btnDeleteSetItem').addEvent('click', function(e) {
 		e.stop();
-    var li = $(sCurrLiID);
+    //var li = $(sCurrLiID);
+    var li = $($('slidegroups').retrieve('sCurrLiID'));
   	oSlideGroups.removeItems(li).destroy();
 	});
   
@@ -628,7 +640,8 @@ window.addEvent('domready', function(){
   var saveSetSlide = function()
   {
     var aText = $('bodySetSlide').get('value').split('\n---\n');
-    var li = $(sCurrLiID);
+    //var li = $(sCurrLiID);
+    var li = $($('slidegroups').retrieve('sCurrLiID'));
     var xNode = li.retrieve('xmlnode');
     xNode.getElement('notes').set('text', $('notesSetSlide').get('value'));
     xNode.getElement('title').set('text', $('titleSetSlide').get('value'));
