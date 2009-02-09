@@ -23,6 +23,9 @@
       <br />
       Insert:
       <input id="btnNewSong" type="submit" value="Song" />
+      <br />
+      Insert:
+      <select id="selectNewSetSlide"></select>
       <input id="btnNewSetSlide" type="submit" value="Slide" />
       <!--<input id="btnNewSetNotices" type="submit" value="Gospel" /> GO FETCH THE NOTICES-->
       

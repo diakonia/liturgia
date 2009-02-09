@@ -3,11 +3,6 @@
   <slide_groups><slide_group name="Notices" type="custom" loop="true" seconds="10" print="true"><title>Notices</title><subtitle/><notes/><slides><slide><body>[[notices]]</body></slide></slides></slide_group><slide_group name="Opening Songs" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body/></slide></slides></slide_group><slide_group name="Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
 
 Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
-All :        Thanks be to God.</body></slide></slides></slide_group><slide_group name="Psalm" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Psalm number [[chapter]] beginning at verse [[verse]].
-  
-Page [[page]]</body></slide></slides></slide_group><slide_group name="Epistle" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
-
-Epistle is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
 All :        Thanks be to God.</body></slide></slides></slide_group><slide_group name="Gospel Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
 
 Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
