@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <set name="template">
   <slide_groups>
-  <slide_group id="reading" name="Reading" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body>Page [[page]]
-
-Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide>
-  <slide>
-  <body>Reader: This is the word of the Lord.
-All :        Thanks be to God.</body></slide></slides></slide_group>
-  <slide_group id="gospelreading" name="Gospel Reading" type="custom" seconds="0" loop="false" print="true">
-  <title/>
-  <subtitle/>
-  <notes/>
-  <slides>
-  <slide>
-  <body>Page [[page]]
-
-Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
-All :        Glory to you, O Lord</body></slide>
-  <slide>
-  <body>Reader: This is the Gospel of the Lord.
-All :        Praise to you, O Christ.</body></slide></slides></slide_group>
-  <slide_group id="slide" name="" type="custom" seconds="0" loop="false" print="true">
+   <slide_group name="Blank" type="custom" seconds="0" loop="false" print="true">
   <title/>
   <subtitle/>
   <notes/>
   <slides>
   <slide>
   <body/>
-</slide></slides></slide_group></slide_groups></set>
+</slide></slides></slide_group>
+
+  <slide_group name="Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
+
+Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
+All :        Thanks be to God.</body></slide></slides></slide_group><slide_group name="Psalm" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Psalm number [[chapter]] beginning at verse [[verse]].
+  
+Page [[page]]</body></slide></slides></slide_group><slide_group name="Epistle" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
+
+Epistle is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body></slide><slide><body>Reader: This is the word of the Lord.
+All :        Thanks be to God.</body></slide></slides></slide_group>
+<slide_group name="Gospel Reading" type="custom" seconds="0" loop="false" print="true"><title/><subtitle/><notes/><slides><slide><body>Page [[page]]
+
+Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
+All :        Glory to you, O Lord</body></slide><slide><body>Reader: This is the Gospel of the Lord.
+All :        Praise to you, O Christ.</body></slide></slides></slide_group>
+  
+
+</slide_groups></set>

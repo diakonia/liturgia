@@ -15,9 +15,13 @@ window.addEvent('domready', function(){
 		url: "fetch.php?type=set&file=blanks",
 		onSuccess: function(txt, xml){	
       eBlanksDoc = $(xml);
+      var sName = '';
       var aBlanks = eBlanksDoc.getElements('slide_group');
       aBlanks.each(function(item,index){
-          aBlankNodes[item.getAttribute('id')] = item;
+          sName = item.getAttribute('name');
+          aBlankNodes[sName] = item;
+          var myEl = new Element('option', {'value':sName, 'text':sName});
+          $('selectNewSetSlide').adopt(myEl);
       });
     },
      onRequest: function(){
@@ -151,7 +155,7 @@ window.addEvent('domready', function(){
   var oSetNewRequest = new Request.JSON({
     method:'get',
 		url: "new.php?type=set",
-		onSucess: function(jsonObj) {
+		onSuccess: function(jsonObj) {
       if($chk(jsonObj.exists))
       {
         Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
@@ -332,11 +336,9 @@ window.addEvent('domready', function(){
       if(eCurrEl)
       {
         eCurrEl.removeClass('highlight');
-        //console.log("eCurrEl =", eCurrEl);
       }
       
       eLi.addClass('highlight');
-      //console.log("eLi =", eLi);
       
       var sType = eLi.retrieve('xmlnode').getAttribute('type');
       if(sType == 'song')
@@ -625,14 +627,24 @@ window.addEvent('domready', function(){
   
   $('btnNewSetSlide').addEvent('click', function(e){
     e.stop();
-    var sName = prompt('Name For New Slides');
-    if(sName === null)
+    var sName = '';
+    var sNewSlideType = $('selectNewSetSlide').get('value');
+    
+    var newSG = aBlankNodes[sNewSlideType].clone(true);
+    if (sNewSlideType == 'Blank')
     {
-      return;
+      sName = prompt('Name For New Slides');
+      if(sName === null)
+      {
+        return;
+      }
+      newSG.setAttribute('name', sName);
+    }
+    else
+    {
+      sName = newSG.getAttribute('name');
     }
     
-    var newSG = aBlankNodes.slide.clone(true);
-    newSG.setAttribute('name', sName);
     var li = addListItem('slidegroups', sName, newSG, 'custom'); 
     editSetItem(li);
   });
