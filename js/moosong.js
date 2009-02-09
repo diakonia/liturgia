@@ -385,37 +385,7 @@ window.addEvent('domready', function(){
     
     if(sText.match('[[verse]]'))
     {
-      Sexy.form($('readinglookup').get('html'), { onComplete: 
-        function(returnvalue) {
-          var sText = $('bodySetSlide').get('value');
-          if(returnvalue)
-          {
-            returnvalue = new Hash(returnvalue);
-            var iReturnVerse = parseInt(returnvalue.verse, 10);
-            var sName = $('nameSetSlide').get('value')+' [[book]] [[chapter]]:[[verse]]';
-            
-            var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
-            var iCurrPage = 0;
-            var aVerses = oPages.getKeys();
-            var iVerseKey = -1;
-            do
-            {
-                iVerseKey ++;
-            }
-            while (iReturnVerse > aVerses[iVerseKey]);
-            returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
-            
-            returnvalue.each(function(xFieldValue, sFieldName){
-                sText = sText.replace('[['+sFieldName+']]', xFieldValue);
-                
-                sName = sName.replace('[['+sFieldName+']]', xFieldValue);
-            });
-            $('nameSetSlide').set('value', sName);
-            $('bodySetSlide').set('value', sText);
-            saveSetSlide();
-          }
-        }
-      });
+      readingLookup();
     }
     
     $('bodySetSlide').set('value',  sText);
@@ -437,6 +407,54 @@ window.addEvent('domready', function(){
 		onStart: function(eLi){editSetItem(eLi);}
 	});
 
+  var readingLookup = function()
+  {
+        Sexy.form($('readinglookup').get('html'), { onComplete: 
+        function(returnvalue) {
+          var sText = $('bodySetSlide').get('value');
+          if(returnvalue)
+          {
+            returnvalue = new Hash(returnvalue);
+            var iReturnVerse = parseInt(returnvalue.verse, 10);
+            var sName = $('nameSetSlide').get('value')+' [[book]] [[chapter]]:[[verse]]';
+            
+            var oPages = new Hash(aBibleData[returnvalue.book][returnvalue.chapter]);
+            if (oPages)
+            {
+              var iCurrPage = 0;
+              var aVerses = oPages.getKeys();
+              var iVerseKey = -1;
+              do
+              {
+                  iVerseKey ++;
+              }
+              while (iReturnVerse > aVerses[iVerseKey]);
+              
+              returnvalue.page = iCurrPage = oPages[aVerses[iVerseKey]];
+              if(!iCurrPage)
+              {
+                readingLookup();
+                return;
+              }
+              returnvalue.each(function(xFieldValue, sFieldName)
+              {
+                  sText = sText.replace('[['+sFieldName+']]', xFieldValue);
+                  sName = sName.replace('[['+sFieldName+']]', xFieldValue);
+              });
+              $('nameSetSlide').set('value', sName);
+              $('bodySetSlide').set('value', sText);
+              saveSetSlide();
+            }
+            else
+            {
+              readingLookup();
+              return;
+            }
+          }
+        }
+      });
+
+  };
   
 	//This is the code that makes the text input add list items to the <ul>,
 	//which we then make sortable.
