@@ -7,5 +7,5 @@
   @define('CONST_FOP_PATH',     'fop');
   @define('CONST_TEMP_PATH',    '/tmp');
   @define('CONST_SVN_AUTO',     0);
-  
+  @define('CONST_GOOGLE_EVENT_FEED',  '');
   

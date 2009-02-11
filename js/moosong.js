@@ -383,10 +383,16 @@ window.addEvent('domready', function(){
 		});
     var sText = aText.join("\n---\n");
     
-    if(sText.match('[[verse]]'))
+    if(sText.match('\\[\\[verse\\]\\]'))
     {
       readingLookup();
     }
+    
+    if(sText.match('\\[\\[notices\\]\\]'))
+    {
+      noticesLookup();
+    }
+    
     
     $('bodySetSlide').set('value',  sText);
     $('notesSetSlide').set('value', xmlnode.getElement('notes').get('text'));
@@ -406,7 +412,39 @@ window.addEvent('domready', function(){
 		//This function will happen when the user 'drops' an item in a new place.
 		onStart: function(eLi){editSetItem(eLi);}
 	});
-
+  
+  var oNoticesFetchRequest = new Request({
+      method:'post',
+			url: "notices.php",
+			onSuccess: function(sNotices){
+        if(sNotices)
+        {
+          var sText = $('bodySetSlide').get('value');
+          sText = sText.replace('[[notices]]', sNotices);
+          $('bodySetSlide').set('value', sText);
+          saveSetSlide();
+        }
+			},
+      onRequest: function(){
+        showThinking(true);
+      },
+      onComplete: function(){
+        showThinking(false);
+      },
+      onFailure: function(){
+        Sexy.error( 'The "Notices Fetch" request failed.');
+		}
+		});
+    
+  
+  
+  var noticesLookup = function()
+  {
+    oNoticesFetchRequest.send();
+    
+    
+  };
+  
   var readingLookup = function()
   {
         Sexy.form($('readinglookup').get('html'), { onComplete: 
