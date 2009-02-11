@@ -23,7 +23,7 @@ All :        Thanks be to God.</body></slide></slides></slide_group>
 
 Reader: Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
 All :        Glory to you, O Lord</body></slide><slide><body>Reader: This is the Gospel of the Lord.
-All :        Praise to you, O Christ.</body></slide></slides></slide_group>
+All :        Praise to you, O Christ.</body></slide></slides></slide_group><slide_group name="Notices" type="custom" loop="true" seconds="10" print="true"><title>Notices</title><subtitle/><notes/><slides><slide><body>[[notices]]</body></slide></slides></slide_group>
   
 
 </slide_groups></set>
