@@ -8,4 +8,5 @@
   @define('CONST_TEMP_PATH',    '/tmp');
   @define('CONST_SVN_AUTO',     0);
   @define('CONST_GOOGLE_EVENT_FEED',  '');
-  
+  @define('CONST_GOOGLE_EVENT_MAX_DAYS_FUTURE',  120);
+  @define('CONST_NETWORK_TEST_HOST',  'www.w3.org');

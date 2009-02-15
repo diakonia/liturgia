@@ -244,6 +244,16 @@ window.addEvent('domready', function(){
     var sTitle = eSongDoc.getElement('title').get('text');
     $('displaySongTitle').set('html', sTitle);
     $('displaySongLyrics').set('html', sLyrics);
+    
+    console.log("eSongDoc =", eSongDoc);
+    
+    $('displaySongUser1').set('html', eSongDoc.getElement('user1').get('text'));
+    $('displaySongAuthor').set('html', eSongDoc.getElement('author').get('text'));
+    $('displaySongCopyright').set('html', eSongDoc.getElement('copyright').get('text'));
+    
+    //var sPath = eSongDoc.getElement('').get('text');
+    //$('displaySongPath').set('html', sPath);
+    
   };
   
   var oSongEditFetchRequest = new Request({
@@ -251,7 +261,7 @@ window.addEvent('domready', function(){
 		url: "fetch.php?type=song",
     onSuccess: function(txt, xml){
       showLyricsFromXML(xml);
-      oPanelSliders.show(['editSetSong', 'displaySongLyrics']);
+      oPanelSliders.show(['editSetSong', 'displaySetSongInfo', 'displaySongLyrics']);
     },
      onRequest: function(){
       showThinking(true);
@@ -269,7 +279,7 @@ window.addEvent('domready', function(){
 		url: "fetch.php?type=song",
     onSuccess: function(txt, xml){	
       showLyricsFromXML(xml);
-      oPanelSliders.show(['chooseSong','displaySongLyrics']);
+      oPanelSliders.show(['chooseSong','displaySetSongInfo','displaySongLyrics']);
     },
      onRequest: function(){
       showThinking(true);
@@ -530,8 +540,11 @@ window.addEvent('domready', function(){
     aSliders: [
       ['chooseSong',         new Fx.Slide('chooseSongPanel', {'mode':'vertical'}).slideOut()],
       ['editSetSong',        new Fx.Slide('editSetSongPanel', {'mode':'vertical'}).slideOut()],
+      ['displaySetSongInfo', new Fx.Slide('displaySetSongInfoPanel', {'mode':'vertical'}).slideOut()],
       ['displaySongLyrics',  new Fx.Slide('displaySongLyricsPanel', {'mode':'vertical'}).slideOut()],
       ['editSetSlide',       new Fx.Slide('editSetSlidePanel', {'mode':'vertical'}).slideOut()]
+      
+      
     ],
     
     add:  function(aNames)
