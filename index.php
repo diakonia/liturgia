@@ -78,7 +78,7 @@
     
     
     <div id="editSetSongPanel">
-      Presentation Order - <span id="displaySongOrder"></span> Custom Order<input name="submit" value="" />
+      Presentation Order - <span id="displaySongOrder"></span> <!--Custom Order<input name="submit" value="" />-->
     </div>
     
     <div id="displaySongLyricsPanel">
