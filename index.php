@@ -69,12 +69,20 @@
       
     </div>
     
+    <div id="displaySetSongInfoPanel">
+      <h4>Song - <span id="displaySongTitle"></span></h4>
+      <h5>Author - <span id="displaySongAuthor"></span><br />
+      Copyright - <span id="displaySongCopyright"></span><br />
+      User Info 1 - <span id="displaySongUser1"></span></h5>
+    </div>
+    
+    
     <div id="editSetSongPanel">
-      
+      Presentation Order - <span id="displaySongOrder"></span> Custom Order<input name="submit" value="" />
     </div>
     
     <div id="displaySongLyricsPanel">
-      <h4>Song - <span id="displaySongTitle"></span></h4>
+      
       <div id="displaySongLyrics">
       </div>
       

@@ -1,9 +1,39 @@
 <?php
   require_once('core.php');
+  $aEvents = array();
+  
   if(CONST_GOOGLE_EVENT_FEED)
   {
+    if(isNetworkAvailable())
+    {
+      addEvents(CONST_GOOGLE_EVENT_FEED, CONST_GOOGLE_EVENT_MAX_DAYS_FUTURE, $aEvents);
+    }
+    else
+    {
+      header('HTTP/1.1 404 Not Found', true, 404);
+      exit;
+    }
+  }
+  
+  if(count($aEvents))
+  {
+    renderEvents($aEvents);
+  }
+  
+  exit;
+  
+  function addEvents($sURL, $iMaxDays, &$aEvents)
+  {
+    
     $xmlDoc = new DOMDocument();
-    $xmlDoc->load(CONST_GOOGLE_EVENT_FEED);
+    $bTest = $xmlDoc->load($sURL);
+    if(!$bTest)
+    {
+      header('HTTP/1.1 404 Not Found', true, 404);
+      exit; //not sure it should fail if one fails
+      return;
+    }
+    
     $sXML = $xmlDoc->saveXML();
     $xpath = new DOMXpath($xmlDoc);
     
@@ -16,6 +46,9 @@
     
     $oEvents = $xpath->query("//xmlns:entry");
     $aEvents = array();
+    
+    $iNow = time();
+    $iMax = $iNow + ($iMaxDays * 60 * 60 * 24);
     
     if (!is_null($oEvents))
     {
@@ -32,50 +65,50 @@
         
         $oWhen = $xpath->query("gd:when", $oEvent)->item(0);
         $sStart = $oWhen->getAttribute('startTime');
-        //$sEnd = $oWhen->getAttribute('endTime');
-        //echo "\n<br><pre>\nsEnd =" .$sEnd."</pre>";
-        
-        //$oStart = DateTime::createFromFormat('d-m-Y\TH:i:s.u\Z', $sStart);
         $oStart = new DateTime($sStart);
+        $oNow =  new DateTime($sStart);
+        
         $sStartConved = $oStart->format('l jS \of F Y h:i A');
         
+        $sEnd = $oWhen->getAttribute('endTime');
         $oEnd = new DateTime($sEnd);
         $sEndConved = $oEnd->format('l jS \of F Y h:i A');
-        /*
-        $oInterval = $oEnd->diff($oStart);
         
-        $sDiff = $oInterval->format();
-        echo "\n<br><pre>\nsDiff  =" .$sDiff ."</pre>";
-        */
-        $iStartKey = $oStart->format('YmdHis');
+        $iStart = $iStartKey = (int) $oStart->format('U');
+        $iEnd = (int) $oEnd->format('U');
         
-        while(isset($aEvents[$iStartKey]))
+        if($iEnd > $iNow && $iEnd < $iMax)
         {
-          $iStartKey ++;
+        
+          while(isset($aEvents[$iStartKey]))
+          {
+            $iStartKey ++;
+          }
+          
+          $aEvents[$iStartKey] = array(
+            'sTitle'    => $sTitle,
+            'sWhere'    => $sWhere,
+            'sContent'  => $sContent,
+            'sStart'    => $sStartConved,
+            'sEnd'      => $sEndConved,
+            'iStart'    => $iStart,
+            'iEnd'      => $iEnd,
+          );
         }
-        
-        $aEvents[$iStartKey] = array(
-          'sTitle'    => $sTitle,
-          'sWhere'    => $sWhere,
-          'sContent'  => $sContent,
-          'sStart'    => $sStartConved,
-          'sEnd'      => $sEndConved,
-        );
-        
       }
-      
-      
-      ksort($aEvents);
-      $aSlides = array();
-      foreach($aEvents as $aEvent)
-      {
-        $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
-        $aSlides[] = $sSlide;
-      }
-      
-      $sSlides = join("\n---\n", $aSlides);
-      echo $sSlides;
     }
   }
   
-  
+  function renderEvents($aEvents)
+  {
+    ksort($aEvents);
+    $aSlides = array();
+    foreach($aEvents as $aEvent)
+    {
+      $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
+      $aSlides[] = $sSlide;
+    }
+    
+    $sSlides = join("\n---\n", $aSlides);
+    echo $sSlides;
+  }

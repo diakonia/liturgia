@@ -128,3 +128,10 @@
       return $this->getFullPath().$this->getBaseName();
     }
   }
+  
+  function isNetworkAvailable()
+  {
+    $sIP = gethostbyname(CONST_NETWORK_TEST_HOST);
+    $bIsNetworkAvailable = (CONST_NETWORK_TEST_HOST == $sIP)?false:true;
+    return $bIsNetworkAvailable;
+  }
