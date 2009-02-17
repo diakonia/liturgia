@@ -245,7 +245,7 @@ window.addEvent('domready', function(){
     $('displaySongTitle').set('html', sTitle);
     $('displaySongLyrics').set('html', sLyrics);
     
-    console.log("eSongDoc =", eSongDoc);
+    //console.log("eSongDoc =", eSongDoc);
     
     $('displaySongUser1').set('html', eSongDoc.getElement('user1').get('text'));
     $('displaySongAuthor').set('html', eSongDoc.getElement('author').get('text'));
