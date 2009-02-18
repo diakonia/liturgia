@@ -73,7 +73,7 @@
       <h4>Song - <span id="displaySongTitle"></span></h4>
       <h5>Author - <span id="displaySongAuthor"></span><br />
       Copyright - <span id="displaySongCopyright"></span><br />
-      User Info 1 - <span id="displaySongUser1"></span></h5>
+      Source - <span id="displaySongSource"></span></h5>
     </div>
     
     
@@ -83,8 +83,8 @@
     
     <div id="displaySongLyricsPanel">
       
-      <div id="displaySongLyrics">
-      </div>
+      <span id="displaySongLyrics">
+      </span>
       
     </div>
     
