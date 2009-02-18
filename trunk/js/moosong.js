@@ -246,8 +246,31 @@ window.addEvent('domready', function(){
     $('displaySongLyrics').set('html', sLyrics);
     
     //console.log("eSongDoc =", eSongDoc);
+    var sSource = eSongDoc.getElement('user1').get('text');
+    if (!sSource)
+    {
+      if(eSongDoc.getElement('hymnNumber'))
+      {
+        sSource = eSongDoc.getElement('hymnNumber').get('text');
+      }
+    }
+    if (!sSource)
+    {
+      if(eSongDoc.getElement('hymn_number'))
+      {
+        sSource = eSongDoc.getElement('hymn_number').get('text');
+      }
+    }
     
-    $('displaySongUser1').set('html', eSongDoc.getElement('user1').get('text'));
+    
+    if (sSource)
+    {
+      $('displaySongSource').set('html', sSource);
+    }
+    else
+    {
+      $('displaySongSource').empty();
+    }
     $('displaySongAuthor').set('html', eSongDoc.getElement('author').get('text'));
     $('displaySongCopyright').set('html', eSongDoc.getElement('copyright').get('text'));
     
@@ -536,15 +559,57 @@ window.addEvent('domready', function(){
 		return li;
 	};
 	
-	var oPanelSliders = {
+  var oPanelSliders = {
+    aSliders: [
+      ['chooseSong',         $('chooseSongPanel').addClass('hidden')],
+      ['editSetSong',        $('editSetSongPanel').addClass('hidden')],
+      ['displaySetSongInfo', $('displaySetSongInfoPanel').addClass('hidden')],
+      ['displaySongLyrics',  $('displaySongLyricsPanel').addClass('hidden')],
+      ['editSetSlide',       $('editSetSlidePanel').addClass('hidden')]
+    ],
+    
+    add:  function(aNames)
+    {
+      aNames = $splat(aNames);
+      for( var i=0; i < this.aSliders.length; i++)
+      {
+          if(aNames.indexOf(this.aSliders[i][0]) == -1)
+          {
+           
+          }
+          else
+          {
+            this.aSliders[i][1].removeClass('hidden');
+          }
+      }
+    },
+    
+    show: function(aNames)
+    {
+      aNames = $splat(aNames);
+      for( var i=0; i < this.aSliders.length; i++)
+      {
+          if(aNames.indexOf(this.aSliders[i][0]) == -1)
+          {
+            this.aSliders[i][1].addClass('hidden');
+          }
+          else
+          {
+            this.aSliders[i][1].removeClass('hidden');
+          }
+      }
+    }
+  };
+  
+  
+  
+	/*var oPanelSliders = {
     aSliders: [
       ['chooseSong',         new Fx.Slide('chooseSongPanel', {'mode':'vertical'}).slideOut()],
       ['editSetSong',        new Fx.Slide('editSetSongPanel', {'mode':'vertical'}).slideOut()],
       ['displaySetSongInfo', new Fx.Slide('displaySetSongInfoPanel', {'mode':'vertical'}).slideOut()],
       ['displaySongLyrics',  new Fx.Slide('displaySongLyricsPanel', {'mode':'vertical'}).slideOut()],
       ['editSetSlide',       new Fx.Slide('editSetSlidePanel', {'mode':'vertical'}).slideOut()]
-      
-      
     ],
     
     add:  function(aNames)
@@ -579,7 +644,7 @@ window.addEvent('domready', function(){
       }
     }
   };
-  
+  */
   
 //Buttons
 

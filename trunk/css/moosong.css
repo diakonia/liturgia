@@ -103,3 +103,7 @@ h1 h2 h3 h4 {
 	height: 0px;
 	border: none;	
 }
+
+.hidden {
+  display: none ! important;
+}
