@@ -68,11 +68,11 @@
         $oStart = new DateTime($sStart);
         $oNow =  new DateTime($sStart);
         
-        $sStartConved = $oStart->format('l jS \of F Y h:i A');
+        $sStartConved = $oStart->format('l jS \of F Y g:i A');
         
         $sEnd = $oWhen->getAttribute('endTime');
         $oEnd = new DateTime($sEnd);
-        $sEndConved = $oEnd->format('l jS \of F Y h:i A');
+        $sEndConved = $oEnd->format('l jS \of F Y g:i A');
         
         $iStart = $iStartKey = (int) $oStart->format('U');
         $iEnd = (int) $oEnd->format('U');
