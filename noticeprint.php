@@ -35,6 +35,10 @@
   
   ksort($aEvents);
   
+  
+  $aTest = $aEvents['01/03/2009'];
+  //echo "\n<br><pre>\naTest  =" .var_export($aTest , TRUE)."</pre>";
+  
   //echo "\n<br><pre>\naEvents =" .var_export($aEvents, TRUE)."</pre>";
   ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -110,6 +114,13 @@
           $sDate = $oStart->format("d/m/Y");
           $aEvents[$sDate]['iDayTime'] = $oStart->format("U");
           //echo "\n<br><pre>\nsDate  =" .$sDate ."</pre>";
+          
+          if(!isset($aEvents[$sDate]['iTypeCount'][$sName]))
+          {
+            $aEvents[$sDate]['iTypeCount'][$sName] = 0;
+          }
+          $aEvents[$sDate]['iTypeCount'][$sName] ++;
+          
           if($sName == 'LECTIONARY')// && $oStart->format("D") == 'Sun')
           {
             $aEvents[$sDate]['sDayName'] = $sWhere;
@@ -120,8 +131,8 @@
               'sTitle'    => $sTitle,
               'sWhere'    => $sWhere,
               'sContent'  => $sContent,
-              'sStart'    => $sStartConved,
-              'sEnd'      => $sEndConved,
+              //'sStart'    => $sStartConved,
+              //'sEnd'      => $sEndConved,
               'iStart'    => $iStart,
               'iEnd'      => $iEnd,
             );
