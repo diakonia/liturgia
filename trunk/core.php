@@ -1,7 +1,7 @@
 <?php
   
   require_once('config.php');
-  
+  date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
   if(!file_exists(CONST_OpenSongData))
   {
     throw(new exception('Open Song Data Directory Does Not Exist'));
@@ -135,3 +135,38 @@
     $bIsNetworkAvailable = (CONST_NETWORK_TEST_HOST == $sIP)?false:true;
     return $bIsNetworkAvailable;
   }
+  
+  function date3339($timestamp=0) {
+
+    if (!$timestamp) {
+        $timestamp = time();
+    }
+    $date = date('Y-m-d\TH:i:s', $timestamp);
+
+    $matches = array();
+    if (preg_match('/^([\-+])(\d{2})(\d{2})$/', date('O', $timestamp), $matches)) {
+        $date .= $matches[1].$matches[2].':'.$matches[3];
+    } else {
+        $date .= 'Z';
+    }
+    return $date;
+
+}
+
+function addMonths( $base_time = null, $months = 1 )
+{
+    if (is_null($base_time))
+        $base_time = time();
+   
+    $x_months_to_the_future    = strtotime( "+" . $months . " months", $base_time );
+   
+    $month_before              = (int) date( "m", $base_time ) + 12 * (int) date( "Y", $base_time );
+    $month_after               = (int) date( "m", $x_months_to_the_future ) + 12 * (int) date( "Y", $x_months_to_the_future );
+   
+    if ($month_after > $months + $month_before)
+        $x_months_to_the_future = strtotime( date("Ym01His", $x_months_to_the_future) . " -1 day" );
+   
+    return $x_months_to_the_future;
+} //get_x_months_to_the_future()
+   
+ 
