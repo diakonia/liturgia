@@ -1,18 +1,13 @@
 <?php
   require_once('core.php');
   $aEvents = array();
+  $iNow = time();
   
-  $iMonth = (((int) date("n")) % 12) + 1;
-  $iMonth2 = (((int) date("n") + 1) % 12) + 1;
-  $iMonth3 = (((int) date("n") + 4) % 12) + 1;
+  $iStartOfThisMonth = $iTableStart = mktime(0, 0, 0, (int) date("n"), 1, (int) date("Y"));
   
-  $iYear = ((int) date("Y")) + ($iMonth == 1?1:0);
-  $iYear2 = ((int) date("Y")) + ($iMonth2 <= 2?1:0);
-  $iYear3 = ((int) date("Y")) + ($iMonth3 <= 5?1:0);
-  
-  $iTableStart = mktime(0, 0, 0, $iMonth, 1, $iYear);
-  $iTableEnd = mktime(0, 0, 0, $iMonth2, 1, $iYear2) - 1;
-  $iEventsEnd = mktime(0, 0, 0, $iMonth3, 1, $iYear3) - 1;
+  $iTableStart = addMonths($iStartOfThisMonth, 1);
+  $iTableEnd = addMonths($iStartOfThisMonth, 2)+(60*60*24*7);
+  $iEventsEnd = addMonths($iStartOfThisMonth, 4) - 1;
   
   $aFeeds = array( 
       'LECTIONARY'    => 'http://www.google.com/calendar/feeds/sdr6vocc24tsebm6l6dbrbn0do%40group.calendar.google.com/private-2eeb147af35a65bcd5ced9227187f318/full',
@@ -62,8 +57,15 @@
   
   function addEvents($sName, $sURL, $iMin, $iMax, &$aEvents)
   {
+    
+    $sQ  = "?max-results=200&singleevents=true&orderby=starttime&";
+    $sQ .= "start-min=".urlencode(date3339($iMin))."&";//2007-05-22T09%3A58%3A47-04%3A00
+    $sQ .= "start-max=".urlencode(date3339($iMax));//2007-11-06T09%3A58%3A47-04%3A00
+    //echo "\n<br><pre>\nsQ  =" .$sQ ."</pre>";
+
+    
     $xmlDoc = new DOMDocument();
-    $bTest = $xmlDoc->load($sURL);
+    $bTest = $xmlDoc->load($sURL.$sQ);
     if(!$bTest)
     {
       header('HTTP/1.1 404 Not Found', true, 404);
@@ -97,6 +99,7 @@
         
         $oWhen = $xpath->query("gd:when", $oEvent)->item(0);
         $sStart = $oWhen->getAttribute('startTime');
+        //echo "\n<br><pre>\nsStart  =" .$sStart ."</pre>";
         $oStart = new DateTime($sStart);
         $oNow =  new DateTime($sStart);
         
@@ -111,7 +114,7 @@
         
         if($iEnd >= $iMin && $iEnd <= $iMax)
         {
-          $sDate = $oStart->format("d/m/Y");
+          $sDate = $oStart->format("Y/m/d");
           $aEvents[$sDate]['iDayTime'] = $oStart->format("U");
           //echo "\n<br><pre>\nsDate  =" .$sDate ."</pre>";
           
