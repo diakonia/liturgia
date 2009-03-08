@@ -28,6 +28,11 @@
     private $sName = '';
     private $sPath = '';
     
+    function getRoot()
+    {
+      return CONST_OpenSongData;
+    }
+    
     function __construct($aFileInfo)
     {
       if (isset($aFileInfo['type'])) $this->setType($aFileInfo['type']);
