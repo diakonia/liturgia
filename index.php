@@ -6,7 +6,18 @@
   <link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>
   <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
   <title>MooSong</title>
-  <?php require_once('core.php'); ?>
+  <?php require_once('core.php'); 
+  if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
+  {
+    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
+    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
+    $iRev = svn_update(realpath(filepath::getRoot()));
+    if($iRev === false)
+    {
+       throw(new exception('Could Not Update Files'));
+    }
+  }
+  ?>
 </head>
 <body id="mainbody">
   

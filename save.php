@@ -9,10 +9,17 @@
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
-    $aCommitLog = svn_commit('Auto commit from MooSong', array(realpath($sFullFilePath)));
+    
+    $iRev = svn_update(realpath($sFullFilePath));
+    if($iRev === false)
+    {
+       throw(new exception('Could Not Update File'));
+    }
+    
+    $aCommitLog = svn_commit('Auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
     if($aCommitLog === false)
     {
-       throw(new exception('Coulkd Not Commit File'));
+       throw(new exception('Could Not Commit File'));
     }
   }
   echo "File Saved";
