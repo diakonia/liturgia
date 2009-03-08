@@ -4,7 +4,7 @@
   $oFilePath = new filepath($_REQUEST);
   $sFullFilePath = $oFilePath->getFullFile();
   
-  if(file_exists(realpath($sFullFilePath)) && CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
+  if(file_exists(realpath($sFullFilePath)) && $oFilePath->getName() !== 'blanks' && CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
