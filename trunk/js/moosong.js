@@ -1,7 +1,6 @@
 window.addEvent('domready', function(){	
 //Variables
   Sexy = new SexyAlertBox();
-  console.log("Browser =", Browser);
   if($defined(Browser.Engine.trident) && Browser.Engine.trident)
   {
     Sexy.error( 'This is "totally untested and highly dangerous" code <br/>and it don\'t work in I.E. try <a target="_blank" href="http://getfirefox.com">firefox<a>.');
@@ -273,7 +272,6 @@ window.addEvent('domready', function(){
     $('displaySongTitle').set('html', sTitle);
     $('displaySongLyrics').set('html', sLyrics);
     
-    //console.log("eSongDoc =", eSongDoc);
     var sSource = eSongDoc.getElement('user1').get('text');
     if (!sSource)
     {
@@ -497,7 +495,6 @@ window.addEvent('domready', function(){
           
           var sNotes = $('notesSetSlide').get('value');
           sNotes = sNotes.replace('[[noticessummary]]', jsonObj.sSummary);
-          console.log("jsonObj =", jsonObj);
           $('notesSetSlide').set('value', sNotes);
           
           saveSetSlide();
@@ -527,7 +524,6 @@ window.addEvent('domready', function(){
   {
         Sexy.form($('readinglookup').get('html'), { onComplete: 
         function(returnvalue) {
-          console.log("returnvalue =", returnvalue);
           var sText = $('bodySetSlide').get('value');
           var sNotes = $('notesSetSlide').get('value');
           if(returnvalue)
@@ -563,7 +559,6 @@ window.addEvent('domready', function(){
               //$('nameSetSlide').set('value', sName);
               $('bodySetSlide').set('value', sText);
               $('notesSetSlide').set('value', sNotes);
-              console.log("sNotes =", sNotes);
               saveSetSlide();
             }
             else
