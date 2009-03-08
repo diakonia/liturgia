@@ -78,6 +78,11 @@ window.addEvent('domready', function(){
     url: "bibles/poly_niv.json",
     //url: "bibledata.php?bible=NIV",
     onSuccess: function(jsonObj) {
+      if(jsonObj === null)
+      {
+        Sexy.error( 'The "Bible Data" request failed.');
+        return;
+      }
       aBibleData = jsonObj;
       //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
     },
@@ -96,6 +101,11 @@ window.addEvent('domready', function(){
     method:'get',
 		url: "list.php?type=set",
 		onSuccess: function(jsonObj) {
+      if(jsonObj === null)
+      {
+        Sexy.error( 'The "Set List" request failed.');
+        return;
+      }
         $('selectSetChooser').empty();
         var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
         $('selectSetChooser').adopt(myEl);
@@ -156,6 +166,11 @@ window.addEvent('domready', function(){
     method:'get',
 		url: "new.php?type=set",
 		onSuccess: function(jsonObj) {
+      if(jsonObj === null)
+      {
+        Sexy.error( 'The "New Set" request failed.');
+        return;
+      }
       if($chk(jsonObj.exists))
       {
         Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
@@ -219,6 +234,11 @@ window.addEvent('domready', function(){
     method:'get',
 		url: "list.php?type=song",
 		onSuccess: function(jsonObj) {
+      if(jsonObj === null)
+      {
+        Sexy.error( 'The "Song List" request failed.');
+        return;
+      }
       $('selectChooseSong').empty();
         jsonObj.songlist.each(function(item, index){
           var myEl = new Element('option', {'value':item.file, 'text':item.name});
@@ -421,6 +441,12 @@ window.addEvent('domready', function(){
       readingLookup();
     }
     
+    if(sText.match('\\[\\[songs\\]\\]'))
+    {
+      oPanelSliders.show('chooseSong');
+      return;
+    }
+    
     if(sText.match('\\[\\[notices\\]\\]'))
     {
       noticesLookup();
@@ -446,15 +472,26 @@ window.addEvent('domready', function(){
 		onStart: function(eLi){editSetItem(eLi);}
 	});
   
-  var oNoticesFetchRequest = new Request({
+  var oNoticesFetchRequest = new Request.JSON({
       method:'post',
 			url: "notices.php",
-			onSuccess: function(sNotices){
-        if(sNotices)
+			onSuccess: function(jsonObj) {
+        if(jsonObj === null)
+        {
+          Sexy.error( 'The "Notices Fetch" request failed.');
+          return;
+        }
+        if(jsonObj.sNotices)
         {
           var sText = $('bodySetSlide').get('value');
-          sText = sText.replace('[[notices]]', sNotices);
+          sText = sText.replace('[[notices]]', jsonObj.sNotices);
           $('bodySetSlide').set('value', sText);
+          
+          var sNotes = $('notesSetSlide').get('value');
+          sNotes = sNotes.replace('[[noticessummary]]', jsonObj.sSummary);
+          console.log("jsonObj =", jsonObj);
+          $('notesSetSlide').set('value', sNotes);
+          
           saveSetSlide();
         }
 			},
@@ -482,7 +519,9 @@ window.addEvent('domready', function(){
   {
         Sexy.form($('readinglookup').get('html'), { onComplete: 
         function(returnvalue) {
+          console.log("returnvalue =", returnvalue);
           var sText = $('bodySetSlide').get('value');
+          var sNotes = $('notesSetSlide').get('value');
           if(returnvalue)
           {
             returnvalue = new Hash(returnvalue);
@@ -510,10 +549,13 @@ window.addEvent('domready', function(){
               returnvalue.each(function(xFieldValue, sFieldName)
               {
                   sText = sText.replace('[['+sFieldName+']]', xFieldValue);
+                  sNotes = sNotes.replace('[['+sFieldName+']]', xFieldValue);
                   sName = sName.replace('[['+sFieldName+']]', xFieldValue);
               });
-              $('nameSetSlide').set('value', sName);
+              //$('nameSetSlide').set('value', sName);
               $('bodySetSlide').set('value', sText);
+              $('notesSetSlide').set('value', sNotes);
+              console.log("sNotes =", sNotes);
               saveSetSlide();
             }
             else
