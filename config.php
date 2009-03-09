@@ -1,6 +1,6 @@
 <?php
   
-  include_once('localconfig.php');
+  @include_once('localconfig.php');
   
   @define('CONST_OpenSongData', '../OpenSong/');
   @define('CONST_SundayCutOff', 11);
