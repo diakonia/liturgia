@@ -2,7 +2,9 @@
   
   require_once('config.php');
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
-  if(!file_exists(CONST_OpenSongData))
+  $sRootPath = filepath::getRoot();
+  //echo "\n<br><pre>\nsRootPath  =" .$sRootPath ."</pre>";
+  if(!file_exists($sRootPath))
   {
     throw(new exception('Open Song Data Directory Does Not Exist'));
   }
@@ -11,9 +13,9 @@
   
   foreach($aDefaultFiles as $sDefaultFile)
   {
-    if(!file_exists(CONST_OpenSongData.$sDefaultFile) || $_REQUEST['install'])
+    if(!file_exists(filepath::getRoot().$sDefaultFile) || $_REQUEST['install'])
     {
-      $bCopied = copy('templates/'.$sDefaultFile, CONST_OpenSongData.$sDefaultFile);
+      $bCopied = copy('templates/'.$sDefaultFile, filepath::getRoot().$sDefaultFile);
       if(!$bCopied)
       {
         throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
@@ -30,11 +32,12 @@
     
     function getRoot()
     {
-      return CONST_OpenSongData;
+      return str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], CONST_OpenSongData);
     }
     
     function __construct($aFileInfo)
     {
+      $this->sOpenSongRoot = filepath::getRoot();
       if (isset($aFileInfo['type'])) $this->setType($aFileInfo['type']);
       if (isset($aFileInfo['file'])) $this->setFile($aFileInfo['file']);
       if (isset($aFileInfo['name'])) $this->setName($aFileInfo['name']);
