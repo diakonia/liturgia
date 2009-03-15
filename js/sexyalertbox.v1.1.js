@@ -510,11 +510,12 @@ var SexyAlertBox = new Class({
           
           this.FormForm = new Element('form', {
             'id': 'BoxFormForm',
+            'class':'form',
             'styles': {
               //'width': '250px'
             }
           });
-
+          
           this.FormBtnOk.addEvent('click', function() {
             this.options.onReturn = this.FormForm.getValues();
             this.display(0);
@@ -522,6 +523,12 @@ var SexyAlertBox = new Class({
 
           this.FormBtnCancel.addEvent('click', function() {
             this.options.onReturn = false;
+            this.display(0);
+          }.bind(this));
+
+          this.FormForm.addEvent('submit', function(event) {
+            event.preventDefault();
+            this.options.onReturn = this.FormForm.getValues();
             this.display(0);
           }.bind(this));
 

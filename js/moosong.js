@@ -229,11 +229,11 @@ window.addEvent('domready', function(){
     
     if (iThinking > 0)
     {
-      $('mainbody').getElements('body,div,select,input').addClass('thinking');
+      $('mainbody').getElements('body,div,select,input,textarea').addClass('thinking');
     }
     else
     {
-      $('mainbody').getElements('body,div,select,input').removeClass('thinking');
+      $('mainbody').getElements('body,div,select,input,textarea').removeClass('thinking');
     }
   };
   
@@ -458,6 +458,11 @@ window.addEvent('domready', function(){
       noticesLookup();
     }
     
+    if(sText.match('\\[\\[youtube\\]\\]'))
+    {
+      YouTubeLookup();
+    }
+    
     
     $('bodySetSlide').set('value',  sText);
     $('notesSetSlide').set('value', xmlnode.getElement('notes').get('text'));
@@ -516,8 +521,6 @@ window.addEvent('domready', function(){
   var noticesLookup = function()
   {
     oNoticesFetchRequest.send();
-    
-    
   };
   
   var readingLookup = function()
@@ -571,6 +574,54 @@ window.addEvent('domready', function(){
       });
 
   };
+  
+  var YouTubeLookup = function()
+  {
+        Sexy.form($('youtubelookup1').get('html'), { onComplete: 
+        function(returnvalue) {
+          var sText = $('bodySetSlide').get('value');
+          var sNotes = $('notesSetSlide').get('value');
+          if(returnvalue)
+          {
+            returnvalue = new Hash(returnvalue);
+            oYouTubeFetchRequest.send({data:returnvalue});
+          }
+        }
+      });
+  };
+  
+  var oYouTubeFetchRequest = new Request.JSON({
+      method:'get',
+			url: "youtube.php",
+			onSuccess: function(jsonObj) {
+        if(jsonObj === null)
+        {
+          Sexy.error( 'The "You Tube Video Fetch" request failed.');
+          return;
+        }
+        if(jsonObj.name)
+        {
+          var sText = $('bodySetSlide').get('value');
+          $('bodySetSlide').set('value', "");
+          var sNotes = $('notesSetSlide').get('value');
+          sNotes = sNotes.replace('[[youtubefile]]', jsonObj.relativefile);
+          sNotes = sNotes.replace('[[youtubetitle]]', jsonObj.title);
+          $('notesSetSlide').set('value', sNotes);
+          saveSetSlide();
+        }
+			},
+      onRequest: function(){
+        showThinking(true);
+      },
+      onComplete: function(){
+        showThinking(false);
+      },
+      onFailure: function(){
+        Sexy.error( 'The "You Tube Video Fetch" request failed.');
+		}
+		});
+  
+  
   
 	//This is the code that makes the text input add list items to the <ul>,
 	//which we then make sortable.
