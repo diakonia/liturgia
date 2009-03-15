@@ -101,6 +101,9 @@
         case 'set':
           $sDir = 'Sets/';
           break;
+        case 'video':
+          $sDir = 'Videos/';
+          break;
       }
       return $sDir;
     }
@@ -135,6 +138,12 @@
     {
       return $this->getFullPath().$this->getBaseName();
     }
+    function getDataFolderFile()
+    {
+      $sDir = $this->getDataFolder();
+      return $sDir.$this->getBaseName();
+    }
+    
   }
   
   function isNetworkAvailable()
