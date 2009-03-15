@@ -35,6 +35,10 @@
           $oFilePath->setFullFile($entry);
           $sFile = $oFilePath->getFile();
           $sName = $oFilePath->getName();
+          if($_REQUEST['chgrp'])
+          {
+            $oFilePath->changeGroup();
+          }
           $aResults[$sName] = array('name'=>$sName, 'file' => $sFile);
         }
       }

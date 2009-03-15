@@ -12,5 +12,5 @@
   @define('CONST_NETWORK_TEST_HOST',  'www.w3.org');
   @define('CONST_DEFAULT_TIMEZONE',  'Europe/London');
   @define('CONST_YouTube_DL',  './youtube-dl');
-  
+  @define('CONST_FileGroup',  false);
   
