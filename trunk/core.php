@@ -148,7 +148,8 @@
     {
       if (CONST_FileGroup)
       {
-        chgrp($this->getFullFile(), CONST_FileGroup); 
+        @chgrp($this->getFullFile(), CONST_FileGroup);
+        @chmod(realpath($this->getFullFile()), 0775);
       }
     }
   }
