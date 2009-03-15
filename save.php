@@ -4,7 +4,7 @@
   $sXML = stripslashes(urldecode($_REQUEST['xml']));
   $sFullFilePath = $oFilePath->getFullFile();
   file_put_contents($sFullFilePath, $sXML);
-  
+  $oFilePath->changeGroup();
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);

@@ -144,6 +144,13 @@
       return $sDir.$this->getBaseName();
     }
     
+    function changeGroup()
+    {
+      if (CONST_FileGroup)
+      {
+        chgrp($this->getFullFile(), CONST_FileGroup); 
+      }
+    }
   }
   
   function isNetworkAvailable()
