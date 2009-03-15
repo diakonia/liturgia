@@ -11,7 +11,7 @@
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
-    foreach(array('Sets','Videos') as $sFolder)
+    foreach(array('Sets') as $sFolder)
     {
       $iRev = svn_update(realpath(filepath::getRoot().$sFolder.'/'));
       if($iRev === false)
