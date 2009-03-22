@@ -13,10 +13,10 @@
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
     foreach(array('Sets') as $sFolder)
     {
-      $iRev = svn_update(realpath(filepath::getRoot().$sFolder.'/'));
+      $iRev = @svn_update(realpath(filepath::getRoot().$sFolder.'/'));
       if($iRev === false)
       {
-        throw(new exception('Could Not Update Files'));
+        //throw(new exception('Could Not Update Files'));
       }
     }
   }
