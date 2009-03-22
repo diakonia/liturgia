@@ -8,10 +8,10 @@
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
-    $iRev = svn_update(realpath($sFullFilePath));
+    $iRev = @svn_update(realpath($sFullFilePath));
     if($iRev === false)
     {
-       throw(new exception('Could Not Update File'));
+       //throw(new exception('Could Not Update File'));
     }
   }
   
