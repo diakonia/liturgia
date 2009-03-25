@@ -37,9 +37,9 @@
       {
         foreach($aEventsAtTime['EVENTS'] as $aEvent)
         {
-        
-        $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
-        $aSlides[] = $sSlide;
+          $aEvent['sStart'] = date('l jS \of F Y g:i A', $aEvent['iStart']);
+          $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
+          $aSlides[] = $sSlide;
         }
       }
     }
