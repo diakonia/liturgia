@@ -5,8 +5,10 @@
 	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
   <link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>
   <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
-  <title>MooSong</title>
-  <?php require_once('core.php'); 
+  
+  <?php require_once('core.php');
+  echo "<title>".CONST_SiteTitle.": Service Editor</title>";
+  
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);

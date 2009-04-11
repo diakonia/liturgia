@@ -13,4 +13,4 @@
   @define('CONST_DEFAULT_TIMEZONE',  'Europe/London');
   @define('CONST_YouTube_DL',  './youtube-dl');
   @define('CONST_FileGroup',  false);
-  
+  @define('CONST_SiteTitle',  "MooSong");
