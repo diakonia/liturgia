@@ -7,13 +7,21 @@
     {
       foreach($aEventsAtTime['EVENTS'] as $aEvent)
       {
+       if($aEvent['sTag'] == 'TBC')
+       {
+        continue;
+       }
         ?><p>
         <font size="5" face="Arial"><?php echo $aEvent['sTitle'];?></font><br />
-        <font size="3" face="Arial"><?php echo date('l j F Y  - g:i A', $aEvent['iStart']);?></font><br />
-        <font size="3" face="Arial"><?php echo $aEvent['sWhere'];?></font><br />
+        <?php if($aEvent['sTag'] !== 'NOTICE') { ?>
+         <font size="3" face="Arial"><?php echo date('l j F Y  - g:i A', $aEvent['iStart']);?></font><br />
+         <font size="3" face="Arial"><?php echo $aEvent['sWhere'];?></font>
+        <?php } ?>
+        <br />
         <font size="3" face="Arial"><?php echo $aEvent['sContent'];?></font>
         </p>
-        <?php 
+        <?php
+       
       }
     }
   } ?>
