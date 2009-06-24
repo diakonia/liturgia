@@ -37,9 +37,20 @@
       {
         foreach($aEventsAtTime['EVENTS'] as $aEvent)
         {
+         if($aEvent['sTag'] == 'TBC')
+         {
+          continue;
+         }
+         if($aEvent['sTag'] !== 'NOTICE')
+         {
           $aEvent['sStart'] = date('l jS \of F Y g:i A', $aEvent['iStart']);
           $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
-          $aSlides[] = $sSlide;
+         }
+         else
+         {
+          $sSlide = $aEvent['sTitle']."\n\n".$aEvent['sContent'];
+         }
+         $aSlides[] = $sSlide;
         }
       }
     }
