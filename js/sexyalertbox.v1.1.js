@@ -67,10 +67,10 @@ var SexyAlertBox = new Class({
 			closeEffect: Fx.Transitions.linear,
 			moveDuration: 500,
 			moveEffect: Fx.Transitions.Back.easeOut,
-			onShowStart : $empty,
-			onShowComplete : $empty,
-			onCloseStart : $empty,
-			onCloseComplete : function(properties) {
+			onShowStart: $empty,
+			onShowComplete: $empty,
+			onCloseStart: $empty,
+			onCloseComplete: function(properties) {
 				this.options.onReturnFunction(this.options.onReturn);
 			}.bind(this)
 		};
@@ -160,8 +160,7 @@ var SexyAlertBox = new Class({
 		option - integer, 1 to Show box and 0 to close box (with a transition).
 	*/	
 	display: function(option){
-    //console.log("this.Box =", this.Box);
-		if(this.Transition)
+  if(this.Transition)
     {
 			this.Transition.cancel();				
     }
@@ -283,7 +282,7 @@ var SexyAlertBox = new Class({
 		onComplete - a function to fire when return box value
 	*/	
 	messageBox: function(type, message, properties, input) {
-
+    
 		this.chain(function () {
 
       properties = $extend({
@@ -292,18 +291,17 @@ var SexyAlertBox = new Class({
         'textBoxBtnCancel': 'Cancel',
         'textBoxInputPrompt': null,
         'password': false,
-        'onComplete': $empty
+        'onComplete': $empty,
+        'formsubmits': false
       }, properties || {});
-
-
+      
       this.options.onReturnFunction = properties.onComplete;
 
       this.Buttons = new Element('div', {
         'id': this.options.name + '-Buttons'
       });
       
-
-
+      
       if(type == 'alert' || type == 'info' || type == 'error')
       {
           this.AlertBtnOk = new Element('input', {
@@ -364,9 +362,7 @@ var SexyAlertBox = new Class({
            this.clase = 'BoxIFrame';
         
           this.Content.setProperty('class',this.clase);
-          //console.log("this.Content =", this.Content);
-
-
+          
                   
           this.ConfirmIFrame = new Element('iframe', {
             'id': 'BoxIFrame',
@@ -387,7 +383,6 @@ var SexyAlertBox = new Class({
           
           this.PrintBtnOk.addEvent('click', function() {
             this.ConfirmIFrame.focus();
-            //console.log("this.ConfirmIFrame =", this.ConfirmIFrame);
             this.ConfirmIFrame.print();
           }.bind(this));
           
@@ -516,22 +511,26 @@ var SexyAlertBox = new Class({
             }
           });
           
-          this.FormBtnOk.addEvent('click', function() {
-            this.options.onReturn = this.FormForm.getValues();
-            this.display(0);
-          }.bind(this));
+          if(!this.options.formsubmits)
+          {
+            this.FormBtnOk.addEvent('click', function() {
+              this.options.onReturn = this.FormForm.getValues();
+              this.display(0);
+            }.bind(this));
+            
+            this.FormForm.addEvent('submit', function(event) {
+              event.preventDefault();
+              this.options.onReturn = this.FormForm.getValues();
+              this.display(0);
+            }.bind(this));
+          }
 
           this.FormBtnCancel.addEvent('click', function() {
             this.options.onReturn = false;
             this.display(0);
           }.bind(this));
 
-          this.FormForm.addEvent('submit', function(event) {
-            event.preventDefault();
-            this.options.onReturn = this.FormForm.getValues();
-            this.display(0);
-          }.bind(this));
-
+          
           //this.Content.setProperty('class','BoxForm').set('html',message );
           this.Content.setProperty('class','BoxForm');
           this.FormForm.set('html',message );
