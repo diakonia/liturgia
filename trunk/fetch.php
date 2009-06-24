@@ -2,7 +2,13 @@
 
   require_once('core.php');
   $oFilePath = new filepath($_REQUEST);
+  //echo "\n<br><pre>\n_REQUEST =" .var_export($_REQUEST, TRUE)."</pre>";
   $sFullFilePath = $oFilePath->getFullFile();
+  //echo "\n<br><pre>\nsFullFilePath  =" .$sFullFilePath ."</pre>";
+  //echo "\n<br><pre>\noFilePath =" .var_export($oFilePath, TRUE)."</pre>";
+  
+  $bFileExists = file_exists(addslashes(realpath($sFullFilePath)));
+  //echo "\n<br><pre>\nbFileExists  =" .var_export($bFileExists , TRUE)."</pre>";
   
   if(file_exists(realpath($sFullFilePath)) && $oFilePath->getName() !== 'blanks' && CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {

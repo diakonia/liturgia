@@ -35,11 +35,12 @@
           $oFilePath->setFullFile($entry);
           $sFile = $oFilePath->getFile();
           $sName = $oFilePath->getName();
+          $sRelativeFile = $oFilePath->getDataFolderFile();
           if($_REQUEST['chgrp'])
           {
             $oFilePath->changeGroup();
           }
-          $aResults[$sName] = array('name'=>$sName, 'file' => $sFile);
+          $aResults[$sName] = array('name'=>$sName, 'file' => $sFile, 'relativefile' => $sRelativeFile);
         }
       }
     }
@@ -70,7 +71,7 @@
      protected $rootPath;
      protected $recursiveTree;  
   
-     function __construct($rootPath,$win=false)
+     function __construct($rootPath, $win=false)
      {
         switch($win)
         {

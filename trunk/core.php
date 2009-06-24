@@ -2,20 +2,18 @@
   
   require_once('config.php');
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
-  $sRootPath = filepath::getRoot();
-  //echo "\n<br><pre>\nsRootPath  =" .$sRootPath ."</pre>";
-  if(!file_exists($sRootPath))
+  if(!file_exists(CONST_OpenSongSets))
   {
-    throw(new exception('Open Song Data Directory Does Not Exist'));
+    throw(new exception('Open Song Sets Directory Does Not Exist'));
   }
   
-  $aDefaultFiles = array('Sets/template', 'Sets/blanks'); 
+  $aDefaultFiles = array('template', 'blanks'); 
   
   foreach($aDefaultFiles as $sDefaultFile)
   {
-    if(!file_exists(filepath::getRoot().$sDefaultFile) || $_REQUEST['install'])
+    if(!file_exists(CONST_OpenSongSets.$sDefaultFile) || $_REQUEST['install'])
     {
-      $bCopied = copy('templates/'.$sDefaultFile, filepath::getRoot().$sDefaultFile);
+      $bCopied = copy('templates/Sets/'.$sDefaultFile, CONST_OpenSongSets.$sDefaultFile);
       if(!$bCopied)
       {
         throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
@@ -25,23 +23,42 @@
   
   class filepath
   {
-    private $sOpenSongRoot = CONST_OpenSongData;
     private $sType = '';
     private $sName = '';
     private $sPath = '';
     
-    function getRoot()
+    private $aDirectoryNames = array(
+      'song'  => 'Songs',
+      'set'   => 'Sets',
+      'video' => 'Videos',
+      'image' => 'Images',
+      'presentation' => 'Presentations',
+      );
+    
+    private $aServerDirectoryNames = array(
+      'song'  => CONST_OpenSongSongs,
+      'set'   => CONST_OpenSongSets,
+      'video' => CONST_OpenSongVideos,
+      'image' => CONST_OpenSongImages,
+      'presentation' => CONST_OpenSongPresentations,
+      );
+    
+    
+    /*function getRoot()
     {
       return str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], CONST_OpenSongData);
-    }
+    }*/
     
     function __construct($aFileInfo)
     {
-      $this->sOpenSongRoot = filepath::getRoot();
       if (isset($aFileInfo['type'])) $this->setType($aFileInfo['type']);
       if (isset($aFileInfo['file'])) $this->setFile($aFileInfo['file']);
       if (isset($aFileInfo['name'])) $this->setName($aFileInfo['name']);
       if (isset($aFileInfo['path'])) $this->setPath($aFileInfo['path']);
+      foreach (array_keys($this->aServerDirectoryNames) as $sName)
+      {
+        $this->aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], $this->aServerDirectoryNames[$sName]);
+      }
     }
     
     function setType($sValue)
@@ -57,7 +74,7 @@
     
     function setFullFile($sValue)
     {
-      $this->setFile(str_replace($this->sOpenSongRoot.$this->getDataFolder(), '', $sValue));
+      $this->setFile(str_replace($this->aServerDirectoryNames, '', $sValue));
     }
     
     function setName($sValue)
@@ -86,24 +103,46 @@
     
     function getFullDataFolder()
     {
-      $sDir = $this->getDataFolder();
-      return $this->sOpenSongRoot.$sDir;
+      return $this->getServerDataFolder();
     }
     
-    function getDataFolder()
+    /*function getDataFolder()
+    {
+      return $this->getServerDataFolder();
+    }*/
+    
+    function getServerDataFolder()
+    {
+      return $this->getServerFolderFromType($this->getType());
+    }
+    
+    function getServerFolderFromType($sType)
     {
       $sDir = '';
-      switch ($this->sType)
+      if (isset($this->aServerDirectoryNames[$sType]))
       {
-        case 'song':
-          $sDir = 'Songs/';
-          break;
-        case 'set':
-          $sDir = 'Sets/';
-          break;
-        case 'video':
-          $sDir = 'Videos/';
-          break;
+        $sDir = $this->aServerDirectoryNames[$sType];
+      }
+      return $sDir;
+    }
+    
+    
+    function getFolderFromType($sType)
+    {
+      $sDir = '';
+      if (isset($this->aDirectoryNames[$sType]))
+      {
+        $sDir = $this->aDirectoryNames[$sType];
+      }
+      return $sDir;
+    }
+    
+    function getOpenSongDataFolder()
+    {
+      $sDir = $this->getFolderFromType($this->getType());
+      if($sDir)
+      {
+        $sDir = $sDir.'\\';
       }
       return $sDir;
     }
@@ -115,8 +154,7 @@
     
     function getFullPath()
     {
-      $sDir = $this->getDataFolder();
-      return $this->sOpenSongRoot.$sDir.$this->sPath;
+      return $this->getServerDataFolder().$this->sPath;
     }
     
     function getName()
@@ -138,9 +176,10 @@
     {
       return $this->getFullPath().$this->getBaseName();
     }
+    
     function getDataFolderFile()
     {
-      $sDir = $this->getDataFolder();
+      $sDir = $this->getOpenSongDataFolder();
       return $sDir.$this->getBaseName();
     }
     
@@ -197,12 +236,9 @@ function addMonths( $base_time = null, $months = 1 )
 
   function addEvents($sName, $sURL, $iMin, $iMax, &$aEvents)
   {
-    
     $sQ  = "?max-results=200&singleevents=true&orderby=starttime&";
     $sQ .= "start-min=".urlencode(date3339($iMin))."&";//2007-05-22T09%3A58%3A47-04%3A00
     $sQ .= "start-max=".urlencode(date3339($iMax));//2007-11-06T09%3A58%3A47-04%3A00
-    //echo "\n<br><pre>\nsQ  =" .$sQ ."</pre>";
-
     
     $xmlDoc = new DOMDocument();
     $bTest = $xmlDoc->load($sURL.$sQ);
@@ -239,7 +275,6 @@ function addMonths( $base_time = null, $months = 1 )
         
         $oWhen = $xpath->query("gd:when", $oEvent)->item(0);
         $sStart = $oWhen->getAttribute('startTime');
-        //echo "\n<br><pre>\nsStart  =" .$sStart ."</pre>";
         $oStart = new DateTime($sStart);
         $oNow =  new DateTime($sStart);
         
@@ -256,7 +291,6 @@ function addMonths( $base_time = null, $months = 1 )
         {
           $sDate = $oStart->format("Y/m/d");
           $aEvents[$sDate]['iDayTime'] = $oStart->format("U");
-          //echo "\n<br><pre>\nsDate  =" .$sDate ."</pre>";
           
           if(!isset($aEvents[$sDate]['iTypeCount'][$sName]))
           {
@@ -270,10 +304,19 @@ function addMonths( $base_time = null, $months = 1 )
           }
           else
           {
+           $aMatches = null;
+           $iMatches = preg_match_all ( '/\[([^\]]+)\]/' , $sTitle , $aMatches);
+            $sTag = "";
+            if($iMatches)
+            {
+             $sTitle = trim(str_replace($aMatches[0][0], "", $sTitle));
+             $sTag = $aMatches[1][0];
+            }
             $aEvents[$sDate]['aData'][$iStartKey][$sName][] = array(
               'sTitle'    => $sTitle,
               'sWhere'    => $sWhere,
               'sContent'  => $sContent,
+              'sTag'      => $sTag,
               //'sStart'    => $sStartConved,
               //'sEnd'      => $sEndConved,
               'iStart'    => $iStart,

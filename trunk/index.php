@@ -3,11 +3,11 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
-  <link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>
+  <!--<link rel="stylesheet" href="css/moosongprint.css" type="text/css"  media="print"/>-->
   <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
   
   <?php require_once('core.php');
-  echo "<title>".CONST_SiteTitle.": Service Editor</title>";
+  echo '<title id="windowtitle">'.CONST_SiteTitle.': Service Editor</title>';
   
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
@@ -30,7 +30,8 @@
 	<div id="setpanel">
     <h4>Set</h4>
     <form id="SetChooser">
-			<select id="selectSetChooser"><option value="null">Loading ....</option></select><br />
+			<select id="selectSetChooser"><option value="null">Loading ....</option></select>
+      <span id="dirtytext"></span><br />
 			Set:
       <input id="btnSetNew" type="submit" value="New" />
       <input id="btnSetSave" type="submit" value="Save" />
@@ -43,8 +44,14 @@
       Insert:
       <select id="selectNewSetSlide"></select>
       <input id="btnNewSetSlide" type="submit" value="Slide" />
+      <button id="btnUploadFile">Upload</button>
+      
       <!--<input id="btnNewSetNotices" type="submit" value="Gospel" /> GO FETCH THE NOTICES-->
       
+      <br />
+      <!--Upload: <button id="btnUploadVideo">Video</button>
+      <button id="btnUploadPresentation">Presentation</button>
+      <button id="btnUploadImage">Image</button>-->
       <br />
       <input id="btnDeleteSetItem" type="submit" value="Delete Item" />
       
@@ -130,11 +137,15 @@
   <?php include('forms.html'); ?>
   </div>
    <script type="text/javascript">
-   var CONST_SundayCutOff = <?php echo CONST_SundayCutOff ?>;
+   var CONST_SundayCutOff = <?php echo CONST_SundayCutOff; ?>;
+   var CONST_SiteTitle = "<?php echo CONST_SiteTitle; ?>";
+   var CONST_MaxFileUpload = "<?php echo CONST_MaxFileUpload; ?>";
   </script>
   <script type="text/javascript" src="js/mootools.js"></script>
-  <script type="text/javascript" src="js/moosong.js"></script>
+  
+  <script type="text/javascript" src="<?php echo CONST_MooSongJS; ?>"></script>
   <script src="js/sexyalertbox.v1.1.js" type="text/javascript"></script>
- 
+  <script src="fancyupload/source/Fx.ProgressBar.js" type="text/javascript"></script>
+  <script src="fancyupload/source/Swiff.Uploader.js" type="text/javascript"></script>
 </body>
 </html>
