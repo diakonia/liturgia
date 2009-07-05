@@ -41,16 +41,66 @@
          {
           continue;
          }
+         $sHead = $sContent = '';
+         
          if($aEvent['sTag'] !== 'NOTICE')
          {
           $aEvent['sStart'] = date('l jS \of F Y g:i A', $aEvent['iStart']);
-          $sSlide = $aEvent['sTitle'].($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'').$aEvent['sContent'];
+          $sTitle = $aEvent['sTitle'];
+          $sHead1 = ($aEvent['sStart']?("\n".$aEvent['sStart']):"")."\n\n".($aEvent['sWhere']?($aEvent['sWhere']."\n"):'');
+          $sHead2 = "\n\n";
+          $sContent = $aEvent['sContent'];
          }
          else
          {
-          $sSlide = $aEvent['sTitle']."\n\n".$aEvent['sContent'];
+          $sTitle = $aEvent['sTitle'];
+          $sHead1 = "\n\n";
+          $sHead2 = "\n\n";
+          $sContent = $aEvent['sContent'];
          }
-         $aSlides[] = $sSlide;
+         
+         $aContent = split("\n\n", $sContent);
+         $aChunks = array();
+
+         foreach($aContent as $iKey => $sChunk)
+         {
+          //$aChunks = array_merge($aChunks, split("\n\n", wordwrap($sChunk, 250, "\n\n")));
+          
+          $sCurrentLines = '';
+          $iCurrentLine = 0;
+          $aCurrChunk = array();
+          $aChunkLines = split("\n", $sChunk);
+          while($sLine = array_shift($aChunkLines))
+          {
+           $iUsedLines = count($aCurrChunk)?count(split("\n", $sHead2)):count(split("\n", ($iKey?$sHead2:$sHead1)));
+           
+           if(strlen($sLine) > 250)
+           {
+            $aChunks[] = join("\n", $aCurrChunk);
+            $aChunks[] = $sLine;
+            $aCurrChunk = array();
+           }
+           else
+           {
+            $aCurrChunk[] = $sLine;
+            if((count($aCurrChunk) + $iUsedLines)  > 6 || strlen(join("\n", $aCurrChunk)) > 250)
+            {
+             $aChunks[] = join("\n", $aCurrChunk);
+             $aCurrChunk = array();
+            }
+           }
+          }
+          
+          if(count($aCurrChunk))
+          { 
+           $aChunks[] = join("\n", $aCurrChunk);
+          }
+         }
+         
+         foreach($aChunks as $iKey => $sChunk)
+         {
+          $aSlides[] = trim($sTitle.($iKey?$sHead2:$sHead1).$sChunk, "\n");
+         }
         }
       }
     }
