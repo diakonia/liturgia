@@ -118,6 +118,10 @@
       {
         foreach($aEventsAtTime['EVENTS'] as $aEvent)
         {
+          if($aEvent['sTag'] == 'TBC')
+          {
+           continue;
+          }
           $aSlides[] = $aEvent['sTitle'];
         }
       }
