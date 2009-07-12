@@ -22,7 +22,7 @@
     
     var sSource = null;
     var eUser1 = eSongDoc.getElement('user1');
-    if(!eUser1)
+    if(eUser1)
     {
      sSource = eUser1.get('text');
     }

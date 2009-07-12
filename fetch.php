@@ -3,6 +3,8 @@
   require_once('core.php');
   $oFilePath = new filepath($_REQUEST);
   //echo "\n<br><pre>\n_REQUEST =" .var_export($_REQUEST, TRUE)."</pre>";
+  $sFile = $_REQUEST['file'];
+  //echo "\n<br><pre>\nsFile  =" .$sFile ."</pre>";
   $sFullFilePath = $oFilePath->getFullFile();
   //echo "\n<br><pre>\nsFullFilePath  =" .$sFullFilePath ."</pre>";
   //echo "\n<br><pre>\noFilePath =" .var_export($oFilePath, TRUE)."</pre>";

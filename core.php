@@ -1,19 +1,19 @@
 <?php
-  
   require_once('config.php');
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
-  if(!file_exists(CONST_OpenSongSets))
+  $sSetFolder = filepath::getServerFolderFromType('set');
+  if(!file_exists($sSetFolder))
   {
-    throw(new exception('Open Song Sets Directory Does Not Exist'));
+    throw(new exception('Open Song Sets Directory Does Not Exist ('.$sSetFolder.')'));
   }
   
   $aDefaultFiles = array('template', 'blanks'); 
   
   foreach($aDefaultFiles as $sDefaultFile)
   {
-    if(!file_exists(CONST_OpenSongSets.$sDefaultFile) || $_REQUEST['install'])
+   if(!file_exists(filepath::getServerFolderFromType('set').$sDefaultFile) || $_REQUEST['install'])
     {
-      $bCopied = copy('templates/Sets/'.$sDefaultFile, CONST_OpenSongSets.$sDefaultFile);
+      $bCopied = copy('templates/Sets/'.$sDefaultFile, filepath::getServerFolderFromType('set').$sDefaultFile);
       if(!$bCopied)
       {
         throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
@@ -23,11 +23,11 @@
   
   class filepath
   {
-    private $sType = '';
-    private $sName = '';
-    private $sPath = '';
+    protected $sType = '';
+    protected $sName = '';
+    protected $sPath = '';
     
-    private $aDirectoryNames = array(
+    public static $aDirectoryNames = array(
       'song'  => 'Songs',
       'set'   => 'Sets',
       'video' => 'Videos',
@@ -35,7 +35,7 @@
       'presentation' => 'Presentations',
       );
     
-    private $aServerDirectoryNames = array(
+    public static $aServerDirectoryNames = array(
       'song'  => CONST_OpenSongSongs,
       'set'   => CONST_OpenSongSets,
       'video' => CONST_OpenSongVideos,
@@ -43,21 +43,15 @@
       'presentation' => CONST_OpenSongPresentations,
       );
     
-    
-    /*function getRoot()
-    {
-      return str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], CONST_OpenSongData);
-    }*/
-    
-    function __construct($aFileInfo)
+    function __construct($aFileInfo = array())
     {
       if (isset($aFileInfo['type'])) $this->setType($aFileInfo['type']);
-      if (isset($aFileInfo['file'])) $this->setFile($aFileInfo['file']);
+      if (isset($aFileInfo['file'])) $this->setFile(stripslashes($aFileInfo['file']));
       if (isset($aFileInfo['name'])) $this->setName($aFileInfo['name']);
       if (isset($aFileInfo['path'])) $this->setPath($aFileInfo['path']);
-      foreach (array_keys($this->aServerDirectoryNames) as $sName)
+      foreach (array_keys(self::$aServerDirectoryNames) as $sName)
       {
-        $this->aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], $this->aServerDirectoryNames[$sName]);
+       self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
       }
     }
     
@@ -74,7 +68,8 @@
     
     function setFullFile($sValue)
     {
-      $this->setFile(str_replace($this->aServerDirectoryNames, '', $sValue));
+      $sValue = str_replace(self::$aServerDirectoryNames, '', $sValue);
+      $this->setFile($sValue);
     }
     
     function setName($sValue)
@@ -94,8 +89,6 @@
       }
     }
     
-   
-    
     function getPath()
     {
       return $this->sPath;
@@ -106,33 +99,28 @@
       return $this->getServerDataFolder();
     }
     
-    /*function getDataFolder()
-    {
-      return $this->getServerDataFolder();
-    }*/
-    
     function getServerDataFolder()
     {
-      return $this->getServerFolderFromType($this->getType());
+     return self::getServerFolderFromType($this->getType());
     }
     
-    function getServerFolderFromType($sType)
+    public static function getServerFolderFromType($sType)
     {
       $sDir = '';
-      if (isset($this->aServerDirectoryNames[$sType]))
+      if (isset(self::$aServerDirectoryNames[$sType]))
       {
-        $sDir = $this->aServerDirectoryNames[$sType];
+       $sDir = self::$aServerDirectoryNames[$sType];
       }
+      $sDir = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'],  $sDir);
       return $sDir;
     }
-    
     
     function getFolderFromType($sType)
     {
       $sDir = '';
-      if (isset($this->aDirectoryNames[$sType]))
+      if (isset(self::$aDirectoryNames[$sType]))
       {
-        $sDir = $this->aDirectoryNames[$sType];
+       $sDir = self::$aDirectoryNames[$sType];
       }
       return $sDir;
     }
@@ -163,8 +151,9 @@
     }
     
     function getBaseName()
-    {
-      return  str_replace(array('!','/'), '', $this->sName);
+    { 
+     return $this->sName;
+     #return  str_replace(array('!','/'), '', $this->sName);
     }
     
     function getFile()
@@ -191,8 +180,91 @@
         @chmod(realpath($this->getFullFile()), 0775);
       }
     }
+    
+    function svnUpdateType($sType, &$aMessages, &$aErrors)
+    {
+      $sServerFolderPath = realpath(filepath::getServerFolderFromType($sType));
+      if(CONST_SVN_PHP)
+      {
+       if(defined('SVN_REVISION_HEAD'))
+       {
+        svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
+        svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
+        $iRev = @svn_update($sServerFolderPath);
+        if($iRev === false)
+        {
+         throw(new exception("Could Not Update Files '$sServerFolderPath'"));
+        }
+       }
+       else
+       {
+        $aErrors[] = 'PHP SVN not installed';
+       }
+      }
+      else
+      {
+       $sCMD = '/usr/bin/svn update "'.$sServerFolderPath.'"';
+    
+       $descriptorspec = array(
+          0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+          1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+          2 => array("pipe", "w") // stderr is a file to write to
+       );
+   
+       $cwd = $sServerFolderPath;
+      
+       $process = proc_open($sCMD, $descriptorspec, $pipes, $cwd);
+       $bProcess = is_resource($process);
+       
+       if (is_resource($process)) {
+           // $pipes now looks like this:
+           // 0 => writeable handle connected to child stdin
+           // 1 => readable handle connected to child stdout
+           // 2 => readable handle connected to child sterr
+           $sError = fread($pipes[2], 3000);
+       
+           $iPos = strpos( $sError , CONST_SSL_FINGERPRINTER);
+           
+           if ($sError)
+           {
+            if(strpos( $sError , CONST_SSL_FINGERPRINTER) !== false)
+            {
+             fclose($pipes[0]);
+             fclose($pipes[1]);
+             fclose($pipes[2]);
+             $sWrite = fwrite($pipes[0], "p\n");
+            }
+            //Working copy '/home/martyn/Projects/OpenSong/OpenSongSVN' locked
+            if(strpos( $sError , ' locked') !== false)
+            {
+             
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+             throw(new exception("The SVN Folder '$sServerFolderPath' is locked try 'svn cleanup'"));
+            }
+           }
+           $sOut = stream_get_contents($pipes[1]);
+           $aMessages[] = (trim($sOut));
+           
+           $sError = stream_get_contents($pipes[2]);
+           $aErrors[] = (trim($sError));
+           //echo "\n<br><pre>\nsError  =" .$sError ."</pre>";
+           
+           fclose($pipes[0]);
+           fclose($pipes[1]);
+           fclose($pipes[2]);
+           
+           // It is important that you close any pipes before calling
+           // proc_close in order to avoid a deadlock
+           $return_value = proc_close($process);
+           
+          }
+      }
   }
-  
+}
+
+
   function isNetworkAvailable()
   {
     $sIP = gethostbyname(CONST_NETWORK_TEST_HOST);

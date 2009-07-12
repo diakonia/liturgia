@@ -296,7 +296,6 @@ var oSetFetchRequest = $empty;
     method:'get',
 		url: "list.php?type=video",
 		onSuccess: function(jsonObj) {
-   console.log("jsonObj =", jsonObj);
       if(jsonObj === null)
       {
         Sexy.error( 'The "Video List" request failed.');
@@ -323,7 +322,6 @@ var oSetFetchRequest = $empty;
     method:'get',
 		url: "list.php?type=presentation",
 		onSuccess: function(jsonObj) {
-   console.log("jsonObj =", jsonObj);
       if(jsonObj === null)
       {
         Sexy.error( 'The "Presentation List" request failed.');
@@ -332,7 +330,6 @@ var oSetFetchRequest = $empty;
       else
       {
         aFileData.presentation = jsonObj.presentationlist;
-        console.log("aFileData =", aFileData);
       }
     },
 		onRequest: function(){
