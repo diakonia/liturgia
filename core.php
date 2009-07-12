@@ -223,11 +223,9 @@
            // 2 => readable handle connected to child sterr
            $sError = fread($pipes[2], 3000);
        
-           $iPos = strpos( $sError , CONST_SSL_FINGERPRINTER);
-           
            if ($sError)
            {
-            if(strpos( $sError , CONST_SSL_FINGERPRINTER) !== false)
+            if(strpos( $sError , 'ertificate') !== false)
             {
              fclose($pipes[0]);
              fclose($pipes[1]);
