@@ -210,9 +210,8 @@
           1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
           2 => array("pipe", "w") // stderr is a file to write to
        );
-   
+       
        $cwd = $sServerFolderPath;
-      
        $process = proc_open($sCMD, $descriptorspec, $pipes, $cwd);
        $bProcess = is_resource($process);
        
@@ -236,9 +235,25 @@
            $aMessages[] = (trim($sOut));
            
            $sError = stream_get_contents($pipes[2]);
-           $aErrors[] = (trim($sError));
-           //echo "\n<br><pre>\nsError  =" .$sError ."</pre>";
-           
+           $aErrorLines = split("\n", $sError);
+           $aRealErrors = array();
+           foreach(array_keys($aErrorLines) as $iKey)
+           {
+            if(preg_match('/[UAD] /', $aErrorLines[$iKey]))
+            {
+             $aMessages[] = $aErrorLines[$iKey];
+            }
+            else
+            {
+             $aRealErrors[] = $aErrorLines[$iKey];
+            }
+           }
+           $sError = join("\n", $aRealErrors);
+           if($sError)
+           {
+            $aErrors[] = (trim($sError));
+            //echo "\n<br><pre>\nsError  =" .$sError ."</pre>";
+           }
            fclose($pipes[0]);
            fclose($pipes[1]);
            fclose($pipes[2]);
