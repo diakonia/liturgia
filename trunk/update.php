@@ -16,7 +16,7 @@
   <form id="svnform" method="POST" action="index.php" ><input type="hidden" name="updated" value="1" /></form>
     <?php
     
-    
+  $aAllErrors = array();
   if(CONST_SVN_AUTO )
   {
     foreach(array_keys(filepath::$aServerDirectoryNames) as $sType)
@@ -25,6 +25,12 @@
      $aMessages = $aErrors = array();
      filepath::svnUpdateType($sType, $aMessages, $aErrors);
      echo (nl2br(join("\n", array_merge($aMessages, $aErrors))));
+     $aAllErrors = array_merge($aAllErrors, $aErrors);
+    }
+    if(count($aAllErrors))
+    {
+     echo "errors halting";
+     exit;
     }
   }
   

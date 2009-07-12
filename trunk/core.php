@@ -232,16 +232,18 @@
              fclose($pipes[0]);
              fclose($pipes[1]);
              fclose($pipes[2]);
-             $sWrite = fwrite($pipes[0], "p\n");
+             $aErrors[] = 'Certificate not valid';
+             return;
             }
             //Working copy '/home/martyn/Projects/OpenSong/OpenSongSVN' locked
             if(strpos( $sError , ' locked') !== false)
             {
-             
+             $aErrors = "The SVN Folder '$sServerFolderPath' is locked try 'svn cleanup'";
             fclose($pipes[0]);
             fclose($pipes[1]);
             fclose($pipes[2]);
-             throw(new exception("The SVN Folder '$sServerFolderPath' is locked try 'svn cleanup'"));
+             return;
+             #throw(new exception("The SVN Folder '$sServerFolderPath' is locked try 'svn cleanup'"));
             }
            }
            $sOut = stream_get_contents($pipes[1]);
