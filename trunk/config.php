@@ -2,7 +2,7 @@
   
   @include_once('localconfig.php');
   
-  @define('CONST_MooSongJS', 'js/moosong.js');
+  @define('CONST_MooSongJS', 'js/moosong.php');
   @define('CONST_OpenSongData', '../OpenSong/');
   @define('CONST_SundayCutOff', 11);
   @define('CONST_FOP_PATH',     'fop');

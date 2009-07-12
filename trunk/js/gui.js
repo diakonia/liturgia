@@ -51,7 +51,7 @@ var editSetSong = function(eLi)
   var sName = xmlnode.getAttribute('name');
   var sFile = sPath+sName;
   //oSongEditFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongEditFetchRequest.send({data:{file:escape(sFile)}});
+  oSongEditFetchRequest.send({data:{file:sFile}});
 };
 
 var editSetSlide = function(eLi)
