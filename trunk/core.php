@@ -203,7 +203,7 @@
       }
       else
       {
-       $sCMD = '/usr/bin/svn update "'.$sServerFolderPath.'"';
+       $sCMD = '/usr/bin/svn update --username '.$_SERVER['PHP_AUTH_USER'].' --password '.$_SERVER['PHP_AUTH_PW'].' "'.$sServerFolderPath.'"';
     
        $descriptorspec = array(
           0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
