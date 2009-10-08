@@ -8,10 +8,18 @@
   
   $iStartOfThisMonth = $iTableStart = mktime(0, 0, 0, (int) date("n"), 1, (int) date("Y"));
   
-  $iTableStart = addMonths($iStartOfThisMonth, 1);
-  $iTableEnd = addMonths($iStartOfThisMonth, 2)+(60*60*24*7);
-  $iEventsEnd = addMonths($iStartOfThisMonth, 4) - 1;
-  
+	
+	if($_GET['back'])
+	{
+		$iTableEnd = addMonths($iStartOfThisMonth, 1)+(60*60*24*7);
+		$iEventsEnd = addMonths($iStartOfThisMonth, 3) - 1;
+	}
+	else
+	{
+		$iTableStart = addMonths($iStartOfThisMonth, 1);
+		$iTableEnd = addMonths($iStartOfThisMonth, 2)+(60*60*24*7);
+		$iEventsEnd = addMonths($iStartOfThisMonth, 4) - 1;
+	}
   $aFeeds = array( 
       'LECTIONARY'    => CONST_GOOGLE_LECTIONARY_FEED,
       'REGULAR_EVENT' => CONST_GOOGLE_REGULAR_EVENT_FEED,
@@ -43,7 +51,18 @@
 </head>
 <body>
   
+	<?php
+	if($_GET['back'])
+	{
+		?><a href="?back=0">Forward to default month</a><br><br>
   <?php
+	}
+	else
+	{
+		?><a href="?back=1">Back a month</a><br><br>
+  <?php
+	}
+	
   include ('tableoutput.php');
   
   
