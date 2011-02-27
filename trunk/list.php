@@ -59,6 +59,8 @@
   if($_REQUEST['type'] == 'set')
   {
     $aResults = array_reverse( $aResults, true);
+    unset($aResults['template']);
+    unset($aResults['blanks']);
   }
   
   
