@@ -383,7 +383,6 @@ var oSetFetchRequest = $empty;
       else
       {
         aFileData.presentation = jsonObj.presentationlist;
-        
       }
     },
 		onRequest: function(){
@@ -673,7 +672,7 @@ var YouTubeLookup = function()
     
     var sSource = null;
     var eUser1 = eSongDoc.getElement('user1');
-    if(!eUser1)
+    if(eUser1)
     {
      sSource = eUser1.get('text');
     }
@@ -726,8 +725,15 @@ var YouTubeLookup = function()
       eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
 		}
 		
-		var xmlString = new XMLSerializer().serializeToString( eSetDoc );
-    xmlString = xmlString.replace(/SLIDE_GROUP/g, 'slide_group');
+		//var xmlString = new XMLSerializer().serializeToString( eSetDoc );
+		var serializer = new XMLSerializer();
+		var xString = serializer.serializeToString(eSetDoc);
+		xString = xString.replace(/^<\?xml\s+version\s*=\s*(["'])[^\1]+\1[^?]*\?>/, ""); // bug 336551
+		var e4x = new XML(xString);
+		var xmlString = XML(e4x).toXMLString();
+		xmlString = unescape('%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E')+"\n"+xmlString;
+		
+		xmlString = xmlString.replace(/SLIDE_GROUP/g, 'slide_group');
     xmlString = xmlString.replace(/SLIDES/g, 'slides');
     xmlString = xmlString.replace(/SLIDE/g, 'slide');
     xmlString = xmlString.replace(/BODY/g, 'body');
@@ -858,7 +864,7 @@ var editSetSong = function(eLi)
   var sName = xmlnode.getAttribute('name');
   var sFile = sPath+sName;
   //oSongEditFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongEditFetchRequest.send({data:{file:escape(sFile)}});
+  oSongEditFetchRequest.send({data:{file:sFile}});
 };
 
 var editSetSlide = function(eLi)
@@ -1326,5 +1332,4 @@ Element.implement({
 });
 
   
-
 
