@@ -1,10 +1,11 @@
 <?php
   require_once('core.php');
 	$oFilePath = new filepath($_REQUEST);
-  $sXML = stripslashes(urldecode($_REQUEST['xml']));
-  $sFullFilePath = $oFilePath->getFullFile();
+	$sXML = stripslashes(urldecode($_REQUEST['xml']));
+	$sFullFilePath = $oFilePath->getFullFile();
   file_put_contents($sFullFilePath, $sXML);
   $oFilePath->changeGroup();
+  
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
@@ -22,4 +23,11 @@
        throw(new exception('Could Not Commit File'));
     }
   }
-  echo "File Saved";
+  $sSaved = file_get_contents($sFullFilePath);
+  
+  if($sSaved == $sXML)
+  {
+    echo "File Saved";
+    exit;
+  }
+  throw(new exception('Did Not Save File'));
