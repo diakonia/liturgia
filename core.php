@@ -1,5 +1,13 @@
 <?php
   require_once('config.php');
+  
+  if(defined('CONST_FIREPHP') && CONST_FIREPHP == true)
+  {
+    require_once('FirePHPCore/FirePHP.class.php');
+    require_once('FirePHPCore/fb.php');
+    ob_start();
+  }
+  
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
   $sSetFolder = filepath::getServerFolderFromType('set');
   if(!file_exists($sSetFolder))
