@@ -30,7 +30,8 @@
   
   $sFullFilePath = $oFilePath->getFullFile();
   
-  $sCmd = CONST_YouTube_DL.' -b -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
+  #$sCmd = CONST_YouTube_DL.' -b -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
+  $sCmd = CONST_YouTube_DL.' -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
   $aOutput = null;
   exec ( $sCmd, $aOutput, $iReturnVar);
   if($iReturnVar !== 0)
