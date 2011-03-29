@@ -28,7 +28,7 @@
   
   if($bFileExists)
   {
-    apiSendError("File already exists");
+    apiSendError("File already exists -  Use the Video option to select it");
   }
   
   #$sCmd = CONST_YouTube_DL.' -b -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
