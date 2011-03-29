@@ -14,20 +14,19 @@
     $iRev = svn_update(realpath($sFullFilePath));
     if($iRev === false)
     {
-       throw(new exception('Could Not Update File'));
+       apiSendError('Could Not Update File');
     }
     
     $aCommitLog = svn_commit('Auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
     if($aCommitLog === false)
     {
-       throw(new exception('Could Not Commit File'));
+       apiSendError('Could Not Commit File');
     }
   }
   $sSaved = file_get_contents($sFullFilePath);
   
   if($sSaved == $sXML)
   {
-    echo "File Saved";
-    exit;
+    apiSendResult(array('txt' =>  "File Saved"));
   }
-  throw(new exception('Did Not Save File'));
+  apiSendError('Did Not Save File');

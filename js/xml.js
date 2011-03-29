@@ -115,11 +115,22 @@ var dirtyCheckStop = function()
 var saveSet = function()
   {
     var xmlString = getSetXML();
-		var oSetSaveRequest = new Request({
+    // TODO : convert to json request with the error displaying
+		var oSetSaveRequest = new Request.JSON({
       method:'post',
 			url: "save.php?type=set",
-			onSuccess: function(txt){
-				Sexy.info(txt);
+			onSuccess: function(jsonObj){
+			  if(jsonObj === null)
+        {
+          Sexy.error( 'The "Save" request failed.');
+          return;
+        }
+        if(jsonObj.success === false)
+        {
+          Sexy.error( jsonObj.message);
+          return;
+        }
+      	Sexy.info(jsonObj.txt);
         setDirty(false);
 			},
       onRequest: function(){

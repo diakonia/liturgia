@@ -38,6 +38,11 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "Bible Data" request failed.');
         return;
       }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
       aBibleData = jsonObj;
       //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
     },
@@ -61,6 +66,12 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "Set List" request failed.');
         return;
       }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
+      
         $('selectSetChooser').empty();
         var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
         $('selectSetChooser').adopt(myEl);
@@ -90,6 +101,12 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "New Set" request failed.');
         return;
       }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
+      
       if($chk(jsonObj.exists))
       {
         Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
@@ -170,6 +187,11 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "Song List" request failed.');
         return;
       }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
       $('selectChooseSong').empty();
         jsonObj.songlist.each(function(item, index){
           var myEl = new Element('option', {'value':item.file, 'text':item.name});
@@ -235,6 +257,11 @@ var oSetFetchRequest = $empty;
           Sexy.error( 'The "Notices Fetch" request failed.');
           return;
         }
+        if(jsonObj.success === false)
+        {
+          Sexy.error( jsonObj.message);
+          return;
+        }
         if(jsonObj.sNotices)
         {
           var sText = $('bodySetSlide').get('value');
@@ -269,6 +296,12 @@ var oSetFetchRequest = $empty;
           Sexy.error( 'The "You Tube Video Fetch" request failed.');
           return;
         }
+        if(jsonObj.success === false)
+        {
+          Sexy.error( jsonObj.message);
+          return;
+        }
+        
         if(jsonObj.name)
         {
           var sText = $('bodySetSlide').get('value');
@@ -301,10 +334,14 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "Video List" request failed.');
         return;
       }
-      else
+      
+      if(jsonObj.success === false)
       {
-        aFileData.video = jsonObj.videolist;
+        Sexy.error( jsonObj.message);
+        return;
       }
+      aFileData.video = jsonObj.videolist;
+      
     },
 		onRequest: function(){
       showThinking(true);
@@ -327,10 +364,13 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "Presentation List" request failed.');
         return;
       }
-      else
+      if(jsonObj.success === false)
       {
-        aFileData.presentation = jsonObj.presentationlist;
+        Sexy.error( jsonObj.message);
+        return;
       }
+      aFileData.presentation = jsonObj.presentationlist;
+      
     },
 		onRequest: function(){
       showThinking(true);
