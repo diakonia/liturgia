@@ -20,7 +20,7 @@
     $aData = array( 'sNotices' => renderEvents($aEvents),
                     'sSummary' => getEventsSummary($aEvents)
                     );
-    echo json_encode($aData);
+    apiSendResult($aData);
   }
   
   exit;

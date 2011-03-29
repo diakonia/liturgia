@@ -64,7 +64,7 @@
   }
   
   
-	echo  json_encode(array($oFilePath->getType().'list' => array_values($aResults)));
+	apiSendResult(array($oFilePath->getType().'list' => array_values($aResults)));
 	
   class RecDir
   {

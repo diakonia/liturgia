@@ -3,15 +3,11 @@
 	
   if(CONST_YouTube_DL == false)
   {
-    echo "YouTube functions turned off";
-    exit;
-    
+    apiSendError("Video download functions turned off");
   }
   if(empty($_REQUEST['youtubeurl']))
   {
-    echo "No YouTube URL sent";
-    exit;
-    
+    apiSendError("No Video URL sent");
   }
   $sCmd = CONST_YouTube_DL.' -e '. escapeshellarg($_REQUEST['youtubeurl']);
   $aTitle = null;
@@ -19,8 +15,7 @@
   
   if($iReturnVar !== 0)
   {
-    echo "finding title failed";
-    exit;
+    apiSendError("Could not find video");
   }
   $sTitle = $aTitle[0];
   $oFilePath = new filepath(array(
@@ -29,6 +24,12 @@
                               ));
   
   $sFullFilePath = $oFilePath->getFullFile();
+  $bFileExists = file_exists(realpath($sFullFilePath));
+  
+  if($bFileExists)
+  {
+    apiSendError("File already exists");
+  }
   
   #$sCmd = CONST_YouTube_DL.' -b -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
   $sCmd = CONST_YouTube_DL.' -o '.escapeshellarg($sFullFilePath).' '. escapeshellarg($_REQUEST['youtubeurl']);
@@ -36,8 +37,7 @@
   exec ( $sCmd, $aOutput, $iReturnVar);
   if($iReturnVar !== 0)
   {
-    echo "YouTube download failed";
-    exit;
+    apiSendError("Video download failed");
   }
   
   if(file_exists($sFullFilePath) && CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
@@ -47,17 +47,17 @@
     $aCommitLog = svn_add(realpath($sFullFilePath));
     if($aCommitLog === false)
     {
-       throw(new exception('Could Not Add File'));
+       apiSendError('Could Not Add File');
     }
     $aCommitLog = svn_commit('Intial auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
     if($aCommitLog === false)
     {
-       throw(new exception('Could Not Commit File'));
+       apiSendError('Could Not Commit File');
     }
   }
   
   //chown  ( $sFullPath  , 'martyn'  );
-  $sText = json_encode(
+  apiSendResult(
                               array( 'file'  => $oFilePath->getFile(),
                                      'name'  => $oFilePath->getName(),
                                      'path'  => $oFilePath->getPath(),
@@ -65,6 +65,5 @@
                                      'relativefile' => $oFilePath->getDataFolderFile(),
                                      )
                               );
-  echo $sText;
-  exit;
+
 

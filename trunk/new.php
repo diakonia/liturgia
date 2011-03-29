@@ -5,13 +5,11 @@
   
   if (file_exists($sFullFilePath))
   {
-    $sText = json_encode(array('exists' => 
+    apiSendResult(array('exists' => 
                                 array( 'file'  => $oFilePath->getFile(),
                                        'name'  => $oFilePath->getName()
                                        )
                                 ));
-    echo $sText;
-    exit;
   }
   
   $oTemplatePath = clone $oFilePath;
@@ -32,20 +30,19 @@
     $aCommitLog = svn_add(realpath($sFullFilePath));
     if($aCommitLog === false)
     {
-       throw(new exception('Could Not Add File'));
+       apiSendError('Could Not Add File');
     }
     $aCommitLog = svn_commit('Intial auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
     if($aCommitLog === false)
     {
-       throw(new exception('Could Not Commit File'));
+       apiSendError('Could Not Commit File');
     }
   }
   
-  $sText = json_encode(array('newset' =>
+  apiSendResult(array('newset' =>
                               array( 'file'  => $oFilePath->getFile(),
                                      'name'  => $oFilePath->getName()
                                      )
                               ));
-  echo $sText;
-  exit;
+
 

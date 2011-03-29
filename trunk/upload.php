@@ -135,7 +135,6 @@ if ($error) {
       $aCommitLog = svn_add(realpath($sFullFilePath));
       if($aCommitLog === false)
       {
-         //throw(new exception('Could Not Add File'));
          $return = array(
           'status' => '0',
           'error' => 'Could Not Add File',

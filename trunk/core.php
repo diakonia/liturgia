@@ -29,6 +29,25 @@
     }
   }
   
+  function apiSendResult($aData)
+  {
+    $aData['success'] = true;
+    $sText = json_encode($aData);
+    echo $sText;
+    exit;
+  }
+  
+  function apiSendError($sMessage)
+  {
+    $aData = array(
+                'success' => false,
+                'message' => $sMessage
+                );
+    $sText = json_encode($aData);
+    echo $sText;
+    exit;
+  }
+  
   class filepath
   {
     protected $sType = '';

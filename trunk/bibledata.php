@@ -45,5 +45,4 @@
     }
   }
   
-  //echo "\n<br><pre>\naBooks =" .var_export($aBooks, TRUE)."</pre>";
-  echo json_encode($aBooks);
+  apiSendResult(array('bible' => $aBooks));
