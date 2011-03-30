@@ -19,8 +19,8 @@
               <fo:table-column column-width="proportional-column-width(2)"/>
               <fo:table-column column-width="proportional-column-width(3)"/>
               <fo:table-body>
-                <xsl:for-each select="set/slide_groups/*">
-                  <xsl:if test="@type='song'">
+                <xsl:for-each select="set/slide_groups/slide_group">
+                  <xsl:if test="./@type='song'">
                     <fo:table-row keep-with-next="always">
                       <fo:table-cell  border-style="solid">
                         <fo:block  text-align="left"  padding-right="13pt">
@@ -29,22 +29,22 @@
                       </fo:table-cell>
                       <fo:table-cell  border-style="solid">
                         <fo:block >
-                          <xsl:value-of select="@name"/> <xsl:value-of select="@hymnnumber"/>
+                          <xsl:value-of select="./@name"/> <xsl:value-of select="./@hymnnumber"/>
                         </fo:block>
                       </fo:table-cell>
                     </fo:table-row>
                   </xsl:if>
-                  <xsl:if test="@type!='song'">
+                  <xsl:if test="./@type!='song'">
                     <fo:table-row keep-with-next="always">
                       <fo:table-cell  border-style="solid">
                         <fo:block  text-align="left"  padding-right="13pt">
                           <xsl:value-of select="@name"/>
                         </fo:block>
                       </fo:table-cell>
-                      <fo:table-cell  border-style="solid">
-                        <fo:block >
-                          <xsl:value-of select="notes"/>
-                        </fo:block>
+                      <fo:table-cell border-style="solid">
+                          <fo:block>
+                            <xsl:value-of select="notes" />
+                          </fo:block>
                       </fo:table-cell>
                     </fo:table-row>
                   </xsl:if>
