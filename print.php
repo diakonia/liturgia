@@ -16,6 +16,7 @@
     $proc->importStylesheet($xslDoc);
     
     $foDoc = $proc->transformToDoc($xmlDoc);
+    $foDoc->formatOutput   = true;
     $sFoFile = tempnam(CONST_TEMP_PATH, "MooSongFO");
     $sPdfFile = tempnam(CONST_TEMP_PATH, "MooSongPdf");
     if($sFoFile && $sPdfFile)

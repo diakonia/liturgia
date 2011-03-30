@@ -783,6 +783,9 @@ var YouTubeLookup = function()
     xmlString = xmlString.replace(/NOTES/g, 'notes');
     xmlString = xmlString.replace(/STYLE/g, 'style');
     xmlString = xmlString.replace(/BACKGROUND/g, 'background');
+    
+    rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
+		xmlString = xmlString.replace(rNS, '');
 		
     return xmlString;
     
