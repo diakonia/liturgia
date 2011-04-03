@@ -1,4 +1,12 @@
 <?php
+
+  $iMaxUpload = return_bytes(ini_get('upload_max_filesize'));
+  if(!$iMaxUpload)
+  {
+    $iMaxUpload = 8 * 1024 * 1024;
+  }
+  @define('CONST_MaxFileUpload', $iMaxUpload); // = 2 * 1024 * 1024
+  
   require_once('config.php');
   
   if(defined('CONST_FIREPHP') && CONST_FIREPHP == true)
@@ -26,6 +34,17 @@
       {
         throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
       }
+    }
+  }
+  
+  function return_bytes($size_str)
+  {
+    switch (substr ($size_str, -1))
+    {
+      case 'M': case 'm': return (int)$size_str * 1048576;
+      case 'K': case 'k': return (int)$size_str * 1024;
+      case 'G': case 'g': return (int)$size_str * 1073741824;
+      default: return $size_str;
     }
   }
   

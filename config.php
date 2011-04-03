@@ -15,7 +15,6 @@
   @define('CONST_YouTube_DL',  './youtube-dl');
   @define('CONST_FileGroup',  false);
   @define('CONST_SiteTitle',  "MooSong");
-  @define('CONST_MaxFileUpload',  8388608); // = 8 * 1024 * 1024
   
   @define('CONST_OpenSongSets', CONST_OpenSongData.'Sets/');
   @define('CONST_OpenSongSongs', CONST_OpenSongData.'Songs/');
