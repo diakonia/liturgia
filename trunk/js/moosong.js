@@ -1299,7 +1299,7 @@ swfUploadFile = new Swiff.Uploader({
   this.setEnabled(false);
  },
  onSelectFail: function(files) {
-  Sexy.error('<em>' + files[0].name + '</em> was not added! <br> Please select an image smaller than '+(this.options.fileSizeMax/(1024*1024))+' Mb. (Error: #' + files[0].validationError + ')');
+  Sexy.error('<em>' + files[0].name + '</em> was not added! <br> Please select an file smaller than '+(this.options.fileSizeMax/(1024*1024))+' Mb. (Error: #' + files[0].validationError + ')');
  },
  appendCookieData: true,
  onQueue: UploadFileUpdate,
