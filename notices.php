@@ -22,6 +22,10 @@
                     );
     apiSendResult($aData);
   }
+  else
+  {
+    apiSendError('Calendar Feed Contains No Events');
+  }
   
   exit;
   
