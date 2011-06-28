@@ -93,6 +93,11 @@ var editSetSlide = function(eLi)
   {
     VideoLookup();
   }
+  if(sText.match('\\[\\[dvdclip\\]\\]'))
+  {
+    DVDClipLookup();
+  }
+  
   if(sText.match('\\[\\[presentation\\]\\]'))
   {
     PresentationLookup();
