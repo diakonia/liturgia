@@ -378,6 +378,47 @@ var oSetFetchRequest = $empty;
 		});
   
   
+	
+  var oDVDClipRequest = new Request.JSON({
+      method:'get',
+			url: "dvd.php",
+			onSuccess: function(jsonObj) {
+        if(jsonObj === null)
+        {
+          Sexy.error( 'The "DVD Clip Video Fetch" request failed.');
+          return;
+        }
+        if(jsonObj.success === false)
+        {
+          Sexy.error( jsonObj.message);
+          return;
+        }
+        
+        if(jsonObj.dvdclipfile)
+        {
+          var sText = $('bodySetSlide').get('value');
+          $('bodySetSlide').set('value', "");
+          var sNotes = $('notesSetSlide').get('value');
+          sNotes = sNotes.replace('[[dvdclipfile]]', jsonObj.dvdclipfile);
+          sNotes = sNotes.replace('[[dvdcliptitle]]', jsonObj.dvdcliptitle);
+          sNotes = sNotes.replace('[[dvdclipdesc]]', jsonObj.dvdclipdesc);
+          
+          $('notesSetSlide').set('value', sNotes);
+          saveSetSlide();
+        }
+			},
+      onRequest: function(){
+        showThinking(true);
+      },
+      onComplete: function(){
+        showThinking(false);
+      },
+      onFailure: function(){
+        Sexy.error( 'The "DVD Clip Video Fetch" request failed.');
+		}
+		});
+  
+	
   var oVideoListFetchRequest = new Request.JSON({
     method:'get',
 		url: "list.php?type=video",
@@ -535,6 +576,24 @@ var VideoLookup = function()
       },
       aFileList:aFileData.video,
       sFileType:'video'
+    });
+};
+
+
+var DVDClipLookup = function()
+{
+  Sexy.addEvent('onShowComplete', function(e) {
+       
+      });
+  
+  Sexy.form($('dvdcliplookup').get('html'), {
+      onComplete:function(returnvalue) {
+         if(returnvalue)
+         {
+           returnvalue = new Hash(returnvalue);
+           oDVDClipRequest.send({data:returnvalue});
+         }
+      }
     });
 };
 
@@ -960,6 +1019,11 @@ var editSetSlide = function(eLi)
   {
     VideoLookup();
   }
+  if(sText.match('\\[\\[dvdclip\\]\\]'))
+  {
+    DVDClipLookup();
+  }
+  
   if(sText.match('\\[\\[presentation\\]\\]'))
   {
     PresentationLookup();

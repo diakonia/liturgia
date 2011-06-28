@@ -101,6 +101,24 @@ var VideoLookup = function()
 };
 
 
+var DVDClipLookup = function()
+{
+  Sexy.addEvent('onShowComplete', function(e) {
+       
+      });
+  
+  Sexy.form($('dvdcliplookup').get('html'), {
+      onComplete:function(returnvalue) {
+         if(returnvalue)
+         {
+           returnvalue = new Hash(returnvalue);
+           oDVDClipRequest.send({data:returnvalue});
+         }
+      }
+    });
+};
+
+
 var PresentationLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
