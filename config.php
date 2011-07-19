@@ -27,10 +27,10 @@
   @define('CONST_VLC_BIN', '"C:\OSTools\VideoLan\VLC\VLC.EXE"');
   
   @define('CONST_VLC_DVD_CLIP_BY_TIME', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
-  @define('CONST_SCRIPT_DVD_CLIP_BY_TIME', '<<dvdtitle>>:<<dvdtitlenumber>>:<<start-time>>:<<stop-time>>');
+  @define('CONST_SCRIPT_DVD_CLIP_BY_TIME', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-time>>_<<stop-time>>');
   
   @define('CONST_VLC_DVD_CLIP_BY_CHAPTER', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>"');  
-  @define('CONST_SCRIPT_DVD_CLIP_BY_CHAPTER', '<<dvdtitle>>:<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>');
+  @define('CONST_SCRIPT_DVD_CLIP_BY_CHAPTER', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-chapter>>-<<dvdtitlenumber>>_<<stop-chapter>>');
 
   @define('CONST_SCRIPT_DVD_CLIP_EXT','.bat');
 
