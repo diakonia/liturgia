@@ -11,9 +11,9 @@
   
 
 
-  var showLyricsFromXML = function(xml)
+  var showLyricsFromXML = function(sXML)
   {
-    eSongDoc = $(xml);
+    eSongDoc = $(sXML);
     $('displaySongLyrics').empty(); 
     var sLyrics = eSongDoc.getElement('lyrics').get('text').replace(/\n/g, '<br />');
     var sTitle = eSongDoc.getElement('title').get('text');
@@ -75,30 +75,21 @@
       eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
 		}
 		
-		//var xmlString = new XMLSerializer().serializeToString( eSetDoc );
 		var serializer = new XMLSerializer();
 		var xString = serializer.serializeToString(eSetDoc);
-		xString = xString.replace(/^<\?xml\s+version\s*=\s*(["'])[^\1]+\1[^?]*\?>/, ""); // bug 336551
-		var e4x = new XML(xString);
+		
+		var xmlDeclaration = /^<\?xml version[^>]+?>/;
+		//here we are using the E4X (ecmascript for XML) stuff which can't have the xml version in it
+		var e4x = new XML(xString.replace(xmlDeclaration, ''));
+		//this gives us an idented xml string;
 		var xmlString = XML(e4x).toXMLString();
+		
 		xmlString = unescape('%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E')+"\n"+xmlString;
 		
-		xmlString = xmlString.replace(/SLIDE_GROUP/g, 'slide_group');
-    xmlString = xmlString.replace(/SLIDES/g, 'slides');
-    xmlString = xmlString.replace(/SLIDE/g, 'slide');
-    xmlString = xmlString.replace(/BODY/g, 'body');
-    xmlString = xmlString.replace(/SONG_SUBTITLE/g, 'song_subtitle');
-    xmlString = xmlString.replace(/SUBTITLE/g, 'subtitle');
-    xmlString = xmlString.replace(/TITLE/g, 'title');
-    xmlString = xmlString.replace(/NOTES/g, 'notes');
-    xmlString = xmlString.replace(/STYLE/g, 'style');
-    xmlString = xmlString.replace(/BACKGROUND/g, 'background');
-    
     rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
 		xmlString = xmlString.replace(rNS, '');
 		
-    return xmlString;
-    
+		return xmlString;
   };
   
 
@@ -148,7 +139,7 @@ var saveSet = function()
 		});
     
     var sFilePath = $('selectSetChooser').get('value');
-    oSetSaveRequest.send({data:{xml:xmlString, file:sFilePath}});
+    oSetSaveRequest.send({data:{'xml':xmlString, file:sFilePath}});
   };
   
  
