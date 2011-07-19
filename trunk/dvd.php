@@ -53,7 +53,7 @@
   
   $sFullFilePath = $oFilePath->getFullFile();
   file_put_contents($sFullFilePath, $sCMD);
-  $oFilePath->changeGroup();
+  //$oFilePath->changeGroup();
   
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
