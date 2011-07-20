@@ -47,9 +47,6 @@
     'file'=> $sSCRIPT.CONST_SCRIPT_DVD_CLIP_EXT,
     ));
 
-  //calc the file name
-  //write the file
-  //svn commit it
   
   $sFullFilePath = $oFilePath->getFullFile();
   file_put_contents($sFullFilePath, $sCMD);
@@ -60,13 +57,13 @@
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
     svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
     
-    $iRev = svn_update(realpath($sFullFilePath));
-    if($iRev === false)
+    $aCommitLog = svn_add(realpath($sFullFilePath));
+    if($aCommitLog === false)
     {
-       apiSendError('Could Not Update File');
+       apiSendError('Could Not Add File');
     }
     
-    $aCommitLog = svn_commit('Auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
+    $aCommitLog = svn_commit('Intial auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
     if($aCommitLog === false)
     {
        apiSendError('Could Not Commit File');
