@@ -30,7 +30,10 @@ Praise to you, O Christ.</body></slide></slides></slide_group>
 <slide_group name="Notices" type="custom" loop="true" seconds="20" print="true"><title>Notices</title><subtitle/><notes>[[noticessummary]]</notes><slides><slide><body>[[notices]]</body></slide></slides></slide_group>
 <slide_group name="YouTube Video" type="custom" loop="true" seconds="20" print="true"><title>YouTube Video</title><subtitle/><notes>[[youtubetitle]] - Video @ "[[youtubefile]]" in the OpenSong Data folder.</notes><slides><slide><body>[[youtube]]</body></slide></slides></slide_group>
 <slide_group name="Video" type="custom" loop="true" seconds="20" print="true"><title>Video</title><subtitle/><notes>Video @ "[[file]]" in the OpenSong Data folder.</notes><slides><slide><body>[[video]]</body></slide></slides></slide_group>
-<slide_group name="DVD Clip" type="custom" loop="true" seconds="20" print="true"><title>DVD Clip</title><subtitle/><notes>DVD Clip from "[[dvdcliptitle]]"  Run "[[dvdclipfile]]" in the OpenSong Data folder. It is described as "[[dvdclipdesc]]" </notes><slides><slide><body>[[dvdclip]]</body></slide></slides></slide_group>
+<slide_group name="DVD Clip" type="custom" loop="true" seconds="20" print="true"><title>DVD Clip</title><subtitle/><notes>DVD Clip from "[[dvdcliptitle]]"
+Description "[[dvdclipdesc]]"
+Run "[[dvdclipfile]]" in the OpenSong Data folder.
+Info "[[dvdclipinstructions]]"</notes><slides><slide><body>[[dvdclip]]</body></slide></slides></slide_group>
 <slide_group name="Presentation" type="custom" loop="true" seconds="20" print="true"><title>Presentation</title><subtitle/><notes>Presentation @ "[[file]]" in the OpenSong Data folder.</notes><slides><slide><body>[[presentation]]</body></slide></slides></slide_group>
 
 </slide_groups></set>

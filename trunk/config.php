@@ -26,11 +26,18 @@
   
   @define('CONST_VLC_BIN', '"C:\OSTools\VideoLan\VLC\VLC.EXE"');
   
-  @define('CONST_VLC_DVD_CLIP_BY_TIME', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
-  @define('CONST_SCRIPT_DVD_CLIP_BY_TIME', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-time>>_<<stop-time>>');
+  @define('CONST_DVD_CLIP_BY_TIME_CMD_1', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
+  @define('CONST_DVD_CLIP_BY_TIME_FILENAME_1', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-time>>_<<stop-time>>');
+  @define('CONST_DVD_CLIP_BY_TIME_INSTRUCTIONS_1', 'DVD:<<dvdtitle>> Title:<<dvdtitlenumber>> Start:<<dvdstarthours>>:<<dvdstartmin>>:<<dvdstartsecs>> End:<<dvdendhours>>:<<dvdendmin>>:<<dvdendsecs>>');
   
-  @define('CONST_VLC_DVD_CLIP_BY_CHAPTER', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>"');  
-  @define('CONST_SCRIPT_DVD_CLIP_BY_CHAPTER', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-chapter>>-<<dvdtitlenumber>>_<<stop-chapter>>');
+  
+  @define('CONST_DVD_CLIP_BY_TIME_CMD_2', CONST_VLC_BIN.' "dvd://D:@<<dvdtitlenumber>>:<<start-chapter>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
+  @define('CONST_DVD_CLIP_BY_TIME_FILENAME_2', CONST_DVD_CLIP_BY_TIME_FILENAME_1.'_TRY_2ND');
 
-  @define('CONST_SCRIPT_DVD_CLIP_EXT','.bat');
+  
+  @define('CONST_DVD_CLIP_BY_CHAPTER_CMD_1', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>"');  
+  @define('CONST_DVD_CLIP_BY_CHAPTER_FILENAME_1', '<<dvdtitle>>_<<dvdtitlenumber>>_<<start-chapter>>-<<dvdtitlenumber>>_<<stop-chapter>>');
+  @define('CONST_DVD_CLIP_BY_CHAPTER_INSTRUCTIONS_1', 'DVD:<<dvdtitle>> Start Title:<<dvdtitlenumber>> Start Chapter:<<start-chapter>> End Title<<dvdtitlenumber>> Start Chapter:<<stop-chapter>>');
+
+  @define('CONST_DVD_CLIP_SCRIPT_EXTENSION','.bat');
 
