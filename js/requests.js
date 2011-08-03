@@ -349,6 +349,8 @@ var oSetFetchRequest = $empty;
           sNotes = sNotes.replace('[[dvdclipfile]]', jsonObj.dvdclipfile);
           sNotes = sNotes.replace('[[dvdcliptitle]]', jsonObj.dvdcliptitle);
           sNotes = sNotes.replace('[[dvdclipdesc]]', jsonObj.dvdclipdesc);
+          sNotes = sNotes.replace('[[dvdclipinstructions]]', jsonObj.dvdclipinstructions);
+          
           
           $('notesSetSlide').set('value', sNotes);
           saveSetSlide();
