@@ -5,7 +5,11 @@
   //echo "\n<br><pre>\naData  =" .var_export($aData , TRUE)."</pre>";
   
   $aReturn = false;
-  
+  $aData['start-chapter'] = $aData['dvdchapternumber'];
+  $aData['stop-chapter'] = $aData['dvdchapternumber'] + $aData['dvdchaptercount'] - 1;
+  $aData['start-time'] = ($aData['dvdstarthours'] * 3600) + ($aData['dvdstartmin'] * 60) + $aData['dvdstartsecs'];
+  $aData['stop-time'] = ($aData['dvdendhours'] * 3600) + ($aData['dvdendmin'] * 60) + $aData['dvdendsecs'];
+    
   for($i = 1 ; $i <= 10; $i++)
   {
     $sInstructions = '';
@@ -13,43 +17,28 @@
     {
       $sCMD_CONST    = 'CONST_DVD_CLIP_BY_TIME_CMD_'.$i;
       $sSCRIPT_CONST = 'CONST_DVD_CLIP_BY_TIME_FILENAME_'.$i;
-      $sInstructions_CONST   = 'CONST_DVD_CLIP_BY_TIME_INSTRUCTIONS_'.$i;   
-      if(!(defined($sCMD_CONST) && defined($sSCRIPT_CONST)))
-      {
-        break;
-      }
-        
-      $aData['start-time'] = ($aData['dvdstarthours'] * 3600) + ($aData['dvdstartmin'] * 60) + $aData['dvdstartsecs'];
-      $aData['stop-time'] = ($aData['dvdendhours'] * 3600) + ($aData['dvdendmin'] * 60) + $aData['dvdendsecs'];
-      
-      $sCMD    = constant($sCMD_CONST);
-      $sSCRIPT = constant($sSCRIPT_CONST);
-      if(defined($sInstructions_CONST))
-      {
-        $sInstructions = constant($sInstructions_CONST);
-      }
+      $sInstructions_CONST   = 'CONST_DVD_CLIP_BY_TIME_INSTRUCTIONS_'.$i;  
     }
     else
     {
       $sCMD_CONST    = 'CONST_DVD_CLIP_BY_CHAPTER_CMD_'.$i;
       $sSCRIPT_CONST = 'CONST_DVD_CLIP_BY_CHAPTER_FILENAME_'.$i;
       $sInstructions_CONST   = 'CONST_DVD_CLIP_BY_CHAPTER_INSTRUCTIONS_'.$i;
-      
-      if(!(defined($sCMD_CONST) && defined($sSCRIPT_CONST)))
-      {
-        break;
-      }
-      
-      $aData['start-chapter'] = $aData['dvdchapternumber'];
-      $aData['stop-chapter'] = $aData['dvdchapternumber'] + $aData['dvdchaptercount'] - 1;
-      
-      $sCMD    = constant($sCMD_CONST);
-      $sSCRIPT = constant($sSCRIPT_CONST);
-      if(defined($sInstructions_CONST))
-      {
-        $sInstructions = constant($sInstructions_CONST);
-      }
     }
+    
+    
+    if(!(defined($sCMD_CONST) && defined($sSCRIPT_CONST)))
+    {
+      break;
+    }
+    
+    $sCMD    = constant($sCMD_CONST);
+    $sSCRIPT = constant($sSCRIPT_CONST);
+    if(defined($sInstructions_CONST))
+    {
+      $sInstructions = constant($sInstructions_CONST);
+    }
+    
     
     foreach($aData as $sKey => $xVal)
     {
