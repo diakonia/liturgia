@@ -108,6 +108,16 @@
       
     </div>
     
+    <div id="helpPanel">
+      <h2>MooSong Service Editor</h2>
+      <p>A free software (GPL2) service editor for OpenSong files.</p>
+      <ul>
+        <li><a href="http://code.google.com/p/moosong/" target="_blank">Project Website</a></li>
+        <li><a href="http://code.google.com/p/moosong/wiki/Help" target="_blank">Help</a></li>
+        <li><a href="http://code.google.com/p/moosong/issues/list" target="_blank">Report Bugs and Give Us Ideas</a></li>
+        
+      </ul>
+    </div>
     
     
   </div>
