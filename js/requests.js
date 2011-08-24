@@ -323,8 +323,6 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "You Tube Video Fetch" request failed.');
 		}
 		});
-  
-  
 	
   var oDVDClipRequest = new Request.JSON({
       method:'get',
@@ -354,6 +352,11 @@ var oSetFetchRequest = $empty;
           
           $('notesSetSlide').set('value', sNotes);
           saveSetSlide();
+          saveSet();
+          
+          var sURL = 'fetch.php?type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+          var delayed = function(){window.location = sURL;}.delay(2000);
+          
         }
 			},
       onRequest: function(){
@@ -366,7 +369,8 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "DVD Clip Video Fetch" request failed.');
 		}
 		});
-  
+	
+
 	
   var oVideoListFetchRequest = new Request.JSON({
     method:'get',
@@ -426,3 +430,78 @@ var oSetFetchRequest = $empty;
 		}
 	});
 
+	  
+	var oVLCRequest = new Request.JSONP({
+    method:'get',
+		noCache:true,
+		url: "http://localhost:8080/requests/statusjs.xml",
+		onSuccess: function(jsonObj) {
+		  if(jsonObj === null)
+      {
+        Sexy.error( 'The "VLC" request failed.');
+        return;
+      }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
+    
+      var time = jsonObj.time;
+      
+      if(this.options.data == 'vlctest=true')
+      {
+        $$('.vlc-live').removeClass('hidden');
+      }
+      else if(this.options.data != 'pos=end')
+      {
+        var dvdstartsecs = time % 60;
+        $$('.dvdstartsecs').set('value', dvdstartsecs);
+        
+        var dvdstartmin = ((time - dvdstartsecs) / 60) % 60;
+        $$('.dvdstartmin').set('value', dvdstartmin);
+        
+        var dvdstarthours = ((time - (dvdstartsecs + (dvdstartmin * 60))) / 60) / 60;
+        $$('.dvdstarthours').set('value', dvdstarthours);
+        
+        var dvdchapternumber = jsonObj.input.chapter.value;
+        $$('.dvdchapternumber').set('value', dvdchapternumber);
+        
+        var dvdtitlenumber = jsonObj.input.title.value;
+        $$('.dvdtitlenumber').set('value', dvdtitlenumber);
+        
+        var dvdtitle = jsonObj.information['meta-information'].title;
+        $$('.dvdtitle').set('value', dvdtitle);
+      }
+      else
+      {
+        var dvdendsecs = time % 60;
+        $$('.dvdendsecs').set('value', dvdendsecs);
+        
+        var dvdendmin = ((time - dvdendsecs) / 60) % 60;
+        $$('.dvdendmin').set('value', dvdendmin);
+        
+        var dvdendhours = ((time - (dvdendsecs + (dvdendmin * 60))) / 60) / 60;
+        $$('.dvdendhours').set('value', dvdendhours);
+      }
+    },
+		onRequest: function(){
+		  if(this.options.data != 'vlctest=true')
+		  {
+		    showThinking(true);
+		  }
+    },
+    onComplete: function(){
+      if(this.options.data != 'vlctest=true')
+		  {
+		    showThinking(false);
+		  }
+    },
+		onFailure: function(){
+		  if(this.options.data != 'vlctest=true')
+		  {
+		    Sexy.error( 'The "VLC" request failed.');
+		    //console.log( 'The "VLC" request failed.');
+		  }
+		}
+	});

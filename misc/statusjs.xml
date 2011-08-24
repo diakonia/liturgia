@@ -1,0 +1,93 @@
+<vlc id="if" param1="url_param 1 =" />
+  <vlc id="rpn" param1="callback 'callback' url_extract store" />
+<vlc id="else" />
+  <vlc id="rpn" param1="callback value callback" />
+<vlc id="end" />
+
+<vlc id="value" param1="callback" />({
+  "success":true,
+  "volume":'<vlc id="value" param1="volume" />',
+  "length":'<vlc id="value" param1="stream_length" />',
+  "time":'<vlc id="value" param1="stream_time" />',
+  "state":'<vlc id="value" param1="stream_state" />',
+  "position":'<vlc id="value" param1="stream_position" />',
+  "fullscreen":'<vlc id="if" param1="'VLC_OBJECT_VOUT' vlc_obj_exists" /><vlc id="value" param1="'fullscreen' 'VLC_OBJECT_VOUT' vlc_var_get" /><vlc id="end" />',
+  "random":'<vlc id="value" param1="'random' 'VLC_OBJECT_PLAYLIST' vlc_var_get" />',
+  "loop":'<vlc id="value" param1="'loop' 'VLC_OBJECT_PLAYLIST' vlc_var_get" />',
+  "repeat":'<vlc id="value" param1="'repeat' 'VLC_OBJECT_PLAYLIST' vlc_var_get" />',
+  "information":{
+    <vlc id="foreach" param1="inf" param2="information" />
+    "category":{"name":'<vlc id="value" param1="inf.name value xml_encode" />',
+      <vlc id="foreach" param1="subinf" param2="inf.info" />
+        '<vlc id="value" param1="subinf.name value xml_encode" />':'<vlc id="value" param1="subinf.value value xml_encode" />',
+        <vlc id="end" />
+    },
+    <vlc id="end" />
+	  'meta-information':{
+		    "title":'<vlc id="value" param1="'TITLE' vlc_get_meta xml_encode" />',
+		    "artist":'<vlc id="value" param1="'ARTIST' vlc_get_meta xml_encode" />',
+		    "genre":'<vlc id="value" param1="'GENRE' vlc_get_meta xml_encode" />',
+		    "copyright":'<vlc id="value" param1="'COPYRIGHT' vlc_get_meta xml_encode" />',
+		    "album":'<vlc id="value" param1="'ALBUM' vlc_get_meta xml_encode" />',
+		    "track":'<vlc id="value" param1="'TRACK_NUMBER' vlc_get_meta xml_encode" />',
+		    "description":'<vlc id="value" param1="'DESCRIPTION' vlc_get_meta xml_encode" />',
+		    "rating":'<vlc id="value" param1="'RATING' vlc_get_meta xml_encode" />',
+		    "date":'<vlc id="value" param1="'DATE' vlc_get_meta xml_encode" />',
+		    "url":'<vlc id="value" param1="'URL' vlc_get_meta xml_encode" />',
+		    "language":'<vlc id="value" param1="'LANGUAGE' vlc_get_meta xml_encode" />',
+		    "now_playing":'<vlc id="value" param1="'NOW_PLAYING' vlc_get_meta xml_encode" />',
+		    "publisher":'<vlc id="value" param1="'PUBLISHER' vlc_get_meta xml_encode" />',
+		    "encoded_by":'<vlc id="value" param1="'ENCODED_BY' vlc_get_meta xml_encode" />',
+		    "art_url":'<vlc id="value" param1="'ART_URL' vlc_get_meta xml_encode" />',
+		    "track_id":'<vlc id="value" param1="'TRACK_ID' vlc_get_meta xml_encode" />',
+		    }
+	   },
+	   'stats':{
+    "readbytes":'<vlc id="value" param1="read_bytes" />',
+    "inputbitrate":'<vlc id="value" param1="input_bitrate" />',
+    "demuxreadbytes":'<vlc id="value" param1="demux_read_bytes" />',
+    "demuxbitrate":'<vlc id="value" param1="demux_bitrate" />',
+    "decodedvideo":'<vlc id="value" param1="decoded_video" />',
+    "displayedpictures":'<vlc id="value" param1="displayed_pictures" />',
+    "lostpictures":'<vlc id="value" param1="lost_pictures" />',
+    "decodedaudio":'<vlc id="value" param1="decoded_audio" />',
+    "playedabuffers":'<vlc id="value" param1="played_abuffers" />',
+    "lostabuffers":'<vlc id="value" param1="lost_abuffers" />',
+    "sentpackets":'<vlc id="value" param1="sent_packets" />',
+    "sentbytes":'<vlc id="value" param1="sent_bytes" />',
+    "sendbitrate":'<vlc id="value" param1="send_bitrate" />',
+  },
+  
+  'input':{
+    'chapter':{<vlc id="foreach" param1="cat" param2="chapter" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id 1 +" />',
+    <vlc id="end" /><vlc id="end" />},
+    'program':{<vlc id="foreach" param1="cat" param2="program" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id" />',
+    <vlc id="end" /><vlc id="end" />},
+    'title':{<vlc id="foreach" param1="cat" param2="title" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id" />',
+    <vlc id="end" /><vlc id="end" />},
+    'audio-es':{<vlc id="foreach" param1="cat" param2="audio-es" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id" />',
+    <vlc id="end" /><vlc id="end" />},
+    'video-es':{<vlc id="foreach" param1="cat" param2="video-es" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id" />',
+    <vlc id="end" /><vlc id="end" />},
+    'spu-es':{<vlc id="foreach" param1="cat" param2="spu-es" /><vlc id="if" param1="cat.selected 1 =" />
+	  "name":'<vlc id="value" param1="cat.name" />',
+	  "id":'<vlc id="value" param1="cat.id" />',
+	  "value":'<vlc id="value" param1="cat.id" />',
+    <vlc id="end" /><vlc id="end" />}
+  }
+});

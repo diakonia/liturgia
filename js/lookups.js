@@ -104,8 +104,12 @@ var VideoLookup = function()
 var DVDClipLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
-       
-      });
+      $$('.vlc-live').addClass('hidden');
+      oVLCRequest.send('vlctest=true');
+      
+      $$('.vlc-start').addEvent('click', function(){oVLCRequest.send('pos=start');});
+      $$('.vlc-end').addEvent('click', function(){oVLCRequest.send('pos=end');});
+    });
   
   Sexy.form($('dvdcliplookup').get('html'), {
       onComplete:function(returnvalue) {
