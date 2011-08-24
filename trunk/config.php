@@ -32,7 +32,7 @@
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvd://D:\@<dvdtitlenumber>></location>
+			<location>dvd://D:\@<<dvdtitlenumber>></location>
 			<duration>6833000</duration>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
 				<vlc:id>1</vlc:id>
