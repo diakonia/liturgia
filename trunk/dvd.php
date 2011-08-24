@@ -55,7 +55,7 @@
     
     $sFullFilePath = $oFilePath->getFullFile();
     file_put_contents($sFullFilePath, $sCMD);
-    //$oFilePath->changeGroup();
+    $oFilePath->changeGroup();
     
     if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
     {
@@ -89,7 +89,9 @@
         'dvdclipfile'  => $oFilePath->getDataFolderFile(), 
         'dvdcliptitle' => $aData['dvdtitle'],
         'dvdclipdesc'  => $aData['dvdclipdesc'],
-        'dvdclipinstructions' => $sInstructions
+        'dvdclipinstructions' => $sInstructions,
+        'file'         => $oFilePath->getName(),
+        'type'         => $oFilePath->getType(),
       );
     }
     

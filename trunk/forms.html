@@ -96,26 +96,34 @@
     <tr>
       <th>Instructions</th>
       <td colspan="4">
-         Use VLC to find title and chapter numbers.
+         Use VLC to find title and chapter numbers. When finished the file will be downloaded for you to test.
       </td>
     </tr>
+    <tr class="vlc-live">
+      <th>Assistant</th>
+      <td colspan="4">
+         <input type="button" class="vlc-start" value="Get Start Position from VLC" /> 
+         
+      </td>
+    </tr>
+    
     <tr>
       <th>DVD Title</th>
       <td colspan="4">
-        <input name="dvdtitle" size="35" />
+        <input name="dvdtitle" class="dvdtitle" size="35" />
       </td>
     </tr>
     <tr>
       <th>Description of the clip</th>
       <td colspan="4">
-        <input name="dvdclipdesc" size="35" />
+        <input name="dvdclipdesc" class="dvdclipdesc" size="35" />
       </td>
     </tr>
     
     <tr>
       <th>Title number</th>
       <td colspan="4">
-        <select name="dvdtitlenumber">
+        <select name="dvdtitlenumber" class="dvdtitlenumber">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -166,7 +174,7 @@
     <tr>
       <th>Chapter number</th>
       <td colspan="4">
-        <select name="dvdchapternumber">
+        <select name="dvdchapternumber" class="dvdchapternumber">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -215,7 +223,7 @@
     <tr>
       <th>Chapters to Play</th>
       <td colspan="4">
-        <select name="dvdchaptercount">
+        <select name="dvdchaptercount" class="dvdchaptercount">
           <option value="0">0 (To Choose by Time)</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -274,7 +282,7 @@
       <th>Start Time</th>
       <td colspan="4">
         H:
-        <select name="dvdstarthours">
+        <select name="dvdstarthours" class="dvdstarthours">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -286,7 +294,7 @@
         
         
         M:
-        <select name="dvdstartmin">
+        <select name="dvdstartmin" class="dvdstartmin">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -355,7 +363,7 @@
         
         
         S:
-        <select name="dvdstartsecs">
+        <select name="dvdstartsecs" class="dvdstartsecs">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -431,7 +439,7 @@
       <th>End Time</th>
       <td colspan="4">
         H:
-        <select name="dvdendhours">
+        <select name="dvdendhours" class="dvdendhours">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -443,7 +451,7 @@
         
         
         M:
-        <select name="dvdendmin">
+        <select name="dvdendmin" class="dvdendmin">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -512,7 +520,7 @@
         
         
         S:
-        <select name="dvdendsecs">
+        <select name="dvdendsecs" class="dvdendsecs">
           <option value="0">0</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -578,7 +586,7 @@
           <option value="58">58</option>
           <option value="59">59</option>
         </select>
-        
+        <input type="button" class="vlc-end vlc-live" value="Get from VLC" /> 
       </td>
     </tr>
     

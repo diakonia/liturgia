@@ -3,7 +3,10 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
+	
   <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
+  <!--<link rel="stylesheet" href="sexy/sexyalertbox.css" type="text/css" media="screen" />-->
+  
   <?php
   
   if(CONST_SVN_AUTO === 0 || (isset($_REQUEST['updated']) && $_REQUEST['updated']) )
@@ -14,3 +17,4 @@
   {
    require('update.php');
   }
+  

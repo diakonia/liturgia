@@ -220,11 +220,11 @@
     
     function changeGroup()
     {
-      if (CONST_FileGroup)
+      if (defined('CONST_FileGroup') && CONST_FileGroup)
       {
         @chgrp($this->getFullFile(), CONST_FileGroup);
-        @chmod(realpath($this->getFullFile()), 0775);
       }
+      @chmod(realpath($this->getFullFile()), 0775);
     }
     
     function svnUpdateType($sType, &$aMessages, &$aErrors)
