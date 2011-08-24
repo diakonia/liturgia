@@ -115,8 +115,8 @@
         <li><a href="http://code.google.com/p/moosong/" target="_blank">Project Website</a></li>
         <li><a href="http://code.google.com/p/moosong/wiki/Help" target="_blank">Help</a></li>
         <li><a href="http://code.google.com/p/moosong/issues/list" target="_blank">Report Bugs and Give Us Ideas</a></li>
-        
-      </ul>
+        <li><a href="http://code.google.com/p/moosong/downloads/detail?name=statusjs.xml" target="_blank">Get the VLC DVD integration files.</a></li>
+        </ul>
     </div>
     
     
