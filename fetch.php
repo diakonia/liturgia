@@ -26,7 +26,7 @@
   $sContent = @file_get_contents($sFullFilePath);
   if($sContent)
   {
-    header('Content-type: text/xml');
+    header('Content-type: '.$oFilePath->getMimeType());
     header('Content-Disposition: attachment; filename="'.$oFilePath->getBaseName().'"');
     echo $sContent;
     exit;
