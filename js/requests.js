@@ -355,7 +355,7 @@ var oSetFetchRequest = $empty;
           saveSet();
           
           var sURL = 'fetch.php?type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
-          var delayed = function(){window.location = sURL;}.delay(2000);
+          var delayed = function(){window.location = sURL;}.delay(5000);
           
         }
 			},

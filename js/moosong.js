@@ -376,8 +376,6 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "You Tube Video Fetch" request failed.');
 		}
 		});
-  
-  
 	
   var oDVDClipRequest = new Request.JSON({
       method:'get',
@@ -407,6 +405,11 @@ var oSetFetchRequest = $empty;
           
           $('notesSetSlide').set('value', sNotes);
           saveSetSlide();
+          saveSet();
+          
+          var sURL = 'fetch.php?type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+          var delayed = function(){window.location = sURL;}.delay(5000);
+          
         }
 			},
       onRequest: function(){
@@ -419,7 +422,8 @@ var oSetFetchRequest = $empty;
         Sexy.error( 'The "DVD Clip Video Fetch" request failed.');
 		}
 		});
-  
+	
+
 	
   var oVideoListFetchRequest = new Request.JSON({
     method:'get',
@@ -479,6 +483,81 @@ var oSetFetchRequest = $empty;
 		}
 	});
 
+	  
+	var oVLCRequest = new Request.JSONP({
+    method:'get',
+		noCache:true,
+		url: "http://localhost:8080/requests/statusjs.xml",
+		onSuccess: function(jsonObj) {
+		  if(jsonObj === null)
+      {
+        Sexy.error( 'The "VLC" request failed.');
+        return;
+      }
+      if(jsonObj.success === false)
+      {
+        Sexy.error( jsonObj.message);
+        return;
+      }
+    
+      var time = jsonObj.time;
+      
+      if(this.options.data == 'vlctest=true')
+      {
+        $$('.vlc-live').removeClass('hidden');
+      }
+      else if(this.options.data != 'pos=end')
+      {
+        var dvdstartsecs = time % 60;
+        $$('.dvdstartsecs').set('value', dvdstartsecs);
+        
+        var dvdstartmin = ((time - dvdstartsecs) / 60) % 60;
+        $$('.dvdstartmin').set('value', dvdstartmin);
+        
+        var dvdstarthours = ((time - (dvdstartsecs + (dvdstartmin * 60))) / 60) / 60;
+        $$('.dvdstarthours').set('value', dvdstarthours);
+        
+        var dvdchapternumber = jsonObj.input.chapter.value;
+        $$('.dvdchapternumber').set('value', dvdchapternumber);
+        
+        var dvdtitlenumber = jsonObj.input.title.value;
+        $$('.dvdtitlenumber').set('value', dvdtitlenumber);
+        
+        var dvdtitle = jsonObj.information['meta-information'].title;
+        $$('.dvdtitle').set('value', dvdtitle);
+      }
+      else
+      {
+        var dvdendsecs = time % 60;
+        $$('.dvdendsecs').set('value', dvdendsecs);
+        
+        var dvdendmin = ((time - dvdendsecs) / 60) % 60;
+        $$('.dvdendmin').set('value', dvdendmin);
+        
+        var dvdendhours = ((time - (dvdendsecs + (dvdendmin * 60))) / 60) / 60;
+        $$('.dvdendhours').set('value', dvdendhours);
+      }
+    },
+		onRequest: function(){
+		  if(this.options.data != 'vlctest=true')
+		  {
+		    showThinking(true);
+		  }
+    },
+    onComplete: function(){
+      if(this.options.data != 'vlctest=true')
+		  {
+		    showThinking(false);
+		  }
+    },
+		onFailure: function(){
+		  if(this.options.data != 'vlctest=true')
+		  {
+		    Sexy.error( 'The "VLC" request failed.');
+		    //console.log( 'The "VLC" request failed.');
+		  }
+		}
+	});
 
 var noticesLookup = function()
 {
@@ -585,8 +664,12 @@ var VideoLookup = function()
 var DVDClipLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
-       
-      });
+      $$('.vlc-live').addClass('hidden');
+      oVLCRequest.send('vlctest=true');
+      
+      $$('.vlc-start').addEvent('click', function(){oVLCRequest.send('pos=start');});
+      $$('.vlc-end').addEvent('click', function(){oVLCRequest.send('pos=end');});
+    });
   
   Sexy.form($('dvdcliplookup').get('html'), {
       onComplete:function(returnvalue) {
@@ -1441,6 +1524,188 @@ Element.implement({
 	  return form;
   }
 });
+
+var typeOf=function(i)
+{
+  if(i==null)
+  {
+    return "null";
+  }
+  /*if(i.$family)
+  {
+    return i.$family();
+  }*/
+  if(i.nodeName)
+  {
+    if(i.nodeType==1)
+    {
+      return"element";
+    }
+    if(i.nodeType==3)
+    {
+      return(/\S/).test(i.nodeValue)?"textnode":"whitespace";
+    }
+  }
+  else
+  {
+    if(typeof i.length=="number")
+    {
+      if(i.callee)
+      {
+        return "arguments";
+      }
+      /*if("item" in i)
+      {
+        return "collection";
+      }*/
+    }
+  }
+  return typeof i;
+};
+
+/*
+---
+
+script: Request.JSONP.js
+
+name: Request.JSONP
+
+description: Defines Request.JSONP, a class for cross domain javascript via script injection.
+
+license: MIT-style license
+
+authors:
+  - Aaron Newton
+  - Guillermo Rauch
+  - Arian Stolwijk
+
+requires:
+  - Core/Element
+  - Core/Request
+  - MooTools.More
+
+provides: [Request.JSONP]
+
+...
+*/
+
+Request.JSONP = new Class({
+
+	Implements: [Chain, Events, Options],
+
+	options: {/*
+		onRequest: function(src, scriptElement){},
+		onComplete: function(data){},
+		onSuccess: function(data){},
+		onCancel: function(){},
+		onTimeout: function(){},
+		onError: function(){}, */
+		onRequest: function(src){
+			if (this.options.log && window.console && console.log){
+				console.log('JSONP retrieving script with url:' + src);
+			}
+		},
+		onError: function(src){
+			if (this.options.log && window.console && console.warn){
+				console.warn('JSONP '+ src +' will fail in Internet Explorer, which enforces a 2083 bytes length limit on URIs');
+			}
+		},
+		url: '',
+		callbackKey: 'callback',
+		injectScript: document.head,
+		data: '',
+		link: 'ignore',
+		timeout: 0,
+		log: false
+	},
+
+	initialize: function(options){
+		this.setOptions(options);
+	},
+
+	send: function(options){
+		if (!Request.prototype.check.call(this, options)) return this;
+		this.running = true;
+
+		var type = typeOf(options);
+		if (type == 'string' || type == 'element') options = {data: options};
+		options = $extend(this.options, options || {});
+		
+		var data = options.data;
+		switch (typeOf(data)){
+			case 'element': data = document.id(data).toQueryString(); break;
+			case 'object': case 'hash': data = Object.toQueryString(data);
+		}
+
+		var index = this.index = Request.JSONP.counter++;
+
+		var src = options.url +
+			(options.url.test('\\?') ? '&' :'?') +
+			(options.callbackKey) +
+			'=Request.JSONP.request_map.request_'+ index +
+			(data ? '&' + data : '');
+
+		if (src.length > 2083) this.fireEvent('error', src);
+
+		Request.JSONP.request_map['request_' + index] = function(){
+			this.success(arguments, index);
+		}.bind(this);
+
+		var script = this.getScript(src).inject(options.injectScript);
+		this.fireEvent('request', [src, script]);
+
+		if (options.timeout) this.timeout.delay(options.timeout, this);
+
+		return this;
+	},
+
+	getScript: function(src){
+		if (!this.script) this.script = new Element('script', {
+			type: 'text/javascript',
+			async: true,
+			src: src
+		});
+		return this.script;
+	},
+
+	success: function(args, index){
+		if (!this.running) return;
+		this.clear()
+			.fireEvent('complete', args).fireEvent('success', args)
+			.callChain();
+	},
+
+	cancel: function(){
+		if (this.running) this.clear().fireEvent('cancel');
+		return this;
+	},
+
+	isRunning: function(){
+		return !!this.running;
+	},
+
+	clear: function(){
+		this.running = false;
+		if (this.script){
+			this.script.destroy();
+			this.script = null;
+		}
+		return this;
+	},
+
+	timeout: function(){
+		if (this.running){
+			this.running = false;
+			this.fireEvent('timeout', [this.script.get('src'), this.script]).fireEvent('failure').cancel();
+		}
+		return this;
+	}
+
+});
+
+Request.JSONP.counter = 0;
+Request.JSONP.request_map = {};
+
 
   
 
