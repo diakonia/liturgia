@@ -32,7 +32,7 @@
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvd://D:\@<<dvdtitlenumber>></location>
+			<location>dvdsimple://D:\@<<dvdtitlenumber>></location>
 			<duration>6833000</duration>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
 				<vlc:id>1</vlc:id>
@@ -52,13 +52,13 @@
   @define('CONST_DVD_CLIP_BY_TIME_INSTRUCTIONS_1', 'DVD:"<<dvdtitle>>" Title:<<dvdtitlenumber>> Start:<<dvdstarthours>>:<<dvdstartmin>>:<<dvdstartsecs>> End:<<dvdendhours>>:<<dvdendmin>>:<<dvdendsecs>>');
   
   
-  //@define('CONST_DVD_CLIP_BY_TIME_CMD_2', CONST_VLC_BIN.' "dvd://D:@<<dvdtitlenumber>>:<<start-chapter>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
+  //@define('CONST_DVD_CLIP_BY_TIME_CMD_2', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
   @define('CONST_DVD_CLIP_BY_TIME_CMD_2', '<?xml version="1.0" encoding="UTF-8"?>
 <playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvd://D:\@<<dvdtitlenumber>>:<<start-chapter>></location>
+			<location>dvdsimple://D:\@<<dvdtitlenumber>>:<<start-chapter>></location>
 			<duration>6833000</duration>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
 				<vlc:id>1</vlc:id>
@@ -85,7 +85,7 @@
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvd://D:\@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>></location>
+			<location>dvdsimple://D:\@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>></location>
 			<duration>6833000</duration>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
 				<vlc:id>1</vlc:id>
