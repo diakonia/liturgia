@@ -1,0 +1,78 @@
+<html>
+
+	<head>
+	
+		<style type="text/css">
+		body{
+		  font-size:90%;
+		  width:200mm;
+		  padding:0;
+		}
+		
+			#multicolumnElement {
+			  column-count:3;
+				column-gap:3em;
+				column-fill:auto;
+				-moz-column-count:3;
+				-moz-column-gap:3em;
+				-moz-column-fill:auto;
+				height:260mm;
+			}
+			
+				
+		dead-h2{
+		  -moz-break-after:avoid-column;
+		  break-after:avoid-column;
+		  break-after:avoid;
+		}
+		
+		.songdetails{
+		  margin-top:0px;
+		  font-style:italic;
+		  font-size:80%;
+		}
+		dead-{
+		  -moz-break-before:avoid-column;
+		  -moz-break-after:avoid-column;
+		  break-before:avoid-column;
+		  break-after:avoid-column;
+		  break-before:avoid;
+		  break-after:avoid;
+		}
+		
+			
+		p{
+		  -moz-break-inside:avoid-column;
+		  break-inside:avoid-column;
+		  break-inside:avoid;
+		}
+	
+		h2{padding-bottom:0px;
+		margin-bottom:0px;
+		}	
+			h1 {
+				font-family: 'Komika Axis';
+				text-rendering: optimizeLegibility;
+				margin:20px auto;
+				font-size:10.5em;
+				color: #2a719e;
+				text-align:center;
+			}
+			
+		</style>
+	
+	</head>
+	
+	<body>
+	
+	<!--<h1>{{date}}</h1>-->
+	
+	<div id="multicolumnElement">
+
+	{{body}}
+		
+	</div>
+	
+	</body>
+	
+</html>
