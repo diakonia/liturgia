@@ -14,7 +14,11 @@
       <input id="btnSetNew" type="submit" value="New" />
       <input id="btnSetSave" type="submit" value="Save" />
       <input id="btnSetDownload" type="submit" value="Download" />
-      <input id="btnSetPrint" type="submit" value="Print" />
+      <br />
+      Print:
+      <input id="btnSetPrint" type="submit" value="Set List" />
+      
+      <input id="btnSongsPrint" type="submit" value="Song Sheet" />
       <br />
       Insert:
       <input id="btnNewSong" type="submit" value="Song" />
