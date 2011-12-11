@@ -257,6 +257,18 @@ $('btnSetPrint').addEvent('click', function(e) {
   window.location = sURL;
 });
 
+
+$('btnSongsPrint').addEvent('click', function(e) {
+  e.stop();
+  //Get the value of the text input.
+  var sFile = $('selectSetChooser').get('value');
+  //The code here will execute if the input is empty.
+  var sURL = 'printhtml.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+  console.log("sURL =", sURL);
+  window.open(sURL);
+  return false;
+});
+
 $('textChooseSong').addEvent('change', function(e) {
   e.stop();
   //Get the value of the text input.

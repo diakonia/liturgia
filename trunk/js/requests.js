@@ -471,6 +471,10 @@ var oSetFetchRequest = $empty;
         $$('.dvdtitlenumber').set('value', dvdtitlenumber);
         
         var dvdtitle = jsonObj.information['meta-information'].title;
+        
+        //var patt=new RegExp("dvd://[D-Z]");
+        //dvdtitle = dvdtitle.replace(patt, "");
+        
         $$('.dvdtitle').set('value', dvdtitle);
       }
       else

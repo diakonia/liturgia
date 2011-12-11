@@ -524,6 +524,10 @@ var oSetFetchRequest = $empty;
         $$('.dvdtitlenumber').set('value', dvdtitlenumber);
         
         var dvdtitle = jsonObj.information['meta-information'].title;
+        
+        //var patt=new RegExp("dvd://[D-Z]");
+        //dvdtitle = dvdtitle.replace(patt, "");
+        
         $$('.dvdtitle').set('value', dvdtitle);
       }
       else
@@ -1257,6 +1261,18 @@ $('btnSetPrint').addEvent('click', function(e) {
   var sURL = 'print.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
   //Sexy.iframe(sURL);
   window.location = sURL;
+});
+
+
+$('btnSongsPrint').addEvent('click', function(e) {
+  e.stop();
+  //Get the value of the text input.
+  var sFile = $('selectSetChooser').get('value');
+  //The code here will execute if the input is empty.
+  var sURL = 'printhtml.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+  console.log("sURL =", sURL);
+  window.open(sURL);
+  return false;
 });
 
 $('textChooseSong').addEvent('change', function(e) {
