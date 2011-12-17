@@ -29,6 +29,9 @@
         $sName = $oNode->attributes->getNamedItem('name')->nodeValue;
         //echo "\n<br><pre>\nsName  =" .$sName ."</pre>";
       
+        $sPresentation = $oNode->attributes->getNamedItem('presentation')->nodeValue;
+        
+        
         $oSongPath = new filepath(array(
             'type' => 'song',
             'name' => $sName,
@@ -59,7 +62,10 @@
         }
         $sBody .= "</p>\n";
         
-        $sPresentation = $songDoc->getElementsByTagName('presentation')->item(0)->textContent;
+        if(!$sPresentation)
+        {
+          $sPresentation = $songDoc->getElementsByTagName('presentation')->item(0)->textContent;
+        }
         
         $sLyrics = trim($songDoc->getElementsByTagName('lyrics')->item(0)->textContent);
         //echo "\n<br><pre>\nsLyrics  =" .$sLyrics ."</pre>";
