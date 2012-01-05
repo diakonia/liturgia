@@ -44,6 +44,7 @@
                       <fo:table-cell border-style="solid">
                           <fo:block>
                             <xsl:value-of select="notes" />
+                            <!--<xsl:value-of select="php:function('htmlentities', string(./notes))" />-->
                           </fo:block>
                       </fo:table-cell>
                     </fo:table-row>

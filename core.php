@@ -98,6 +98,10 @@
       foreach (array_keys(self::$aServerDirectoryNames) as $sName)
       {
        self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
+       if(!is_null($sChurch))
+       {
+        self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', $sChurch, self::$aServerDirectoryNames[$sName]);
+       }  
       }
     }
     
@@ -176,7 +180,7 @@
       $sDir = $this->getFolderFromType($this->getType());
       if($sDir)
       {
-        $sDir = $sDir.'\\';
+        $sDir = $sDir.CONST_ExternaFolderSeperator;
       }
       return $sDir;
     }
@@ -406,11 +410,19 @@
       return $this->getFullPath().$this->getBaseName();
     }
     
-    function getDataFolderFile()
+    function getClientExternalRelativeFile()
     {
       $sDir = $this->getOpenSongDataFolder();
       return $sDir.$this->getBaseName();
     }
+    
+    function getClientExternalAbsFile()
+    {
+      $sDir = $this->getOpenSongDataFolder();
+      return CONST_Client_OpenSongData.$sDir.$this->getBaseName();
+    }
+    
+    
     
     function changeGroup()
     {
@@ -643,3 +655,4 @@ function addMonths( $base_time = null, $months = 1 )
     }
   }
   
+require('htgroups.php');

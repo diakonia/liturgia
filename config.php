@@ -4,6 +4,10 @@
   
   @define('CONST_MooSongJS', 'js/moosong.php');
   @define('CONST_OpenSongData', '../OpenSong/');
+  @define('CONST_Client_OpenSongData', '/usr/share/opensong/OpenSong/');
+  @define('CONST_ExternaFolderSeperator', '/');
+  @define('CONST_InternaFolderSeperator', '/');
+  @define('CONST_ExternaClient_FolderSeperator', '\\');
   @define('CONST_SundayCutOff', 11);
   @define('CONST_FOP_PATH',     'fop');
   @define('CONST_TEMP_PATH',    '/tmp');
