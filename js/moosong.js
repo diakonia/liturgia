@@ -360,7 +360,7 @@ var oSetFetchRequest = $empty;
           var sText = $('bodySetSlide').get('value');
           $('bodySetSlide').set('value', "");
           var sNotes = $('notesSetSlide').get('value');
-          sNotes = sNotes.replace('[[youtubefile]]', jsonObj.relativefile);
+          sNotes = sNotes.replace('[[youtubefile]]', jsonObj.client_os_file);
           sNotes = sNotes.replace('[[youtubetitle]]', jsonObj.title);
           $('notesSetSlide').set('value', sNotes);
           saveSetSlide();
@@ -392,12 +392,12 @@ var oSetFetchRequest = $empty;
           return;
         }
         
-        if(jsonObj.dvdclipfile)
+        if(jsonObj.client_os_file)
         {
           var sText = $('bodySetSlide').get('value');
           $('bodySetSlide').set('value', "");
           var sNotes = $('notesSetSlide').get('value');
-          sNotes = sNotes.replace('[[dvdclipfile]]', jsonObj.dvdclipfile);
+          sNotes = sNotes.replace('[[client_os_file]]', jsonObj.client_os_file);
           sNotes = sNotes.replace('[[dvdcliptitle]]', jsonObj.dvdcliptitle);
           sNotes = sNotes.replace('[[dvdclipdesc]]', jsonObj.dvdclipdesc);
           sNotes = sNotes.replace('[[dvdclipinstructions]]', jsonObj.dvdclipinstructions);
@@ -620,6 +620,44 @@ var readingLookup = function()
 
 };
 
+
+var getRecordFromList = function(aList, sField, xValue)
+{
+  //console.log('getRecordFromList  aList=',aList,'  sField=',sField,'  xValue=',xValue,')');
+
+  for(var j=0; j < aList.length; j++)
+  {
+    if(aList[j][sField] == xValue)
+    {
+      return new Hash(aList[j]);
+    }
+  }
+  return false;
+};
+  
+var getNodeChanges = function(sLiID, oFile)
+{
+           
+           var li = $($('slidegroups').retrieve(sLiID));
+           var xNode = li.retrieve('xmlnode');
+           var attributes = xNode.attributes;
+           var outputs ={};
+           for(var i=0; i<attributes.length; i++)
+           {
+             sCurAttribute = attributes[i].nodeValue;
+             oFile.each(function(item, index){
+               sCurAttribute = sCurAttribute.replace('[['+index+']]', item);
+             });             
+             xNode.set(attributes[i].name, sCurAttribute);
+             //sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
+             outputs[attributes[i].name] = sCurAttribute;
+           }
+           
+           //console.log("outputs =", outputs);
+           return outputs;
+           };
+
+
 var VideoLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
@@ -635,7 +673,7 @@ var VideoLookup = function()
        var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
        eSelect.adopt(myEl);
        aFileData.video.each(function(item, index){
-         var myEl = new Element('option', {'value':item.relativefile, 'text':item.name});
+         var myEl = new Element('option', {'value':item.file, 'text':item.name});
          eSelect.adopt(myEl);
        });
       });
@@ -646,16 +684,19 @@ var VideoLookup = function()
          {
            var sText = $('bodySetSlide').get('value');
            var sNotes = $('notesSetSlide').get('value');
-           returnvalue = new Hash(returnvalue);
+           
+           var oFile = getRecordFromList(aFileData.video, 'file', returnvalue.existingfile);
+           
+           oFile.each(function(item, index){
+               sNotes = sNotes.replace('[['+index+']]', item);
+               sText = sText.replace('[['+index+']]', item);
+           });     
            
            $('bodySetSlide').set('value', '');
-           
-           var sName = aFileData.video[returnvalue.existingfile];
-           sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
-           sNotes = sNotes.replace('[[name]]', sName);
-           
            $('notesSetSlide').set('value', sNotes);
-           saveSetSlide();
+           
+           var outputs = getNodeChanges('sCurrLiID', oFile);
+           saveSetSlide(outputs);
          }
         
       },
@@ -687,6 +728,7 @@ var DVDClipLookup = function()
 };
 
 
+
 var PresentationLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
@@ -702,7 +744,7 @@ var PresentationLookup = function()
        var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
        eSelect.adopt(myEl);
        aFileData.presentation.each(function(item, index){
-         var myEl = new Element('option', {'value':item.relativefile, 'text':item.name});
+         var myEl = new Element('option', {'value':item.file, 'text':item.name});
          eSelect.adopt(myEl);
        });
       });
@@ -713,16 +755,19 @@ var PresentationLookup = function()
          {
            var sText = $('bodySetSlide').get('value');
            var sNotes = $('notesSetSlide').get('value');
-           returnvalue = new Hash(returnvalue);
+           
+           var oFile = getRecordFromList(aFileData.presentation, 'file', returnvalue.existingfile);
+           
+           oFile.each(function(item, index){
+               sNotes = sNotes.replace('[['+index+']]', item);
+               sText = sText.replace('[['+index+']]', item);
+           });     
            
            $('bodySetSlide').set('value', '');
-           
-           var sName = aFileData.video[returnvalue.existingfile];
-           sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
-           sNotes = sNotes.replace('[[name]]', sName);
-           
            $('notesSetSlide').set('value', sNotes);
-           saveSetSlide();
+           
+           var outputs = getNodeChanges('sCurrLiID', oFile);
+           saveSetSlide(outputs);
          }
         
       },
@@ -730,7 +775,6 @@ var PresentationLookup = function()
       sFileType:'presentation'
     });
 };
-
 
 var YouTubeLookup = function()
 {
@@ -981,15 +1025,26 @@ var saveSet = function()
   };
   
  
-  var saveSetSlide = function()
+  var saveSetSlide = function(options)
   {
+    
     var aText = $('bodySetSlide').get('value').split('\n---\n');
     //var li = $(sCurrLiID);
     var li = $($('slidegroups').retrieve('sCurrLiID'));
     var xNode = li.retrieve('xmlnode');
+    
+    if(typeof options !== 'undefined')
+    {
+      var hOptions = new Hash(options);
+      hOptions.each(function(item, index){
+        xNode.setAttribute(index, (item));
+      }); 
+    }
+    
     xNode.getElement('notes').set('text', $('notesSetSlide').get('value'));
     xNode.getElement('title').set('text', $('titleSetSlide').get('value'));
     xNode.setAttribute('name', $('nameSetSlide').get('value'));
+    //console.log("xNode =", xNode);
     var eSlides = xNode.getElement('slides');
 		eSlides.empty();
     
@@ -1139,7 +1194,7 @@ var editSetItem = function(eLi)
     {
       editSetSong(eLi);
     }
-    if(sType == 'custom')
+    if(sType == 'custom' || sType == 'external')
     {
       editSetSlide(eLi);
     }
@@ -1270,7 +1325,7 @@ $('btnSongsPrint').addEvent('click', function(e) {
   var sFile = $('selectSetChooser').get('value');
   //The code here will execute if the input is empty.
   var sURL = 'printhtml.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
-  console.log("sURL =", sURL);
+  //console.log("sURL =", sURL);
   window.open(sURL);
   return false;
 });
@@ -1474,7 +1529,7 @@ swfUploadFile = new Swiff.Uploader({
     newSG.setAttribute('title', sName);
     newSG.getElement('body').empty();
     var sNotes =  newSG.getElement('notes').get('text');
-    sNotes = sNotes.replace('[[file]]', oResponse.relativefile);
+    sNotes = sNotes.replace('[[file]]', oResponse.client_os_file);
     
     newSG.getElement('notes').set('text', sNotes);
     

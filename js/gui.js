@@ -133,7 +133,7 @@ var editSetItem = function(eLi)
     {
       editSetSong(eLi);
     }
-    if(sType == 'custom')
+    if(sType == 'custom' || sType == 'external')
     {
       editSetSlide(eLi);
     }
@@ -264,7 +264,7 @@ $('btnSongsPrint').addEvent('click', function(e) {
   var sFile = $('selectSetChooser').get('value');
   //The code here will execute if the input is empty.
   var sURL = 'printhtml.php?type=set&file='+sFile; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
-  console.log("sURL =", sURL);
+  //console.log("sURL =", sURL);
   window.open(sURL);
   return false;
 });
