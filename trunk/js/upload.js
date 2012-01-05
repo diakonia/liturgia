@@ -51,7 +51,7 @@ swfUploadFile = new Swiff.Uploader({
     newSG.setAttribute('title', sName);
     newSG.getElement('body').empty();
     var sNotes =  newSG.getElement('notes').get('text');
-    sNotes = sNotes.replace('[[file]]', oResponse.relativefile);
+    sNotes = sNotes.replace('[[file]]', oResponse.client_os_file);
     
     newSG.getElement('notes').set('text', sNotes);
     

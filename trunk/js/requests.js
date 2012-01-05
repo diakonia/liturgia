@@ -307,7 +307,7 @@ var oSetFetchRequest = $empty;
           var sText = $('bodySetSlide').get('value');
           $('bodySetSlide').set('value', "");
           var sNotes = $('notesSetSlide').get('value');
-          sNotes = sNotes.replace('[[youtubefile]]', jsonObj.relativefile);
+          sNotes = sNotes.replace('[[youtubefile]]', jsonObj.client_os_file);
           sNotes = sNotes.replace('[[youtubetitle]]', jsonObj.title);
           $('notesSetSlide').set('value', sNotes);
           saveSetSlide();
@@ -339,12 +339,12 @@ var oSetFetchRequest = $empty;
           return;
         }
         
-        if(jsonObj.dvdclipfile)
+        if(jsonObj.client_os_file)
         {
           var sText = $('bodySetSlide').get('value');
           $('bodySetSlide').set('value', "");
           var sNotes = $('notesSetSlide').get('value');
-          sNotes = sNotes.replace('[[dvdclipfile]]', jsonObj.dvdclipfile);
+          sNotes = sNotes.replace('[[client_os_file]]', jsonObj.client_os_file);
           sNotes = sNotes.replace('[[dvdcliptitle]]', jsonObj.dvdcliptitle);
           sNotes = sNotes.replace('[[dvdclipdesc]]', jsonObj.dvdclipdesc);
           sNotes = sNotes.replace('[[dvdclipinstructions]]', jsonObj.dvdclipinstructions);

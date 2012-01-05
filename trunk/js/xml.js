@@ -143,15 +143,26 @@ var saveSet = function()
   };
   
  
-  var saveSetSlide = function()
+  var saveSetSlide = function(options)
   {
+    
     var aText = $('bodySetSlide').get('value').split('\n---\n');
     //var li = $(sCurrLiID);
     var li = $($('slidegroups').retrieve('sCurrLiID'));
     var xNode = li.retrieve('xmlnode');
+    
+    if(typeof options !== 'undefined')
+    {
+      var hOptions = new Hash(options);
+      hOptions.each(function(item, index){
+        xNode.setAttribute(index, (item));
+      }); 
+    }
+    
     xNode.getElement('notes').set('text', $('notesSetSlide').get('value'));
     xNode.getElement('title').set('text', $('titleSetSlide').get('value'));
     xNode.setAttribute('name', $('nameSetSlide').get('value'));
+    //console.log("xNode =", xNode);
     var eSlides = xNode.getElement('slides');
 		eSlides.empty();
     

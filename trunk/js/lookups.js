@@ -56,6 +56,44 @@ var readingLookup = function()
 
 };
 
+
+var getRecordFromList = function(aList, sField, xValue)
+{
+  //console.log('getRecordFromList  aList=',aList,'  sField=',sField,'  xValue=',xValue,')');
+
+  for(var j=0; j < aList.length; j++)
+  {
+    if(aList[j][sField] == xValue)
+    {
+      return new Hash(aList[j]);
+    }
+  }
+  return false;
+};
+  
+var getNodeChanges = function(sLiID, oFile)
+{
+           
+           var li = $($('slidegroups').retrieve(sLiID));
+           var xNode = li.retrieve('xmlnode');
+           var attributes = xNode.attributes;
+           var outputs ={};
+           for(var i=0; i<attributes.length; i++)
+           {
+             sCurAttribute = attributes[i].nodeValue;
+             oFile.each(function(item, index){
+               sCurAttribute = sCurAttribute.replace('[['+index+']]', item);
+             });             
+             xNode.set(attributes[i].name, sCurAttribute);
+             //sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
+             outputs[attributes[i].name] = sCurAttribute;
+           }
+           
+           //console.log("outputs =", outputs);
+           return outputs;
+           };
+
+
 var VideoLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
@@ -71,7 +109,7 @@ var VideoLookup = function()
        var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
        eSelect.adopt(myEl);
        aFileData.video.each(function(item, index){
-         var myEl = new Element('option', {'value':item.relativefile, 'text':item.name});
+         var myEl = new Element('option', {'value':item.file, 'text':item.name});
          eSelect.adopt(myEl);
        });
       });
@@ -82,16 +120,19 @@ var VideoLookup = function()
          {
            var sText = $('bodySetSlide').get('value');
            var sNotes = $('notesSetSlide').get('value');
-           returnvalue = new Hash(returnvalue);
+           
+           var oFile = getRecordFromList(aFileData.video, 'file', returnvalue.existingfile);
+           
+           oFile.each(function(item, index){
+               sNotes = sNotes.replace('[['+index+']]', item);
+               sText = sText.replace('[['+index+']]', item);
+           });     
            
            $('bodySetSlide').set('value', '');
-           
-           var sName = aFileData.video[returnvalue.existingfile];
-           sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
-           sNotes = sNotes.replace('[[name]]', sName);
-           
            $('notesSetSlide').set('value', sNotes);
-           saveSetSlide();
+           
+           var outputs = getNodeChanges('sCurrLiID', oFile);
+           saveSetSlide(outputs);
          }
         
       },
@@ -123,6 +164,7 @@ var DVDClipLookup = function()
 };
 
 
+
 var PresentationLookup = function()
 {
   Sexy.addEvent('onShowComplete', function(e) {
@@ -138,7 +180,7 @@ var PresentationLookup = function()
        var myEl = new Element('option', {'value':'null', 'text':'Choose One'});
        eSelect.adopt(myEl);
        aFileData.presentation.each(function(item, index){
-         var myEl = new Element('option', {'value':item.relativefile, 'text':item.name});
+         var myEl = new Element('option', {'value':item.file, 'text':item.name});
          eSelect.adopt(myEl);
        });
       });
@@ -149,16 +191,19 @@ var PresentationLookup = function()
          {
            var sText = $('bodySetSlide').get('value');
            var sNotes = $('notesSetSlide').get('value');
-           returnvalue = new Hash(returnvalue);
+           
+           var oFile = getRecordFromList(aFileData.presentation, 'file', returnvalue.existingfile);
+           
+           oFile.each(function(item, index){
+               sNotes = sNotes.replace('[['+index+']]', item);
+               sText = sText.replace('[['+index+']]', item);
+           });     
            
            $('bodySetSlide').set('value', '');
-           
-           var sName = aFileData.video[returnvalue.existingfile];
-           sNotes = sNotes.replace('[[file]]', returnvalue.existingfile);
-           sNotes = sNotes.replace('[[name]]', sName);
-           
            $('notesSetSlide').set('value', sNotes);
-           saveSetSlide();
+           
+           var outputs = getNodeChanges('sCurrLiID', oFile);
+           saveSetSlide(outputs);
          }
         
       },
@@ -166,7 +211,6 @@ var PresentationLookup = function()
       sFileType:'presentation'
     });
 };
-
 
 var YouTubeLookup = function()
 {
