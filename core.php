@@ -27,7 +27,7 @@
   
   foreach($aDefaultFiles as $sDefaultFile)
   {
-   if(!file_exists(filepath::getServerFolderFromType('set').$sDefaultFile) || $_REQUEST['install'])
+   if(!file_exists(filepath::getServerFolderFromType('set').$sDefaultFile) || (isset($_REQUEST['install']) && $_REQUEST['install']))
     {
       $bCopied = copy('templates/Sets/'.$sDefaultFile, filepath::getServerFolderFromType('set').$sDefaultFile);
       if(!$bCopied)
