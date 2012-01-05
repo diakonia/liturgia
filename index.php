@@ -10,8 +10,7 @@
   <?php
   require('core.php');
 
-  $sChurch = null;
-  
+
   if(defined('GROUPS_FILE'))
   {
     $grp = new  htgroup(GROUPS_FILE);
@@ -55,6 +54,9 @@
     {
       die ('something missing');
     }
+    echo '<h1>'.$sChurch.'</h1>';
+    exit;
+
   }
   
 
