@@ -12,6 +12,14 @@
   $sPattern = '/'.$sQ.'/i';
   $sVisiblePattern = '/\/.*[^\~]$/';
   
+  $bExternal = false;
+  if(isset($_REQUEST['e']) && $_REQUEST['e'])
+  {
+    $bExternal = true;
+  }
+  
+  $sType = $oFilePath->getType();
+  
   $aResults = array();
   $d = new RecDir($sData = $oFilePath->getFullDataFolder(), false);
   while (false !== ($entry = $d->read())) {
@@ -35,19 +43,23 @@
           $oFilePath->setFullFile($entry);
           $sFile = $oFilePath->getFile();
           $sName = $oFilePath->getName();
-          $sRelativeFile = $oFilePath->getDataFolderFile();
           if($_REQUEST['chgrp'])
           {
             $oFilePath->changeGroup();
           }
-          $aResults[$sName] = array('name'=>$sName, 'file' => $sFile, 'relativefile' => $sRelativeFile);
+          $aResults[$sName] = array('name'=>$sName, 'file' => $sFile);
+          if(in_array($sType, array('presentation','video')))
+          {
+            $aResults[$sName]['client_os_file'] = $oFilePath->getClientExternalRelativeFile();
+            $aResults[$sName]['client_abs_file'] = $oFilePath->getClientExternalAbsFile();
+          }
         }
       }
     }
   }
   $d->close();
   
-  if (false)
+  if(false)
   {
     natcasesort($aResults);
   }
@@ -55,6 +67,8 @@
   {
     asort($aResults);
   }
+  
+  
   
   if($_REQUEST['type'] == 'set')
   {

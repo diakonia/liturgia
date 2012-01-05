@@ -124,7 +124,8 @@ if ($error) {
      'file'  => $oFilePath->getFile(),
      'name'  => $oFilePath->getName(),
      'path'  => $oFilePath->getPath(),
-     'relativefile' => $oFilePath->getDataFolderFile()
+     'client_os_file' => $oFilePath->getClientExternalRelativeFile(),
+     'client_abs_file' => $oFilePath->getClientExternalAbsFile()
     );
     
     $oFilePath->changeGroup();
