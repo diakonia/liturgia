@@ -104,9 +104,10 @@
       foreach (array_keys(self::$aServerDirectoryNames) as $sName)
       {
        self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
-       if(!is_null($sChurch))
+       if(CONST_CHOOSEN_CHURCH)
        {
-        self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', $sChurch, self::$aServerDirectoryNames[$sName]);
+echo CONST_CHOOSEN_CHURCH;
+        self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sName]);
        }  
       }
     }
@@ -168,10 +169,11 @@
        $sDir = self::$aServerDirectoryNames[$sType];
       }
       $sDir = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'],  $sDir);
-      if(!is_null($sChurch))
+      if(CONST_CHOOSEN_CHURCH)
       {
-        self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', $sChurch, self::$aServerDirectoryNames[$sName]);
+        $sDir = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sType]);
       } 
+      //self::$aServerDirectoryNames[$sType] = $sDir;
       return $sDir;
     }
     
