@@ -1,6 +1,8 @@
 <?php
   require_once('core.php');
 	
+  getChurch(false);
+  
   if(CONST_YouTube_DL == false)
   {
     apiSendError("Video download functions turned off");

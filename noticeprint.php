@@ -1,5 +1,8 @@
 <?php
   require_once('core.php');
+  
+  getChurch(false);
+  
   $aEvents = array();
   $iNow = time();
   

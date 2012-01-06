@@ -1,6 +1,9 @@
 <?php
 
   require_once('core.php');
+  
+  getChurch(false);
+  
   $oFilePath = new filepath($_REQUEST);
   //echo "\n<br><pre>\n_REQUEST =" .var_export($_REQUEST, TRUE)."</pre>";
   $sFile = $_REQUEST['file'];

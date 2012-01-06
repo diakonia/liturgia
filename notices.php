@@ -1,5 +1,8 @@
 <?php
   require_once('core.php');
+  
+  getChurch(false);
+  
   $aEvents = array();
   
   if(CONST_GOOGLE_EVENT_FEED)

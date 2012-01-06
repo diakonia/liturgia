@@ -50,8 +50,8 @@ var editSetSong = function(eLi)
   }
   var sName = xmlnode.getAttribute('name');
   var sFile = sPath+sName;
-  //oSongEditFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongEditFetchRequest.send({data:{file:sFile}});
+  //oSongEditFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'song', file:sFile}});
+  oSongEditFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
 };
 
 var editSetSlide = function(eLi)
@@ -235,7 +235,7 @@ $('selectSetChooser').addEvent('change', function(e) {
     if (!sFile || sFile == 'null') {
       $('slidegroups').empty(); 
     }
-    oSetFetchRequest.send({data:{file:sFile}});
+    oSetFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
 });
 
 $('btnSetDownload').addEvent('click', function(e) {
@@ -273,7 +273,7 @@ $('textChooseSong').addEvent('change', function(e) {
   e.stop();
   //Get the value of the text input.
   var val = this.get('value');
-  oSongListFetchRequest.send({data:{q:val}});
+  oSongListFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, q:val}});
 });
 
 $('btnChooseSong').addEvent('click', function(e) {
@@ -298,7 +298,7 @@ $('btnChooseSongSearch').addEvent('click', function(e) {
   e.stop();
   var val = $('textChooseSong').get('value');
   var sType = $('selectChooseSongSearchType').get('value');
-  oSongListFetchRequest.send({data:{q:val, s:sType}});
+  oSongListFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, q:val, s:sType}});
 });
 
 $('btnDeleteSetItem').addEvent('click', function(e) {
@@ -314,8 +314,8 @@ $('selectChooseSong').addEvent('change', function(e) {
   if (!sFile || sFile == 'null') {
     $('displayChooseSong').empty(); 
   }
-  //oSongPreviewFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongPreviewFetchRequest.send({data:{file:sFile}});
+  //oSongPreviewFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'song', file:sFile}});
+  oSongPreviewFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
   //$('selectSetChooser').empty();
 });
 

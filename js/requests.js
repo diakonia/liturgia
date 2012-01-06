@@ -3,7 +3,7 @@ var oSetFetchRequest = $empty;
 //REQUEST OBJECTS
   //Gets the set with the blank reading etc in.
   var oBlanksRequest = new Request({
-		url: "fetch.php?type=set&file=blanks",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set&file=blanks",
 		onSuccess: function(txt, xml){	
       eBlanksDoc = $(xml);
       var sName = '';
@@ -59,7 +59,7 @@ var oSetFetchRequest = $empty;
   
 	var oSetListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=set",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -94,7 +94,7 @@ var oSetFetchRequest = $empty;
   
   var oSetNewRequest = new Request.JSON({
     method:'get',
-		url: "new.php?type=set",
+		url: "new.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -126,7 +126,7 @@ var oSetFetchRequest = $empty;
         var myEl = new Element('option', {'value':jsonObj.newset.file, 'text':jsonObj.newset.name});
         $('selectSetChooser').adopt(myEl);
         $('selectSetChooser').set('value', jsonObj.newset.file);
-        oSetFetchRequest.send({data:{type:'set', file:jsonObj.newset.file}});
+        oSetFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'set', file:jsonObj.newset.file}});
       }
 		},
 		onRequest: function(){
@@ -142,7 +142,7 @@ var oSetFetchRequest = $empty;
 
 	oSetFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=set",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(txt, xml){	
       eSetDoc = $(xml);
 			var eSGs = $('slidegroups');
@@ -180,7 +180,7 @@ var oSetFetchRequest = $empty;
   
   var oSongListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=song",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -213,7 +213,7 @@ var oSetFetchRequest = $empty;
   
   var oSongEditFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=song",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
     onSuccess: function(txt, xml){
       showLyricsFromXML(xml);
       oPanelSliders.show(['editSetSong', 'displaySetSongInfo', 'displaySongLyrics']);
@@ -231,7 +231,7 @@ var oSetFetchRequest = $empty;
   
   var oSongPreviewFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=song",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
     onSuccess: function(txt, xml){	
       showLyricsFromXML(xml);
       oPanelSliders.show(['chooseSong','displaySetSongInfo','displaySongLyrics']);
@@ -250,7 +250,7 @@ var oSetFetchRequest = $empty;
 
   var oNoticesFetchRequest = new Request.JSON({
       method:'post',
-			url: "notices.php",
+			url: "notices.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -289,7 +289,7 @@ var oSetFetchRequest = $empty;
   
   var oYouTubeFetchRequest = new Request.JSON({
       method:'get',
-			url: "youtube.php",
+			url: "youtube.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -326,7 +326,7 @@ var oSetFetchRequest = $empty;
 	
   var oDVDClipRequest = new Request.JSON({
       method:'get',
-			url: "dvd.php",
+			url: "dvd.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -354,7 +354,7 @@ var oSetFetchRequest = $empty;
           saveSetSlide();
           saveSet();
           
-          var sURL = 'fetch.php?type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+          var sURL = 'fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
           var delayed = function(){window.location = sURL;}.delay(5000);
           
         }
@@ -374,7 +374,7 @@ var oSetFetchRequest = $empty;
 	
   var oVideoListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=video",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=video",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -404,7 +404,7 @@ var oSetFetchRequest = $empty;
   
     var oPresentationListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=presentation",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=presentation",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {

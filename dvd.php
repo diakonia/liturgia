@@ -1,6 +1,8 @@
 <?php
   require_once('core.php');
   
+  getChurch(false);
+  
   $aData = $_REQUEST;
   //echo "\n<br><pre>\naData  =" .var_export($aData , TRUE)."</pre>";
   

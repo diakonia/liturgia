@@ -133,6 +133,7 @@
    var CONST_SiteTitle = "<?php echo CONST_SiteTitle; ?>";
    var CONST_MaxFileUpload = "<?php echo CONST_MaxFileUpload; ?>";
    var CONST_Client_OpenSongData = "<?php echo CONST_Client_OpenSongData; ?>";
+   var CONST_CHOOSEN_CHURCH =  "<?php echo CONST_CHOOSEN_CHURCH; ?>";
   </script>
   <script type="text/javascript" src="js/mootools.js"></script>
   

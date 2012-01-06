@@ -20,6 +20,63 @@
   
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
   
+  function getChurch($bShowChurchChoice = false)
+  {
+    $sChurch = ''; 
+    if(defined('GROUPS_FILE'))
+    {
+      $grp = new  htgroup(GROUPS_FILE);
+      $aGrps = $grp->getGroupsForUser($_SERVER['PHP_AUTH_USER']);
+      $aChurches = array();
+      foreach($aGrps as $sGroup)
+      {
+        if(strpos($sGroup, 'ms_') === 0)
+        {
+          $sChurch = substr($sGroup, 3);
+          $aChurches[] = $sChurch;
+        }
+      }
+      
+      if(count($aChurches) === 0)
+      {
+        $aChurches[] = 'default';
+      }
+      
+      if(isset($_REQUEST['church']))
+      {
+        //echo $_REQUEST['church'];
+        if(in_array($_REQUEST['church'], $aChurches))
+        {
+          $sChurch = $_REQUEST['church'];
+        }
+        else
+        {
+          die ("Don't have permission for this church");
+        }
+      }
+      else
+      {
+        if(count($aChurches) === 0)
+        {
+          die ('something missing');
+        }
+        elseif(count($aChurches) === 1)
+        {
+          $sChurch = $aChurches[0];
+        }
+        else
+        {
+          if($bShowChurchChoice)
+          {
+            require('church_choice.php');
+          }
+        }
+      }
+    }
+    @define('CONST_CHOOSEN_CHURCH', $sChurch);
+    return $sChurch;
+  }
+  
   function checkDataFolder()
   {
     $sSetFolder = filepath::getServerFolderFromType('set');

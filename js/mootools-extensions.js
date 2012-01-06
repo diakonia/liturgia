@@ -32,7 +32,7 @@ Element.implement({
 
 var typeOf=function(i)
 {
-  if(i==null)
+  if(i===null)
   {
     return "null";
   }
@@ -129,11 +129,17 @@ Request.JSONP = new Class({
 	},
 
 	send: function(options){
-		if (!Request.prototype.check.call(this, options)) return this;
+		if (!Request.prototype.check.call(this, options))
+		{
+		  return this;
+		}
 		this.running = true;
 
 		var type = typeOf(options);
-		if (type == 'string' || type == 'element') options = {data: options};
+		if (type == 'string' || type == 'element')
+		{
+		  options = {data: options};
+		}
 		options = $extend(this.options, options || {});
 		
 		var data = options.data;
@@ -142,16 +148,20 @@ Request.JSONP = new Class({
 			case 'object': case 'hash': data = Object.toQueryString(data);
 		}
 
-		var index = this.index = Request.JSONP.counter++;
-
+		var index = Request.JSONP.counter++;
+		this.index = index;
+		
 		var src = options.url +
 			(options.url.test('\\?') ? '&' :'?') +
 			(options.callbackKey) +
 			'=Request.JSONP.request_map.request_'+ index +
 			(data ? '&' + data : '');
 
-		if (src.length > 2083) this.fireEvent('error', src);
-
+		if (src.length > 2083)
+		{
+		  this.fireEvent('error', src);
+		}
+		
 		Request.JSONP.request_map['request_' + index] = function(){
 			this.success(arguments, index);
 		}.bind(this);
@@ -159,29 +169,40 @@ Request.JSONP = new Class({
 		var script = this.getScript(src).inject(options.injectScript);
 		this.fireEvent('request', [src, script]);
 
-		if (options.timeout) this.timeout.delay(options.timeout, this);
-
+		if (options.timeout)
+		{
+		  this.timeout.delay(options.timeout, this);
+		}
+		
 		return this;
 	},
 
 	getScript: function(src){
-		if (!this.script) this.script = new Element('script', {
+		if (!this.script){
+		  this.script = new Element('script', {
 			type: 'text/javascript',
 			async: true,
 			src: src
 		});
+		}
 		return this.script;
 	},
 
 	success: function(args, index){
-		if (!this.running) return;
+		if (!this.running)
+		{
+		  return;
+		}
 		this.clear()
 			.fireEvent('complete', args).fireEvent('success', args)
 			.callChain();
 	},
 
 	cancel: function(){
-		if (this.running) this.clear().fireEvent('cancel');
+		if (this.running) 
+		{
+		  this.clear().fireEvent('cancel');
+		}
 		return this;
 	},
 

@@ -4,6 +4,8 @@
 
   require_once('core.php');
 	
+  getChurch(false);
+  
   $result = array();
   $return = array();
   
