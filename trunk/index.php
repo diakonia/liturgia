@@ -10,12 +10,11 @@
   <?php
   require('core.php');
 
-
+$sChurch = ''; 
   if(defined('GROUPS_FILE'))
   {
     $grp = new  htgroup(GROUPS_FILE);
     $aGrps = $grp->getGroupsForUser($_SERVER['PHP_AUTH_USER']);
-
     $aChurches = array();
     foreach($aGrps as $sGroup)
     {
@@ -37,6 +36,7 @@
 
     if(isset($_REQUEST['church']))
     {
+//echo $_REQUEST['church'];
       if(in_array($_REQUEST['church'], $aChurches))
       {
         $sChurch = $_REQUEST['church'];
@@ -55,6 +55,8 @@
       die ('something missing');
     }
   }
+
+    @define('CONST_CHOOSEN_CHURCH', $sChurch);
   
   checkDataFolder();
 
