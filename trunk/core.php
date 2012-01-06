@@ -5,6 +5,7 @@
   {
     $iMaxUpload = 8 * 1024 * 1024;
   }
+  
   @define('CONST_MaxFileUpload', $iMaxUpload); // = 2 * 1024 * 1024
   
   require_once('config.php');
@@ -16,23 +17,28 @@
     ob_start();
   }
   
+  
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
-  $sSetFolder = filepath::getServerFolderFromType('set');
-  if(!file_exists($sSetFolder))
-  {
-    throw(new exception('Open Song Sets Directory Does Not Exist ('.$sSetFolder.')'));
-  }
   
-  $aDefaultFiles = array('template', 'blanks'); 
-  
-  foreach($aDefaultFiles as $sDefaultFile)
+  function checkDataFolder()
   {
-   if(!file_exists(filepath::getServerFolderFromType('set').$sDefaultFile) || (isset($_REQUEST['install']) && $_REQUEST['install']))
+    $sSetFolder = filepath::getServerFolderFromType('set');
+    if(!file_exists($sSetFolder))
     {
-      $bCopied = copy('templates/Sets/'.$sDefaultFile, filepath::getServerFolderFromType('set').$sDefaultFile);
-      if(!$bCopied)
+      throw(new exception('Open Song Sets Directory Does Not Exist ('.$sSetFolder.')'));
+    }
+    
+    $aDefaultFiles = array('template', 'blanks'); 
+    
+    foreach($aDefaultFiles as $sDefaultFile)
+    {
+     if(!file_exists(filepath::getServerFolderFromType('set').$sDefaultFile) || (isset($_REQUEST['install']) && $_REQUEST['install']))
       {
-        throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
+        $bCopied = copy('templates/Sets/'.$sDefaultFile, filepath::getServerFolderFromType('set').$sDefaultFile);
+        if(!$bCopied)
+        {
+          throw(new exception('Could not copy templates, Check Open Song Data Folder is  writeable'));
+        }
       }
     }
   }
