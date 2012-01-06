@@ -139,7 +139,7 @@ var saveSet = function()
 		});
     
     var sFilePath = $('selectSetChooser').get('value');
-    oSetSaveRequest.send({data:{'xml':xmlString, file:sFilePath}});
+    oSetSaveRequest.send({data:{church:CONST_CHOOSEN_CHURCH, 'xml':xmlString, file:sFilePath}});
   };
   
  

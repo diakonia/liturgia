@@ -56,7 +56,7 @@ var oSetFetchRequest = $empty;
 //REQUEST OBJECTS
   //Gets the set with the blank reading etc in.
   var oBlanksRequest = new Request({
-		url: "fetch.php?type=set&file=blanks",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set&file=blanks",
 		onSuccess: function(txt, xml){	
       eBlanksDoc = $(xml);
       var sName = '';
@@ -112,7 +112,7 @@ var oSetFetchRequest = $empty;
   
 	var oSetListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=set",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -147,7 +147,7 @@ var oSetFetchRequest = $empty;
   
   var oSetNewRequest = new Request.JSON({
     method:'get',
-		url: "new.php?type=set",
+		url: "new.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -179,7 +179,7 @@ var oSetFetchRequest = $empty;
         var myEl = new Element('option', {'value':jsonObj.newset.file, 'text':jsonObj.newset.name});
         $('selectSetChooser').adopt(myEl);
         $('selectSetChooser').set('value', jsonObj.newset.file);
-        oSetFetchRequest.send({data:{type:'set', file:jsonObj.newset.file}});
+        oSetFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'set', file:jsonObj.newset.file}});
       }
 		},
 		onRequest: function(){
@@ -195,7 +195,7 @@ var oSetFetchRequest = $empty;
 
 	oSetFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=set",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(txt, xml){	
       eSetDoc = $(xml);
 			var eSGs = $('slidegroups');
@@ -233,7 +233,7 @@ var oSetFetchRequest = $empty;
   
   var oSongListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=song",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -266,7 +266,7 @@ var oSetFetchRequest = $empty;
   
   var oSongEditFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=song",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
     onSuccess: function(txt, xml){
       showLyricsFromXML(xml);
       oPanelSliders.show(['editSetSong', 'displaySetSongInfo', 'displaySongLyrics']);
@@ -284,7 +284,7 @@ var oSetFetchRequest = $empty;
   
   var oSongPreviewFetchRequest = new Request({
     method:'get',
-		url: "fetch.php?type=song",
+		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=song",
     onSuccess: function(txt, xml){	
       showLyricsFromXML(xml);
       oPanelSliders.show(['chooseSong','displaySetSongInfo','displaySongLyrics']);
@@ -303,7 +303,7 @@ var oSetFetchRequest = $empty;
 
   var oNoticesFetchRequest = new Request.JSON({
       method:'post',
-			url: "notices.php",
+			url: "notices.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -342,7 +342,7 @@ var oSetFetchRequest = $empty;
   
   var oYouTubeFetchRequest = new Request.JSON({
       method:'get',
-			url: "youtube.php",
+			url: "youtube.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -379,7 +379,7 @@ var oSetFetchRequest = $empty;
 	
   var oDVDClipRequest = new Request.JSON({
       method:'get',
-			url: "dvd.php",
+			url: "dvd.php?church="+CONST_CHOOSEN_CHURCH,
 			onSuccess: function(jsonObj) {
         if(jsonObj === null)
         {
@@ -407,7 +407,7 @@ var oSetFetchRequest = $empty;
           saveSetSlide();
           saveSet();
           
-          var sURL = 'fetch.php?type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
+          var sURL = 'fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type='+jsonObj.type+'&file='+jsonObj.file; //Would prefer to use the XHR fuctions but can't work ouit how to use it to calculate the URL
           var delayed = function(){window.location = sURL;}.delay(5000);
           
         }
@@ -427,7 +427,7 @@ var oSetFetchRequest = $empty;
 	
   var oVideoListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=video",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=video",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -457,7 +457,7 @@ var oSetFetchRequest = $empty;
   
     var oPresentationListFetchRequest = new Request.JSON({
     method:'get',
-		url: "list.php?type=presentation",
+		url: "list.php?church="+CONST_CHOOSEN_CHURCH+"&type=presentation",
 		onSuccess: function(jsonObj) {
       if(jsonObj === null)
       {
@@ -1021,7 +1021,7 @@ var saveSet = function()
 		});
     
     var sFilePath = $('selectSetChooser').get('value');
-    oSetSaveRequest.send({data:{'xml':xmlString, file:sFilePath}});
+    oSetSaveRequest.send({data:{church:CONST_CHOOSEN_CHURCH, 'xml':xmlString, file:sFilePath}});
   };
   
  
@@ -1111,8 +1111,8 @@ var editSetSong = function(eLi)
   }
   var sName = xmlnode.getAttribute('name');
   var sFile = sPath+sName;
-  //oSongEditFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongEditFetchRequest.send({data:{file:sFile}});
+  //oSongEditFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'song', file:sFile}});
+  oSongEditFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
 };
 
 var editSetSlide = function(eLi)
@@ -1296,7 +1296,7 @@ $('selectSetChooser').addEvent('change', function(e) {
     if (!sFile || sFile == 'null') {
       $('slidegroups').empty(); 
     }
-    oSetFetchRequest.send({data:{file:sFile}});
+    oSetFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
 });
 
 $('btnSetDownload').addEvent('click', function(e) {
@@ -1334,7 +1334,7 @@ $('textChooseSong').addEvent('change', function(e) {
   e.stop();
   //Get the value of the text input.
   var val = this.get('value');
-  oSongListFetchRequest.send({data:{q:val}});
+  oSongListFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, q:val}});
 });
 
 $('btnChooseSong').addEvent('click', function(e) {
@@ -1359,7 +1359,7 @@ $('btnChooseSongSearch').addEvent('click', function(e) {
   e.stop();
   var val = $('textChooseSong').get('value');
   var sType = $('selectChooseSongSearchType').get('value');
-  oSongListFetchRequest.send({data:{q:val, s:sType}});
+  oSongListFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, q:val, s:sType}});
 });
 
 $('btnDeleteSetItem').addEvent('click', function(e) {
@@ -1375,8 +1375,8 @@ $('selectChooseSong').addEvent('change', function(e) {
   if (!sFile || sFile == 'null') {
     $('displayChooseSong').empty(); 
   }
-  //oSongPreviewFetchRequest.send({data:{type:'song', file:sFile}});
-  oSongPreviewFetchRequest.send({data:{file:sFile}});
+  //oSongPreviewFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, type:'song', file:sFile}});
+  oSongPreviewFetchRequest.send({data:{church:CONST_CHOOSEN_CHURCH, file:sFile}});
   //$('selectSetChooser').empty();
 });
 
@@ -1598,7 +1598,7 @@ Element.implement({
 
 var typeOf=function(i)
 {
-  if(i==null)
+  if(i===null)
   {
     return "null";
   }
@@ -1695,11 +1695,17 @@ Request.JSONP = new Class({
 	},
 
 	send: function(options){
-		if (!Request.prototype.check.call(this, options)) return this;
+		if (!Request.prototype.check.call(this, options))
+		{
+		  return this;
+		}
 		this.running = true;
 
 		var type = typeOf(options);
-		if (type == 'string' || type == 'element') options = {data: options};
+		if (type == 'string' || type == 'element')
+		{
+		  options = {data: options};
+		}
 		options = $extend(this.options, options || {});
 		
 		var data = options.data;
@@ -1708,16 +1714,20 @@ Request.JSONP = new Class({
 			case 'object': case 'hash': data = Object.toQueryString(data);
 		}
 
-		var index = this.index = Request.JSONP.counter++;
-
+		var index = Request.JSONP.counter++;
+		this.index = index;
+		
 		var src = options.url +
 			(options.url.test('\\?') ? '&' :'?') +
 			(options.callbackKey) +
 			'=Request.JSONP.request_map.request_'+ index +
 			(data ? '&' + data : '');
 
-		if (src.length > 2083) this.fireEvent('error', src);
-
+		if (src.length > 2083)
+		{
+		  this.fireEvent('error', src);
+		}
+		
 		Request.JSONP.request_map['request_' + index] = function(){
 			this.success(arguments, index);
 		}.bind(this);
@@ -1725,29 +1735,40 @@ Request.JSONP = new Class({
 		var script = this.getScript(src).inject(options.injectScript);
 		this.fireEvent('request', [src, script]);
 
-		if (options.timeout) this.timeout.delay(options.timeout, this);
-
+		if (options.timeout)
+		{
+		  this.timeout.delay(options.timeout, this);
+		}
+		
 		return this;
 	},
 
 	getScript: function(src){
-		if (!this.script) this.script = new Element('script', {
+		if (!this.script){
+		  this.script = new Element('script', {
 			type: 'text/javascript',
 			async: true,
 			src: src
 		});
+		}
 		return this.script;
 	},
 
 	success: function(args, index){
-		if (!this.running) return;
+		if (!this.running)
+		{
+		  return;
+		}
 		this.clear()
 			.fireEvent('complete', args).fireEvent('success', args)
 			.callChain();
 	},
 
 	cancel: function(){
-		if (this.running) this.clear().fireEvent('cancel');
+		if (this.running) 
+		{
+		  this.clear().fireEvent('cancel');
+		}
 		return this;
 	},
 

@@ -1,5 +1,8 @@
 <?php
   require_once('core.php');
+  
+  getChurch(false);
+  
 	$oFilePath = new filepath($_REQUEST);
 	$sXML = stripslashes(urldecode($_REQUEST['xml']));
 	$sFullFilePath = $oFilePath->getFullFile();

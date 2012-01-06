@@ -1,6 +1,9 @@
 <?php
 
   require_once('core.php');
+  
+  getChurch(false);
+  
   $oFilePath = new filepath($_REQUEST);
   $sFullFilePath = $oFilePath->getFullFile();
   $sContent = @file_get_contents($sFullFilePath);
