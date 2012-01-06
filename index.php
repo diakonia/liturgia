@@ -54,11 +54,9 @@
     {
       die ('something missing');
     }
-    echo '<h1>'.$sChurch.'</h1>';
-    exit;
-
   }
   
+  checkDataFolder();
 
   
   if(CONST_SVN_AUTO === 0 || (isset($_REQUEST['updated']) && $_REQUEST['updated']) )
