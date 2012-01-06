@@ -163,7 +163,6 @@
        self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
        if(CONST_CHOOSEN_CHURCH)
        {
-echo CONST_CHOOSEN_CHURCH;
         self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sName]);
        }  
       }
