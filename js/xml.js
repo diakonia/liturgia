@@ -77,18 +77,7 @@
 		
 		var serializer = new XMLSerializer();
 		var xString = serializer.serializeToString(eSetDoc);
-		
-		var xmlDeclaration = /^<\?xml version[^>]+?>/;
-		//here we are using the E4X (ecmascript for XML) stuff which can't have the xml version in it
-		var e4x = new XML(xString.replace(xmlDeclaration, ''));
-		//this gives us an idented xml string;
-		var xmlString = XML(e4x).toXMLString();
-		
-		xmlString = unescape('%3C%3Fxml+version%3D%221.0%22+encoding%3D%22UTF-8%22%3F%3E')+"\n"+xmlString;
-		
-    rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
-		xmlString = xmlString.replace(rNS, '');
-		
+		var xmlString = vkbeautify.xml(xString, 2);
 		return xmlString;
   };
   
