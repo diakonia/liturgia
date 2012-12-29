@@ -5,8 +5,11 @@
   getChurch(false);
   
 	$oFilePath = new filepath($_REQUEST);
-  
-  $sQ = $_REQUEST['q'];
+  $sQ = '';
+  if(isset($_REQUEST['q']))
+  {
+    $sQ = $_REQUEST['q'];
+  }
   $sQ = str_replace(' ','.+', $sQ);
   if(empty($sQ))
   {
@@ -46,7 +49,7 @@
           $oFilePath->setFullFile($entry);
           $sFile = $oFilePath->getFile();
           $sName = $oFilePath->getName();
-          if($_REQUEST['chgrp'])
+          if(isset($_REQUEST['chgrp']) && $_REQUEST['chgrp'])
           {
             $oFilePath->changeGroup();
           }

@@ -28,17 +28,24 @@
   $oFilePath->changeGroup();
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
-    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
-    svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
-    $aCommitLog = svn_add(realpath($sFullFilePath));
-    if($aCommitLog === false)
+    if(isset($_SERVER['PHP_AUTH_USER']))
     {
-       apiSendError('Could Not Add File');
+      apiSendError('Set-up must use http authentication');
     }
-    $aCommitLog = svn_commit('Intial auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
-    if($aCommitLog === false)
+    else
     {
-       apiSendError('Could Not Commit File');
+      svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
+      svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
+      $aCommitLog = svn_add(realpath($sFullFilePath));
+      if($aCommitLog === false)
+      {
+         apiSendError('Could Not Add File');
+      }
+      $aCommitLog = svn_commit('Intial auto commit from MooSong user '.$_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
+      if($aCommitLog === false)
+      {
+         apiSendError('Could Not Commit File');
+      }
     }
   }
   

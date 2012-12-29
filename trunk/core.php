@@ -23,7 +23,8 @@
   function getChurch($bShowChurchChoice = false)
   {
     $sChurch = ''; 
-    if(defined('GROUPS_FILE'))
+    
+    if(defined('GROUPS_FILE') && isset($_SERVER['PHP_AUTH_USER']))
     {
       $grp = new  htgroup(GROUPS_FILE);
       $aGrps = $grp->getGroupsForUser($_SERVER['PHP_AUTH_USER']);
@@ -160,11 +161,14 @@
       if (isset($aFileInfo['path'])) $this->setPath($aFileInfo['path']);
       foreach (array_keys(self::$aServerDirectoryNames) as $sName)
       {
-       self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
-       if(CONST_CHOOSEN_CHURCH)
-       {
-        self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sName]);
-       }  
+        if(isset($_SERVER['PHP_AUTH_USER']))
+        {
+          self::$aServerDirectoryNames[$sName] = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'], self::$aServerDirectoryNames[$sName]);
+        }
+        if(CONST_CHOOSEN_CHURCH)
+        {
+          self::$aServerDirectoryNames[$sName] = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sName]);
+        }  
       }
     }
     
@@ -224,7 +228,12 @@
       {
        $sDir = self::$aServerDirectoryNames[$sType];
       }
-      $sDir = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'],  $sDir);
+      
+      if(isset($_SERVER['PHP_AUTH_USER']))
+      {
+        $sDir = str_replace('{USER}', $_SERVER['PHP_AUTH_USER'],  $sDir);
+      }
+      
       if(CONST_CHOOSEN_CHURCH)
       {
         $sDir = str_replace('{CHURCH}', CONST_CHOOSEN_CHURCH, self::$aServerDirectoryNames[$sType]);
@@ -450,8 +459,7 @@
       }
       return 'text/xml';
     }
-    
-    
+      
     function getFullPath()
     {
       return $this->getServerDataFolder().$this->sPath;
@@ -504,88 +512,94 @@
     function svnUpdateType($sType, &$aMessages, &$aErrors)
     {
       $sServerFolderPath = realpath(filepath::getServerFolderFromType($sType));
-      if(CONST_SVN_PHP)
+      if(isset($_SERVER['PHP_AUTH_USER']))
       {
-       if(defined('SVN_REVISION_HEAD'))
-       {
-        svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
-        svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
-        $iRev = @svn_update($sServerFolderPath);
-        if($iRev === false)
+        if(CONST_SVN_PHP)
         {
-         throw(new exception("Could Not Update Files '$sServerFolderPath'"));
-        }
-       }
-       else
-       {
-        $aErrors[] = 'PHP SVN not installed';
-       }
-      }
-      else
-      {
-       $sCMD = '/usr/bin/svn update --username '.$_SERVER['PHP_AUTH_USER'].' --password '.$_SERVER['PHP_AUTH_PW'].' "'.$sServerFolderPath.'"';
-    
-       $descriptorspec = array(
-          0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-          1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-          2 => array("pipe", "w") // stderr is a file to write to
-       );
-       
-       $cwd = $sServerFolderPath;
-       $process = proc_open($sCMD, $descriptorspec, $pipes, $cwd);
-       $bProcess = is_resource($process);
-       
-       if (is_resource($process)) {
-           // $pipes now looks like this:
-           // 0 => writeable handle connected to child stdin
-           // 1 => readable handle connected to child stdout
-           // 2 => readable handle connected to child sterr
-           $sError = fread($pipes[2], 3000);
-       
-           if ($sError)
-           {
-             $aErrors[] = $sError;
-             $aErrors[] = 'Process Killed';
-             fclose($pipes[0]);
-             fclose($pipes[1]);
-             fclose($pipes[2]);
-             return;
-           }
-           $sOut = stream_get_contents($pipes[1]);
-           $aMessages[] = (trim($sOut));
-           
-           $sError = stream_get_contents($pipes[2]);
-           $aErrorLines = split("\n", $sError);
-           $aRealErrors = array();
-           foreach(array_keys($aErrorLines) as $iKey)
-           {
-            if(preg_match('/[UAD] /', $aErrorLines[$iKey]))
+          if(defined('SVN_REVISION_HEAD'))
+          {
+            svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_USERNAME, $_SERVER['PHP_AUTH_USER']);
+            svn_auth_set_parameter(SVN_AUTH_PARAM_DEFAULT_PASSWORD, $_SERVER['PHP_AUTH_PW']);
+            $iRev = @svn_update($sServerFolderPath);
+            if($iRev === false)
             {
-             $aMessages[] = $aErrorLines[$iKey];
+              throw(new exception("Could Not Update Files '$sServerFolderPath'"));
             }
-            else
-            {
-             $aRealErrors[] = $aErrorLines[$iKey];
-            }
-           }
-           $sError = join("\n", $aRealErrors);
-           if($sError)
-           {
-            $aErrors[] = (trim($sError));
-            //echo "\n<br><pre>\nsError  =" .$sError ."</pre>";
-           }
-           fclose($pipes[0]);
-           fclose($pipes[1]);
-           fclose($pipes[2]);
-           
-           // It is important that you close any pipes before calling
-           // proc_close in order to avoid a deadlock
-           $return_value = proc_close($process);
-           
           }
+          else
+          {
+            $aErrors[] = 'PHP SVN not installed';
+          }
+        }
+        else
+        {
+          $sCMD = '/usr/bin/svn update --username '.$_SERVER['PHP_AUTH_USER'].' --password '.$_SERVER['PHP_AUTH_PW'].' "'.$sServerFolderPath.'"';
+      
+          $descriptorspec = array(
+            0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+            1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+            2 => array("pipe", "w") // stderr is a file to write to
+          );
+         
+          $cwd = $sServerFolderPath;
+          $process = proc_open($sCMD, $descriptorspec, $pipes, $cwd);
+          $bProcess = is_resource($process);
+         
+          if (is_resource($process)) {
+            // $pipes now looks like this:
+            // 0 => writeable handle connected to child stdin
+            // 1 => readable handle connected to child stdout
+            // 2 => readable handle connected to child sterr
+            $sError = fread($pipes[2], 3000);
+            if ($sError)
+            {
+              $aErrors[] = $sError;
+              $aErrors[] = 'Process Killed';
+              fclose($pipes[0]);
+              fclose($pipes[1]);
+              fclose($pipes[2]);
+              return;
+            }
+            $sOut = stream_get_contents($pipes[1]);
+            $aMessages[] = (trim($sOut));
+             
+             $sError = stream_get_contents($pipes[2]);
+            $aErrorLines = split("\n", $sError);
+            $aRealErrors = array();
+            foreach(array_keys($aErrorLines) as $iKey)
+            {
+              if(preg_match('/[UAD] /', $aErrorLines[$iKey]))
+              {
+                $aMessages[] = $aErrorLines[$iKey];
+              }
+              else
+              {
+                $aRealErrors[] = $aErrorLines[$iKey];
+              }
+            }
+            $sError = join("\n", $aRealErrors);
+            if($sError)
+            {
+              $aErrors[] = (trim($sError));
+              //echo "\n<br><pre>\nsError  =" .$sError ."</pre>";
+            }
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+             
+             // It is important that you close any pipes before calling
+             // proc_close in order to avoid a deadlock
+            $return_value = proc_close($process);
+             
+          }
+        }
       }
+      else 
+      {
+        $aErrors[] = 'Set-up must use http authentication';
+      }
+    }
   }
-}
 
 
   function isNetworkAvailable()
