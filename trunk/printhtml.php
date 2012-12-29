@@ -22,7 +22,7 @@
     for($pos=0; $pos<$nb; $pos++)
     {
       
-      $oNode =& $oSlideGroups->item($pos);
+      $oNode = $oSlideGroups->item($pos);
       $sType = $oNode->attributes->getNamedItem('type')->nodeValue;
       
       if($sType == 'song')
@@ -32,8 +32,12 @@
         $sName = $oNode->attributes->getNamedItem('name')->nodeValue;
         //echo "\n<br><pre>\nsName  =" .$sName ."</pre>";
       
-        $sPresentation = $oNode->attributes->getNamedItem('presentation')->nodeValue;
-        
+        $sPresentation = "";
+        $oPresentation = $oNode->attributes->getNamedItem('presentation');
+        if(is_object($oPresentation))
+        {
+          $sPresentation = $oPresentation->nodeValue;
+        }
         
         $oSongPath = new filepath(array(
             'type' => 'song',
@@ -68,17 +72,17 @@
         if(!$sPresentation)
         {
           $sPresentation = $songDoc->getElementsByTagName('presentation')->item(0)->textContent;
+          
         }
         
         $sLyrics = trim($songDoc->getElementsByTagName('lyrics')->item(0)->textContent);
-        //echo "\n<br><pre>\nsLyrics  =" .$sLyrics ."</pre>";
         
         $aParts = preg_match_all('/\\[([^\]]+)\\]\s*([^\[]+)/',$sLyrics, $aMatches);
         //echo "\n<br><pre>\naMatches =" .var_export($aMatches, TRUE)."</pre>";
         //echo "\n<br><pre>\naParts  =" .var_export($aParts , TRUE)."</pre>";
         if($sPresentation)
         {
-          $aOrder = explode(' ', trim($sPresentation));
+          $aOrder = explode(' ', trim(strtoupper($sPresentation)));
         }
         else
         {
@@ -107,20 +111,24 @@
           $aUses[$sName] ++;
         }
         
+        $aUsesWithoutChorus = $aUses; 
+        unset($aUsesWithoutChorus['C']);
+        $iMostUses = max($aUsesWithoutChorus);
+        
         $aPrinted = array();
         
         foreach($aOrder as $sName)
         {
           $sBody .= "<p>";
-          if($bSectionHead && $aUses[$sName] > 1)
+          if($bSectionHead && ($iMostUses > 1 || strtolower($sName) == 'c'))
           {
-            $sHead = str_replace(array('c','v','b','t'),
+            $sHead = str_replace(array('C','V','B','T'),
               array('Chorus ','Verse ','Bridge ','Tag '),
-              strtolower($sName));
+              strtoupper($sName));
             $sBody .= "<b>$sHead</b><br />\n";
           }
           
-          if(!$bSectionHead || !$aPrinted[$sName])
+          if(!$bSectionHead || !isset($aPrinted[$sName]))
           {
             $sBody .= nl2br($aLyrics[$sName]);
           }
