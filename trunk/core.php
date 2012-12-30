@@ -525,6 +525,7 @@
             {
               throw(new exception("Could Not Update Files '$sServerFolderPath'"));
             }
+            $aMessages[] = 'Updated to '.$iRev;
           }
           else
           {
@@ -562,8 +563,7 @@
             }
             $sOut = stream_get_contents($pipes[1]);
             $aMessages[] = (trim($sOut));
-             
-             $sError = stream_get_contents($pipes[2]);
+            $sError = stream_get_contents($pipes[2]);
             $aErrorLines = split("\n", $sError);
             $aRealErrors = array();
             foreach(array_keys($aErrorLines) as $iKey)
