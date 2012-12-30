@@ -11,7 +11,7 @@
   
   if(CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
   {
-    if(isset($_SERVER['PHP_AUTH_USER']))
+    if(!isset($_SERVER['PHP_AUTH_USER']))
     {
       apiSendError('Set-up must use http authentication');
     }
