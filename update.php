@@ -14,25 +14,25 @@
   ?>
 </head>
 <body id="mainbody">
-    <h1>Starting <?=CONST_SiteTitle; ?></h1>
+  <h1>Starting <?=CONST_SiteTitle; ?></h1>
   <form id="svnform" method="POST" action="index.php" ><input type="hidden" name="updated" value="1" /></form>
-    <?php
+  <?php
     
   $aAllErrors = array();
   if(CONST_SVN_AUTO )
   {
     foreach(array_keys(filepath::$aServerDirectoryNames) as $sType)
     { 
-     echo "<h3>Updating ".filepath::$aDirectoryNames[$sType]."<h3>";
-     $aMessages = $aErrors = array();
-     filepath::svnUpdateType($sType, $aMessages, $aErrors);
-     echo (nl2br(join("\n", array_merge($aMessages, $aErrors))));
-     $aAllErrors = array_merge($aAllErrors, $aErrors);
+      echo "<h3>Updating ".filepath::$aDirectoryNames[$sType]."<h3>";
+      $aMessages = $aErrors = array();
+      filepath::svnUpdateType($sType, $aMessages, $aErrors);
+      echo (nl2br(join("\n", array_merge($aMessages, $aErrors))));
+      $aAllErrors = array_merge($aAllErrors, $aErrors);
     }
     if(count($aAllErrors))
     {
-     echo "errors halting";
-     exit;
+      echo "errors halting";
+      exit;
     }
   }
   
