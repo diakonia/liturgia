@@ -26,21 +26,19 @@
   @define('CONST_OpenSongImages', CONST_OpenSongData.'Images/');
   @define('CONST_OpenSongPresentations', CONST_OpenSongData.'Presentations/');
   
-  
-  
+    
   @define('CONST_VLC_BIN', '"C:\OSTools\VideoLan\VLC\VLC.EXE"');
   
-  //@define('CONST_DVD_CLIP_BY_TIME_CMD_1', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
+  //@define('CONST_DVD_CLIP_BY_TIME_CMD_1', CONST_VLC_BIN.' "dvdsimple:///D:@<<dvdtitlenumber>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
   @define('CONST_DVD_CLIP_BY_TIME_CMD_1', '<?xml version="1.0" encoding="UTF-8"?>
-<playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvdsimple://D:\@<<dvdtitlenumber>></location>
-			<duration>6833000</duration>
+			<location>dvdsimple:///D:\#<<dvdtitlenumber>></location>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
-				<vlc:id>1</vlc:id>
-				<vlc:option>dvdnav-caching=300</vlc:option>
+				<vlc:id>0</vlc:id>
+				<vlc:option>disc-caching=300</vlc:option>
 				<vlc:option>start-time=<<start-time>></vlc:option>
 				<vlc:option>stop-time=<<stop-time>></vlc:option>
 			</extension>
@@ -48,7 +46,6 @@
 	</trackList>
 	<extension application="http://www.videolan.org/vlc/playlist/0">
 			<vlc:item tid="0" />
-			<vlc:item tid="1" />
 	</extension>
 </playlist>');
 
@@ -56,17 +53,16 @@
   @define('CONST_DVD_CLIP_BY_TIME_INSTRUCTIONS_1', 'DVD:"<<dvdtitle>>" Title:<<dvdtitlenumber>> Start:<<dvdstarthours>>:<<dvdstartmin>>:<<dvdstartsecs>> End:<<dvdendhours>>:<<dvdendmin>>:<<dvdendsecs>>');
   
   
-  //@define('CONST_DVD_CLIP_BY_TIME_CMD_2', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
+  //@define('CONST_DVD_CLIP_BY_TIME_CMD_2', CONST_VLC_BIN.' "dvdsimple:///D:@<<dvdtitlenumber>>:<<start-chapter>>" ":start-time=<<start-time>>" ":stop-time=<<stop-time>>"');
   @define('CONST_DVD_CLIP_BY_TIME_CMD_2', '<?xml version="1.0" encoding="UTF-8"?>
-<playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvdsimple://D:\@<<dvdtitlenumber>>:<<start-chapter>></location>
-			<duration>6833000</duration>
+			<location>dvd:///D:\#<<dvdtitlenumber>>:<<start-chapter>></location>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
-				<vlc:id>1</vlc:id>
-				<vlc:option>dvdnav-caching=300</vlc:option>
+				<vlc:id>0</vlc:id>
+				<vlc:option>disc-caching=300</vlc:option>
 				<vlc:option>start-time=<<start-time>></vlc:option>
 				<vlc:option>stop-time=<<stop-time>></vlc:option>
 			</extension>
@@ -74,7 +70,6 @@
 	</trackList>
 	<extension application="http://www.videolan.org/vlc/playlist/0">
 			<vlc:item tid="0" />
-			<vlc:item tid="1" />
 	</extension>
 </playlist>');
 
@@ -82,24 +77,22 @@
   @define('CONST_DVD_CLIP_BY_TIME_FILENAME_2', CONST_DVD_CLIP_BY_TIME_FILENAME_1.'_TRY_2ND');
 
   
-  //@define('CONST_DVD_CLIP_BY_CHAPTER_CMD_1', CONST_VLC_BIN.' "dvdsimple://D:@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>"');  
+  //@define('CONST_DVD_CLIP_BY_CHAPTER_CMD_1', CONST_VLC_BIN.' "dvdsimple:///D:@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>>"');  
   
   @define('CONST_DVD_CLIP_BY_CHAPTER_CMD_1', '<?xml version="1.0" encoding="UTF-8"?>
-<playlist version="1" xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
+<playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
 	<title>Playlist</title>
 	<trackList>
 		<track>
-			<location>dvdsimple://D:\@<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>></location>
-			<duration>6833000</duration>
+			<location>dvdsimple:///D:\#<<dvdtitlenumber>>:<<start-chapter>>-<<dvdtitlenumber>>:<<stop-chapter>></location>
 			<extension application="http://www.videolan.org/vlc/playlist/0">
-				<vlc:id>1</vlc:id>
-				<vlc:option>dvdnav-caching=300</vlc:option>
+				<vlc:id>0</vlc:id>
+				<vlc:option>disc-caching=300</vlc:option>
 			</extension>
 		</track>
 	</trackList>
 	<extension application="http://www.videolan.org/vlc/playlist/0">
 			<vlc:item tid="0" />
-			<vlc:item tid="1" />
 	</extension>
 </playlist>');
 
