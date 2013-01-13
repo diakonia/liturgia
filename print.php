@@ -25,10 +25,29 @@
     if($sFoFile && $sPdfFile)
     {
       $foDoc->save($sFoFile);
-      exec(CONST_FOP_PATH.' '.$sFoFile.' '.$sPdfFile);
+      if(file_get_contents($sFoFile) === false)
+      {
+        header('HTTP/1.1 500 Internal Server Error', true, 500);
+        echo "<h1>No FOP File</h1>";
+        exit;
+      }
+      $sCMD = CONST_FOP_PATH.' '.$sFoFile.' '.$sPdfFile;
+      exec($sCMD);
+      if(file_get_contents($sPdfFile) === false)
+      {
+        header('HTTP/1.1 500 Internal Server Error', true, 500);
+        echo "<h1>No PDF File Created</h1>";
+        echo "<p>".$sCMD."</pdf>";
+        exit;
+      }
       header('Content-type: application/pdf');
       header('Content-Disposition: attachment; filename="'.$oFilePath->getBaseName().'.pdf"');
       readfile($sPdfFile);
+    }
+    else
+    {
+      header('HTTP/1.1 500 Internal Server Error', true, 500);
+      echo "<h1>No TMP File</h1>";
     }
     exit;
   }
