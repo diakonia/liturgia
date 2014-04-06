@@ -74,7 +74,7 @@
       eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
 		}
 		
-	  ﻿ var serializer = new XMLSerializer();
+		var serializer = new XMLSerializer();
 		var xString = serializer.serializeToString(eSetDoc);
 		
 		rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
