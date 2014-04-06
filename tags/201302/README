@@ -1,0 +1,14 @@
+README
+
+One of the issues with using the rather brilliant OpenSong is how to get non-techies (i.e. the vicar and worship leaders) to set up the services and check the songs are correct before we start on a Sunday morning. That requires making it accessible from home and we have tried a few ways of doing it and this is one of those ways.
+
+Based on MooTools and PHP this code lets you set up a site that allows you to manage OpenSong? data and compose Sets/Services.
+
+The first release is barely working and totally untested in the outside world, and currently includes no Security or authorization at all. It is also quite biased towards how St Polycarp's Church Malin Bridge use OpenSong? which I'm sure is weird.
+
+
+INSTALLATION
+
+Needs Apache2 and PHP5.
+
+Please copy the files from the templates folder into your OpenSong data folder (which needs to be accessible and Read/Writeable from and you need to point CONST_OpenSongData (in the config.php file) at it). 
