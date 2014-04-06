@@ -523,6 +523,7 @@
             $iRev = @svn_update($sServerFolderPath);
             if($iRev === false)
             {
+              print_r(error_get_last());
               throw(new exception("Could Not Update Files '$sServerFolderPath'"));
             }
             $aMessages[] = 'Updated to '.$iRev;
