@@ -1,14 +1,25 @@
 README
 
-One of the issues with using the rather brilliant OpenSong is how to get non-techies (i.e. the vicar and worship leaders) to set up the services and check the songs are correct before we start on a Sunday morning. That requires making it accessible from home and we have tried a few ways of doing it and this is one of those ways.
+Liturgia is an application that allows you to construct orders of service for church services, including the liturgy, song words, bible readings, notices etc. The application installs on an Apache / PHP web server. The services can then be edited at home by anyone with a supported web browser (Chrome or Firefox). Many can collaborate on the same order of service - edits are merged together. The finished service can then be downloaded as a set file and projected onto a screen using a song projection program (currently OpenSong®) or downloaded as a PDF and printed.
 
-Based on MooTools and PHP this code lets you set up a site that allows you to manage OpenSong? data and compose Sets/Services.
+BACKGROUND
+One of the issues with using the OpenSong® song projection program is how to get non-techies (i.e. the minister and worship leaders) to set up the services and check the songs are correct before starting a service on a Sunday morning. That requires making it accessible from home and we have tried a few ways of doing it and this is the way we settled on.
 
-The first release is barely working and totally untested in the outside world, and currently includes no Security or authorization at all. It is also quite biased towards how St Polycarp's Church Malin Bridge use OpenSong? which I'm sure is weird.
+Based on MooTools and PHP this code lets you set up a site that allows you to manage OpenSong® data and compose Sets/Services.
 
+The first release is barely working and totally untested in the outside world, and currently includes no security or authorization at all. It is also quite biased towards how St Polycarp's Church Malin Bridge use OpenSong®.
 
 INSTALLATION
 
-Needs Apache2 and PHP5.
+Needs Apache2, PHP5 and SVN on the Web Server. OpenSong and an SVN client is currently required on the projection PC. Also, if you want to use the video / DVD playback support, you will need VLC 2.0.5+.
 
-Please copy the files from the templates folder into your OpenSong data folder (which needs to be accessible and Read/Writeable from and you need to point CONST_OpenSongData (in the config.php file) at it). 
+1. Unpack the application files from here to a web folder on your server.
+2. Install OpenSong on your projection PC and set it up with all your desired songs, scripture files, etc.
+3. Copy the files from the Liturgia templates folder on the server to the OpenSong data folder on the projection PC.
+4. Set up an SVN repo on your web server.
+5. Use the SVN client to push your OpenSong data folder from the projection PC to the SVN repo on the server.
+6. Create a working copy of the SVN repo on the server itself. This must be writeable by your users and the web server process.
+6. Edit config.php to point CONST_OpenSongData at the working folder.
+Because Liturgia does not authenticate users itself, it is recommended you set-up Apache2's in-built security to authenticate users. Depending on how these are set up, Liturgia can use the users identity to track changes.
+
+We are working on streamlining this process (e.g. removing SVN from most of it, adding some authentication of our own) - Please watch this space!
