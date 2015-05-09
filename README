@@ -2,6 +2,8 @@ README
 
 Liturgia is an application that allows you to construct orders of service for church services, including the liturgy, song words, bible readings, notices etc. The application installs on an Apache / PHP web server. The services can then be edited at home by anyone with a supported web browser (Chrome or Firefox). Many can collaborate on the same order of service - edits are merged together. The finished service can then be downloaded as a set file and projected onto a screen using a song projection program (currently OpenSong®) or downloaded as a PDF and printed.
 
+Liturgia is © Copyright 2008-2015 Martyn Eggleton and Stephen Parry (Diakonia).
+
 BACKGROUND
 One of the issues with using the OpenSong® song projection program is how to get non-techies (i.e. the minister and worship leaders) to set up the services and check the songs are correct before starting a service on a Sunday morning. That requires making it accessible from home and we have tried a few ways of doing it and this is the way we settled on.
 
