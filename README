@@ -4,6 +4,14 @@ Liturgia is an application that allows you to construct orders of service for ch
 
 Liturgia is © Copyright 2008-2015 Martyn Eggleton and Stephen Parry (Diakonia).
 
+This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+For further information on Liturgia, contact Stephen Parry (sgparry <AT> mainscreen <DOT> com)
+
 BACKGROUND
 One of the issues with using the OpenSong® song projection program is how to get non-techies (i.e. the minister and worship leaders) to set up the services and check the songs are correct before starting a service on a Sunday morning. That requires making it accessible from home and we have tried a few ways of doing it and this is the way we settled on.
 
