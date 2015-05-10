@@ -1,0 +1,69 @@
+<?vlc
+
+require "httprequests"
+
+dotranslate = function(val,from,to)
+	local f, i
+	if val ~= nil and from ~= nil and to ~= nil then
+		for i, f in pairs(from) do
+			if f == val then
+				return to[i]
+			end
+		end
+	end
+	return nil
+end
+
+fillstruct = function(target, input, fieldname, val)
+	local new_struct = {}
+	if input ~= nil then
+		local ids, names = vlc.var.get_list(input, fieldname)
+		local id = vlc.var.get(input, fieldname)
+		
+		if next(names) ~= nil and next(ids) ~= nil and id ~= nil then
+			if val == nil then
+				val = id
+			end
+			new_struct.id = id
+			new_struct.value = val
+			new_struct.name = dotranslate(id,ids,names)
+		end
+	end
+	target[fieldname] = new_struct
+end
+
+local statusTable=httprequests.getstatus(true)
+local item = vlc.input.item()
+local input = vlc.object.input()
+
+local callback=_GET['callback']
+if callback==nil then
+	callback='callback'
+end
+print(callback.."(\n")
+
+local input_struct = {}
+local chap_val = 0
+
+if input ~= nil then
+	chap_val = vlc.var.get(input,"chapter")+1
+end
+
+fillstruct(input_struct, input, "title")
+fillstruct(input_struct, input, "chapter", chap_val)
+fillstruct(input_struct, input, "program")
+fillstruct(input_struct, input, "audio-es")
+fillstruct(input_struct, input, "video-es")
+fillstruct(input_struct, input, "spu-es")
+
+statusTable.input  = input_struct
+
+local info = statusTable["information"]
+if info ~= nil and info["category"] ~= nil then
+	info["meta-information"] = info["category"]["meta"]
+end
+
+httprequests.printTableAsJson(statusTable)
+print(");")
+?>
+
