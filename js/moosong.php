@@ -4,6 +4,9 @@
 // TEST: resource upload
 // TODO: external slide format
 <?php
+@require_once('../config.php');
+
+echo file_get_contents('../' . CONST_MooToolsJS);
 echo file_get_contents("vkbeautify.0.99.00.beta.js");
 ?>
 
@@ -27,5 +30,11 @@ echo file_get_contents("doing.js");
 
 
 	
-<?php echo file_get_contents("mootools-extensions.js"); ?>  
-
+<?php 
+echo file_get_contents("mootools-hacks.js");  
+echo file_get_contents('../' . CONST_MooToolsExtensionsJS);  
+echo file_get_contents('../' . CONST_SexyAlertBoxJS);
+echo file_get_contents('SexyAlertForm.js');
+echo file_get_contents('../fancyupload/source/Fx.ProgressBar.js');
+echo file_get_contents('../fancyupload/source/Swiff.Uploader.js');
+?>

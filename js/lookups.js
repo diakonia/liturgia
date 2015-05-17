@@ -6,7 +6,7 @@ var noticesLookup = function()
 
 var readingLookup = function()
 {
-    Sexy.form($('readinglookup').get('html'), {
+    oSexyAlertForm.form($('readinglookup').get('html'), {
       onComplete:function(returnvalue) {
         var sText = $('bodySetSlide').get('value');
         var sNotes = $('notesSetSlide').get('value');
@@ -96,7 +96,7 @@ var getNodeChanges = function(sLiID, oFile)
 
 var VideoLookup = function()
 {
-  Sexy.addEvent('onShowComplete', function(e) {
+  oSexyAlertForm.addEvent('onShowComplete', function(e) {
        var aSelect = this.Content.getElements('select');
        var eSelect = aSelect[0];
        var sSelectName = eSelect.get('name');
@@ -114,7 +114,7 @@ var VideoLookup = function()
        });
       });
   
-  Sexy.form($('videolookup').get('html'), {
+  oSexyAlertForm.form($('videolookup').get('html'), {
       onComplete:function(returnvalue) {
          if(returnvalue)
          {
@@ -144,7 +144,7 @@ var VideoLookup = function()
 
 var DVDClipLookup = function()
 {
-  Sexy.addEvent('onShowComplete', function(e) {
+  oSexyAlertForm.addEvent('onShowComplete', function(e) {
       $$('.vlc-live').addClass('hidden');
       oVLCRequest.send('vlctest=true');
       
@@ -152,7 +152,7 @@ var DVDClipLookup = function()
       $$('.vlc-end').addEvent('click', function(){oVLCRequest.send('pos=end');});
     });
   
-  Sexy.form($('dvdcliplookup').get('html'), {
+  oSexyAlertForm.form($('dvdcliplookup').get('html'), {
       onComplete:function(returnvalue) {
          if(returnvalue)
          {
@@ -167,7 +167,7 @@ var DVDClipLookup = function()
 
 var PresentationLookup = function()
 {
-  Sexy.addEvent('onShowComplete', function(e) {
+  oSexyAlertForm.addEvent('onShowComplete', function(e) {
        var aSelect = this.Content.getElements('select');
        var eSelect = aSelect[0];
        var sSelectName = eSelect.get('name');
@@ -185,7 +185,7 @@ var PresentationLookup = function()
        });
       });
   
-  Sexy.form($('presentationlookup').get('html'), {
+  oSexyAlertForm.form($('presentationlookup').get('html'), {
       onComplete:function(returnvalue) {
          if(returnvalue)
          {
@@ -214,7 +214,7 @@ var PresentationLookup = function()
 
 var YouTubeLookup = function()
 {
-  Sexy.form($('youtubelookup1').get('html'), {
+  oSexyAlertForm.form($('youtubelookup1').get('html'), {
     onComplete:function(returnvalue) {
       var sText = $('bodySetSlide').get('value');
       var sNotes = $('notesSetSlide').get('value');

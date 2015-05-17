@@ -3,11 +3,11 @@
  * 
  * Updated to latest 3.0 API. Hopefully 100% compat!
  *
- * @version		3.0 rc1
+ * @version		3.0
  *
  * @license		MIT License
  *
- * @author		Harald Kirschner <mail [at] digitarald [dot] de>
+ * @author		Harald Kirschner <http://digitarald.de>
  * @copyright	Authors
  */
 
@@ -57,11 +57,7 @@ var FancyUpload2 = new Class({
 		this.currentProgress = new Fx.ProgressBar(progress, {
 			text: new Element('span', {'class': 'progress-text'}).inject(progress, 'after')
 		});
-		
-		progress.addEvent('click', function() {
-			this.currentProgress.start($random(0, 100));
-		}.bind(this));
-		
+				
 		this.updateOverall();
 	},
 

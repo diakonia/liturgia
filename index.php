@@ -5,8 +5,8 @@
 	<link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
 	
   <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
+  <link rel="stylesheet" href="css/sexyalertform.css" type="text/css" media="screen" />
   <!--<link rel="stylesheet" href="sexy/sexyalertbox.css" type="text/css" media="screen" />-->
-  
   <?php
   require('core.php');
 
