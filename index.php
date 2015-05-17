@@ -9,6 +9,7 @@
   <!--<link rel="stylesheet" href="sexy/sexyalertbox.css" type="text/css" media="screen" />-->
   <?php
   require('core.php');
+  require_once('scripts.php');
 
   getChurch(true);
   

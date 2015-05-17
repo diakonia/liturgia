@@ -5,7 +5,32 @@
   @define('CONST_MooToolsJS', 'js/mootools-1.2.5-core-nc.js');
   @define('CONST_MooToolsExtensionsJS', 'js/mootools-1.2.5.1-more.js');
   @define('CONST_SexyAlertBoxJS', 'js/sexyalertbox.v1.2.moo.js');
-  @define('CONST_MooSongJS', 'js/moosong.php');
+  
+  $scripts = array();
+  
+  $deferred_scripts = array(CONST_MooToolsJS,
+      "js/vkbeautify.0.99.00.beta.js",
+      "js/mootools-backports.js", CONST_MooToolsExtensionsJS, CONST_SexyAlertBoxJS, "js/SexyAlertForm.js",
+      "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Swiff.Uploader.js",
+      "js/ie_detect.js",
+      "js/variables.js",
+      "js/dirty.js",
+      "js/requests.js",
+      "js/lookups.js",
+      "js/sliders.js",
+      "js/xml.js",
+      "js/gui.js",
+      "js/utils.js",
+      "js/upload.js",
+      "js/doing.js");
+  
+  if (! defined('CONST_UseMinifiedJS'))
+  {
+      @define('CONST_UseMinifiedJS', true);
+  }
+  
+  @define('CONST_JSMinified', 'js/scripts.min.js.gz');
+  @define('CONST_DeferredJSMinified', 'js/deferred-scripts.min.js.gz');
   @define('CONST_OpenSongData', '../OpenSong/');
   @define('CONST_Client_OpenSongData', '/usr/share/opensong/OpenSong/');
   @define('CONST_ExternaFolderSeperator', '/');
