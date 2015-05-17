@@ -2,6 +2,9 @@
   
   @include_once('localconfig.php');
   
+  @define('CONST_MooToolsJS', 'js/mootools-1.2.5-core-nc.js');
+  @define('CONST_MooToolsExtensionsJS', 'js/mootools-1.2.5.1-more.js');
+  @define('CONST_SexyAlertBoxJS', 'js/sexyalertbox.v1.2.moo.js');
   @define('CONST_MooSongJS', 'js/moosong.php');
   @define('CONST_OpenSongData', '../OpenSong/');
   @define('CONST_Client_OpenSongData', '/usr/share/opensong/OpenSong/');
@@ -19,7 +22,7 @@
   @define('CONST_YouTube_DL',  './youtube-dl');
   @define('CONST_FileGroup',  false);
   @define('CONST_SiteTitle',  "MooSong");
-  
+
   @define('CONST_OpenSongSets', CONST_OpenSongData.'Sets/');
   @define('CONST_OpenSongSongs', CONST_OpenSongData.'Songs/');
   @define('CONST_OpenSongVideos', CONST_OpenSongData.'Videos/');

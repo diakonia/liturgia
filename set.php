@@ -135,11 +135,7 @@
    var CONST_Client_OpenSongData = "<?php echo CONST_Client_OpenSongData; ?>";
    var CONST_CHOOSEN_CHURCH =  "<?php echo CONST_CHOOSEN_CHURCH; ?>";
   </script>
-  <script type="text/javascript" src="js/mootools.js"></script>
   
   <script type="text/javascript" src="<?php echo CONST_MooSongJS; ?>"></script>
-  <script src="js/sexyalertbox.v1.1.js" type="text/javascript"></script>
-  <script src="fancyupload/source/Fx.ProgressBar.js" type="text/javascript"></script>
-  <script src="fancyupload/source/Swiff.Uploader.js" type="text/javascript"></script>
 </body>
 </html>
