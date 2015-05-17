@@ -16,7 +16,15 @@
     require_once('FirePHPCore/fb.php');
     ob_start();
   }
-  
+
+  if(defined('CONST_UseMinifiedJS') && CONST_UseMinifiedJS==true)
+  {
+  	  $moosong_js = CONST_MooSongJSMinified;
+  }
+  else
+  {
+  	  $moosong_js = CONST_MooSongJS;
+  }
   
   date_default_timezone_set(CONST_DEFAULT_TIMEZONE);
   
@@ -252,12 +260,15 @@
       return $sDir;
     }
     
-    function getOpenSongDataFolder()
+    function getOpenSongDataFolder($client=false)
     {
       $sDir = $this->getFolderFromType($this->getType());
       if($sDir)
       {
-        $sDir = $sDir.CONST_ExternaFolderSeperator;
+      	if($client)
+          $sDir = $sDir.CONST_ClientFolderSeparator;
+        else
+          $sDir = $sDir.CONST_ExternalFolderSeparator;
       }
       return $sDir;
     }
@@ -488,13 +499,13 @@
     
     function getClientExternalRelativeFile()
     {
-      $sDir = $this->getOpenSongDataFolder();
+      $sDir = $this->getOpenSongDataFolder(true);
       return $sDir.$this->getBaseName();
     }
     
     function getClientExternalAbsFile()
     {
-      $sDir = $this->getOpenSongDataFolder();
+      $sDir = $this->getOpenSongDataFolder(true);
       return CONST_Client_OpenSongData.$sDir.$this->getBaseName();
     }
     
