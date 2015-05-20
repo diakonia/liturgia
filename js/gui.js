@@ -58,15 +58,17 @@ var editSetSlide = function(eLi)
 {
   var xmlnode = eLi.retrieve('xmlnode');
   oPanelSliders.show('editSetSlide');
-  var myBodys = xmlnode.getElements('body');
+  var myBodys = xmlnode.getElementsByTagName('body');
   var aText = [];
-    myBodys.each(function(item, index){
-        var nextText =  item.get('text');
-        if(nextText.trim().length)
-        {
-          aText[aText.length] = nextText;
-        }
-  });
+  if(myBodys){
+        Array.each(myBodys, function(item, index, object){
+            var nextText =  item.get('text');
+            if(nextText.trim().length)
+            {
+              aText[aText.length] = nextText;
+            }
+      });
+  }
   var sText = aText.join("\n---\n");
   
   if(sText.match('\\[\\[verse\\]\\]'))
@@ -107,8 +109,10 @@ var editSetSlide = function(eLi)
   
   
   $('bodySetSlide').set('value',  sText);
-  $('notesSetSlide').set('value', xmlnode.getElement('notes').get('text'));
-  $('titleSetSlide').set('value', xmlnode.getElement('title').get('text'));
+  if(xmlnode.getElementsByTagName('notes')[0] != undefined)
+    $('notesSetSlide').set('value', xmlnode.getElementsByTagName('notes')[0].textContent);
+  if(xmlnode.getElementsByTagName('title')[0] != undefined)
+    $('titleSetSlide').set('value', xmlnode.getElementsByTagName('title')[0].textContent);
   $('nameSetSlide').set('value', xmlnode.getAttribute('name'));
   
 };
@@ -179,7 +183,7 @@ var addListItem = function (sListID, val, xNode, sType){
   {
     li.inject(sListID, 'bottom');
   }
-  li.store('xmlnode',  xNode.clone(true));
+  li.store('xmlnode',  xNode.cloneNode(true));
   //Do a fancy effect on the <li>.
   li.highlight();
   li.addEvent('click', function(e){editSetItem(this);});
@@ -284,9 +288,12 @@ $('btnChooseSong').addEvent('click', function(e) {
     var sName = eOption.get('text');
     if (sFile)
     {
-      sPath = sFile;
+      var sPath = sFile;
       sPath = sPath.replace(sName, '');
-      var newSong = new Element('slide_group', {type: 'song', path:sPath, name:sName});
+      var newSong = myXMLDoc.createElement('slide_group');
+      newSong.setAttribute('type','song');
+      newSong.setAttribute('path',sPath);
+      newSong.setAttribute('name',sName);
       var newLi = addListItem('slidegroups', sName, newSong, 'song'); 
       //oPanelSliders.show('none');
       editSetItem(newLi);
@@ -329,7 +336,7 @@ $('btnNewSetSlide').addEvent('click', function(e){
   var sName = '';
   var sNewSlideType = $('selectNewSetSlide').get('value');
   
-  var newSG = aBlankNodes[sNewSlideType].clone(true);
+  var newSG = aBlankNodes[sNewSlideType].cloneNode(true);
   if (sNewSlideType == 'Blank')
   {
     sName = prompt('Name For New Slides');

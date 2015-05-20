@@ -2,15 +2,15 @@
   
   @include_once('localconfig.php');
   
-  @define('CONST_MooToolsJS', 'js/mootools-1.2.5-core-nc.js');
-  @define('CONST_MooToolsExtensionsJS', 'js/mootools-1.2.5.1-more.js');
+  @define('CONST_MooToolsJS', 'js/MooTools-Core-1.5.1.js');
+  @define('CONST_MooToolsExtensionsJS', 'js/MooTools-More-1.5.1.js');
   @define('CONST_SexyAlertBoxJS', 'js/sexyalertbox.v1.2.moo.js');
   
   $scripts = array();
   
   $deferred_scripts = array(CONST_MooToolsJS,
       "js/vkbeautify.0.99.00.beta.js",
-      "js/mootools-backports.js", CONST_MooToolsExtensionsJS, CONST_SexyAlertBoxJS, "js/SexyAlertForm.js",
+      "js/mootools-hacks.js", CONST_MooToolsExtensionsJS, CONST_SexyAlertBoxJS, "js/SexyAlertForm.js",
       "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Swiff.Uploader.js",
       "js/ie_detect.js",
       "js/variables.js",

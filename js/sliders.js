@@ -10,7 +10,7 @@
     
     add:  function(aNames)
     {
-      aNames = $splat(aNames);
+      aNames = Array.from(aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
           if(aNames.indexOf(this.aSliders[i][0]) == -1)
@@ -26,7 +26,7 @@
     
     show: function(aNames)
     {
-      aNames = $splat(aNames);
+      aNames = Array.from(aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
           if(aNames.indexOf(this.aSliders[i][0]) == -1)
@@ -55,7 +55,7 @@
     
     add:  function(aNames)
     {
-      aNames = $splat(aNames);
+      aNames = Array.from(aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
           if(aNames.indexOf(this.aSliders[i][0]) == -1)
@@ -71,7 +71,7 @@
     
     show: function(aNames)
     {
-      aNames = $splat(aNames);
+      aNames = Array.from(aNames);
       for( var i=0; i < this.aSliders.length; i++)
       {
           if(aNames.indexOf(this.aSliders[i][0]) == -1)

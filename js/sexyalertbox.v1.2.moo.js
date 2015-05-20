@@ -48,7 +48,7 @@ var SexyAlertBox = new Class({
                         display         : 0,
 			zIndex          : 65555,
 			onReturn        : false,
-			onReturnFunction: $empty,
+			onReturnFunction: function(){},
 			BoxStyles       : { 'width': 500 },
 			OverlayStyles   : { 'background-color': '#000', 'opacity': 0.7 },
 			showDuration    : 200,
@@ -57,9 +57,9 @@ var SexyAlertBox = new Class({
 			closeEffect     : Fx.Transitions.linear,
 			moveDuration    : 500,
 			moveEffect      : Fx.Transitions.Back.easeOut,
-			onShowStart     : $empty,
-			onShowComplete  : $empty,
-			onCloseStart    : $empty,
+			onShowStart     : function(){},
+			onShowComplete  : function(){},
+			onCloseStart    : function(){},
 			onCloseComplete : function(properties) {
 				this.options.onReturnFunction(this.options.onReturn);
 			}.bind(this)
@@ -110,8 +110,8 @@ var SexyAlertBox = new Class({
 			}
 		}).adopt(this.InBox);
 
-    this.Overlay.injectInside(document.body);
-    this.Box.injectInside(document.body);
+    this.Overlay.inject(document.body,'bottom');
+    this.Box.inject(document.body,'bottom');
 
     this.preloadImages();
     
@@ -169,13 +169,14 @@ var SexyAlertBox = new Class({
 		// Show Box	
 		if(this.options.display == 0 && option != 0 || option == 1) {
 
-      if(Browser.Engine.trident4)
+      if(Browser.name == 'ie')
         $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'hidden' });
         
       this.togFlashObjects('hidden');
 
 			this.Overlay.setStyle('display', 'block');
 			this.options.display = 1;
+                        this.Overlay.setStyle('visibility', 'visible');
 			this.fireEvent('onShowStart', [this.Overlay]);
 
 			this.Transition = new Fx.Tween(this.Overlay,
@@ -203,7 +204,7 @@ var SexyAlertBox = new Class({
 		// Close Box
 		else {
 
-      if(Browser.Engine.trident4)
+      if(Browser.name == 'ie' && Browser.version == 6)
         $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'visible' });
 
       this.togFlashObjects('visible');
@@ -226,6 +227,7 @@ var SexyAlertBox = new Class({
             duration: this.options.closeDuration,
             transition: this.options.closeEffect,
             onComplete: function() {
+                this.Overlay.setStyle('visibility', 'hidden');
                 this.fireEvent('onCloseComplete', [this.Overlay]);
             }.bind(this)
           }
@@ -263,11 +265,11 @@ var SexyAlertBox = new Class({
 	},
 
   focusin: function() {
-    if ($chk($('BoxAlertBtnOk'))) {
+    if (!!$('BoxAlertBtnOk')) {
       $('BoxAlertBtnOk').focus();
-    } else if ($chk($('BoxPromptInput'))) {
+    } else if (!!$('BoxPromptInput')) {
         $('BoxPromptInput').focus();
-    } else if ($chk($('BoxConfirmBtnOk'))) {
+    } else if (!!$('BoxConfirmBtnOk')) {
       $('BoxConfirmBtnOk').focus();
     }
   },
@@ -297,12 +299,12 @@ var SexyAlertBox = new Class({
 
 		this.chain(function () {
 
-      properties = $extend({
+      properties = Object.append({
         'textBoxBtnOk': 'OK',
         'textBoxBtnCancel': 'Cancel',
         'textBoxInputPrompt': null,
         'password': false,
-        'onComplete': $empty
+        'onComplete': function(){}
       }, properties || {});
 
 
@@ -338,9 +340,9 @@ var SexyAlertBox = new Class({
         
           this.Content.setProperty('class',this.clase).set('html',message);
 
-          this.AlertBtnOk.injectInside(this.ContenedorBotones);
+          this.AlertBtnOk.inject(this.ContenedorBotones,'bottom');
           
-          this.ContenedorBotones.injectInside(this.Content);
+          this.ContenedorBotones.inject(this.Content,'bottom');
           this.display(1);
       }
       else if(type == 'confirm')
@@ -375,10 +377,10 @@ var SexyAlertBox = new Class({
 
           this.Content.setProperty('class','BoxConfirm').set('html',message);
 
-          this.ConfirmBtnOk.injectInside(this.ContenedorBotones);
-          this.ConfirmBtnCancel.injectInside(this.ContenedorBotones);
+          this.ConfirmBtnOk.inject(this.ContenedorBotones,'bottom');
+          this.ConfirmBtnCancel.inject(this.ContenedorBotones,'bottom');
           
-          this.ContenedorBotones.injectInside(this.Content);
+          this.ContenedorBotones.inject(this.Content,'bottom');
           this.display(1);
       }
       else if(type == 'prompt')
@@ -422,13 +424,13 @@ var SexyAlertBox = new Class({
           }.bind(this));
 
           this.Content.setProperty('class','BoxPrompt').set('html',message + '<br />');
-          this.PromptInput.injectInside(this.Content);
-          new Element('br').injectInside(this.Content);
-          this.PromptBtnOk.injectInside(this.ContenedorBotones);
-          this.PromptBtnCancel.injectInside(this.ContenedorBotones);
+          this.PromptInput.inject(this.Content,'bottom');
+          new Element('br').inject(this.Content,'bottom');
+          this.PromptBtnOk.inject(this.ContenedorBotones,'bottom');
+          this.PromptBtnCancel.inject(this.ContenedorBotones,'bottom');
 
 
-          this.ContenedorBotones.injectInside(this.Content);
+          this.ContenedorBotones.inject(this.Content,'bottom');
 
           this.display(1);
       }
@@ -506,6 +508,6 @@ SexyAlertBox.implement(new Events, new Options);
 
 var Sexy;
 
-window.addEvent('domready', function() {
+//window.addEvent('domready', function() {
   Sexy = new SexyAlertBox();
-});
+//});

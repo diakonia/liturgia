@@ -15,6 +15,7 @@ function print_script($item, $key)
 function dump_script($item, $key)
 {
     echo file_get_contents($item);
+    echo("\n");
 }
 
 if(!isset($_GET['minify']) && (!isset($argc) || $argc < 2))

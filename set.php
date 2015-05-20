@@ -128,12 +128,5 @@
   <div id="forms" style="display:none; visibility:hidden;">
   <?php include('forms.html'); ?>
   </div>
-   <script type="text/javascript">
-   var CONST_SundayCutOff = <?php echo CONST_SundayCutOff; ?>;
-   var CONST_SiteTitle = "<?php echo CONST_SiteTitle; ?>";
-   var CONST_MaxFileUpload = "<?php echo CONST_MaxFileUpload; ?>";
-   var CONST_Client_OpenSongData = "<?php echo AddSlashes(CONST_Client_OpenSongData); ?>";
-   var CONST_CHOOSEN_CHURCH =  "<?php echo CONST_CHOOSEN_CHURCH; ?>";
-  </script>
 </body>
 </html>
