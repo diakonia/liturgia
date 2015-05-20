@@ -1,16 +1,15 @@
 <form>
-<select name="church">
-<?php
-foreach ($aChurches as $sC)
-{
-?><option value="<?=$sC;?>"><?=$sC;?></option>
+    <select name="church">
+        <?php
+        foreach ($aChurches as $sC)
+        {
+            ?><option value="<?= $sC; ?>"><?= $sC; ?></option>
 <?php } ?>
-</select>
+    </select>
 
-<input type="submit" value="Go" />
+    <input type="submit" value="Go" />
 </form>
 <?php
-
 exit;
 
 
