@@ -1,109 +1,109 @@
 body {
-	font-size: 85%;
+    font-size: 85%;
 }
-	
+
 .thinking{
-  cursor: progress;
+    cursor: progress;
 }
 
 .highlight{
- background-color: yellow !important;
+    background-color: yellow !important;
 }
 
 #result {
-	width: 500px;
-	padding: 10px;
-	background-color: #F9F9F9;
-	border-right: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
+    width: 500px;
+    padding: 10px;
+    background-color: #F9F9F9;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
 }
 
 form	{
-	border: 1px solid #ccc;
-	margin: 10px auto 10px auto;
-	width: 90%;
-	padding: 10px 2% 10px 2%;
+    border: 1px solid #ccc;
+    margin: 10px auto 10px auto;
+    width: 90%;
+    padding: 10px 2% 10px 2%;
 }
 
 #addSG {
-	width: 490px;
-	margin: 10px;
-	background: #efefef;
-	border: 1px solid #a7a7a7;
-	text-align: center;
-	padding: 5px;
+    width: 490px;
+    margin: 10px;
+    background: #efefef;
+    border: 1px solid #a7a7a7;
+    text-align: center;
+    padding: 5px;
 }
 
 h1 h2 h3 h4 {
-	margin: 10px auto 10px auto;
+    margin: 10px auto 10px auto;
 }
 
 
 #slidegroups li .drag-handle {
-	cursor: pointer;
-	width: 16px;
-	height: 16px;
-	/*background: url('slide.png') no-repeat center;*/
-	float: left;
-	margin-right: 5px;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    /*background: url('slide.png') no-repeat center;*/
+    float: left;
+    margin-right: 5px;
 }
 
 #slidegroups li .list_song {
-	background: url('../images/song.png') no-repeat center;
+    background: url('../images/song.png') no-repeat center;
 }
 
 #slidegroups li .list_custom {
-	background: url('../images/slide.png') no-repeat center;
+    background: url('../images/slide.png') no-repeat center;
 }
 
 #slidegroups {
-	list-style: none;
-	border: 1px solid #ccc;
-	margin: 10px auto 10px auto;
-	width: 90%;
-	padding: 10px 2% 10px 2%;
+    list-style: none;
+    border: 1px solid #ccc;
+    margin: 10px auto 10px auto;
+    width: 90%;
+    padding: 10px 2% 10px 2%;
 }
 
 #setpanel {
-	float: left;
-	width: 40%;
-	border: 1px solid #ccc;
-	background: #efefef;
-	margin: 10px;
+    float: left;
+    width: 40%;
+    border: 1px solid #ccc;
+    background: #efefef;
+    margin: 10px;
 }
 
 
 #editpanel {
-	float: right;
-	width: 55%;
-	border: 1px solid #ccc;
-	background: #efefef;
-	margin: 10px;
-	/*height: 600px;*/
+    float: right;
+    width: 55%;
+    border: 1px solid #ccc;
+    background: #efefef;
+    margin: 10px;
+    /*height: 600px;*/
 }
 
 #titleSetSlide{
-	width: 50%;
-	
+    width: 50%;
+
 }
 
 #notesSetSlide{
-	width: 90%;
-	height: 100px;
+    width: 90%;
+    height: 100px;
 }
 
 #bodySetSlide{
-	width: 90%;
-	height: 200px;
+    width: 90%;
+    height: 200px;
 }
 
 
 
 .rolled {
-	height: 0px;
-	border: none;	
+    height: 0px;
+    border: none;	
 }
 
 .hidden {
-  display: none ! important;
+    display: none ! important;
 }

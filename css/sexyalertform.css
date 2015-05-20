@@ -1,44 +1,44 @@
 #SexyAlertForm-Box {
-  padding-bottom: 24px;
-  background: url('images/bg-box-bottom.png') bottom left no-repeat !important;
-  background: url('images/bg-box-bottom.gif') bottom left no-repeat;
+    padding-bottom: 24px;
+    background: url('images/bg-box-bottom.png') bottom left no-repeat !important;
+    background: url('images/bg-box-bottom.gif') bottom left no-repeat;
 }
 
 #SexyAlertForm-InBox {
-  padding-top: 10px;
-  background: url('images/bg-box-top.png') top left no-repeat !important;	
-  background: url('images/bg-box-top.gif') top left no-repeat;	
+    padding-top: 10px;
+    background: url('images/bg-box-top.png') top left no-repeat !important;	
+    background: url('images/bg-box-top.gif') top left no-repeat;	
 }
 
 #SexyAlertForm-BoxContent {
-  background: url('images/bg-box-body.png') top left repeat-y !important;
-  background: url('images/bg-box-body.gif') top left repeat-y;
-  padding: 0px 20px;
+    background: url('images/bg-box-body.png') top left repeat-y !important;
+    background: url('images/bg-box-body.gif') top left repeat-y;
+    padding: 0px 20px;
 }
 
 #SexyAlertForm-BoxContenedor {
-  padding: 5px 0px 5px 5px;
-  text-align: left;
-  font-family:Verdana;
-  font-size:12px;
-  color:#000;
+    padding: 5px 0px 5px 5px;
+    text-align: left;
+    font-family:Verdana;
+    font-size:12px;
+    color:#000;
 }
 
 #SexyAlertForm-BoxContenedor h1,#SexyAlertForm-BoxContenedor h2,#SexyAlertForm-BoxContenedor h3,#SexyAlertForm-BoxContenedor b,#SexyAlertForm-BoxContenedor strong{
-  text-align: left;
-  font-family:Verdana;
-  font-size:12px;
-  color:#000;
-  font-weight:bold;
-  margin:0px;
-  padding:0px;
+    text-align: left;
+    font-family:Verdana;
+    font-size:12px;
+    color:#000;
+    font-weight:bold;
+    margin:0px;
+    padding:0px;
 }
 
 #SexyAlertForm-Buttons{
-  text-align:right;
+    text-align:right;
 }
 
 #SexyAlertForm-Buttons input {
-  margin: 10px 10px;
+    margin: 10px 10px;
 }
 

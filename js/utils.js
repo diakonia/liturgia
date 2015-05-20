@@ -1,17 +1,13 @@
-
-function PadDigits(n, totalDigits) 
-{ 
-  n = n.toString(); 
-  var pd = ''; 
-  if (totalDigits > n.length) 
-  { 
-    for (var i=0; i < (totalDigits-n.length); i++) 
-    { 
-      pd += '0'; 
-    } 
-  } 
-  return pd + n.toString(); 
-} 
- 
-
-
+function PadDigits(n, totalDigits)
+{
+    n = n.toString();
+    var pd = '';
+    if (totalDigits > n.length)
+    {
+        for (var i = 0; i < (totalDigits - n.length); i++)
+        {
+            pd += '0';
+        }
+    }
+    return pd + n.toString();
+}

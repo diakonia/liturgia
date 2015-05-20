@@ -14,494 +14,557 @@
  * * More styles (info, error, alert, prompt, confirm)
  * * ESC would close the window
  * * Focus on a default button
-*/
+ */
 
 /*
-Class: SexyAlertBox
-	Clone class of original javascript function : 'alert', 'confirm' and 'prompt'
+ Class: SexyAlertBox
+ Clone class of original javascript function : 'alert', 'confirm' and 'prompt'
+ 
+ Arguments:
+ options - see Options below
+ 
+ Options:
+ name - name of the box for use different style
+ zIndex - integer, zindex of the box
+ onReturn - return value when box is closed. defaults to false
+ onReturnFunction - a function to fire when return box value
+ BoxStyles - stylesheets of the box
+ OverlayStyles - stylesheets of overlay
+ showDuration - duration of the box transition when showing (defaults to 200 ms)
+ showEffect - transitions, to be used when showing
+ closeDuration - Duration of the box transition when closing (defaults to 100 ms)
+ closeEffect - transitions, to be used when closing
+ onShowStart - a function to fire when box start to showing
+ onCloseStart - a function to fire when box start to closing
+ onShowComplete - a function to fire when box done showing
+ onCloseComplete - a function to fire when box done closing
+ */
 
-Arguments:
-	options - see Options below
-
-Options:
-	name - name of the box for use different style
-	zIndex - integer, zindex of the box
-	onReturn - return value when box is closed. defaults to false
-	onReturnFunction - a function to fire when return box value
-	BoxStyles - stylesheets of the box
-	OverlayStyles - stylesheets of overlay
-	showDuration - duration of the box transition when showing (defaults to 200 ms)
-	showEffect - transitions, to be used when showing
-	closeDuration - Duration of the box transition when closing (defaults to 100 ms)
-	closeEffect - transitions, to be used when closing
-	onShowStart - a function to fire when box start to showing
-	onCloseStart - a function to fire when box start to closing
-	onShowComplete - a function to fire when box done showing
-	onCloseComplete - a function to fire when box done closing
-*/
-
-var SexyAlertBox = new Class({
-  Implements: [Options, Chain],
-	getOptions: function() {
-		return {
-			name            : 'SexyAlertBox',
-                        display         : 0,
-			zIndex          : 65555,
-			onReturn        : false,
-			onReturnFunction: function(){},
-			BoxStyles       : { 'width': 500 },
-			OverlayStyles   : { 'background-color': '#000', 'opacity': 0.7 },
-			showDuration    : 200,
-			showEffect      : Fx.Transitions.linear,
-      closeDuration   : 100,
-			closeEffect     : Fx.Transitions.linear,
-			moveDuration    : 500,
-			moveEffect      : Fx.Transitions.Back.easeOut,
-			onShowStart     : function(){},
-			onShowComplete  : function(){},
-			onCloseStart    : function(){},
-			onCloseComplete : function(properties) {
-				this.options.onReturnFunction(this.options.onReturn);
-			}.bind(this)
-		};
-	},
-
-	initialize: function(options) {
-    this.i=0;
-    
-		this.setOptions(this.getOptions(), options);
-
-		this.Overlay = new Element('div', {
-			'id'    : 'BoxOverlay',
-			'styles': {
-          'display'           : 'none',
-          'position'          : 'absolute',
-          'top'               : '0',
-          'left'              : '0',
-          'opacity'           : 0,
-          'z-index'           : this.options.zIndex,
-          'background-color'  : this.options.OverlayStyles['background-color'],
-          'height'            : window.getScrollHeight() + 'px',
-          'width'             : window.getScrollWidth() + 'px'
-			}
-		});
-
-		this.Content = new Element('div', {
-			'id': this.options.name + '-BoxContenedor'
-		});
-
-    this.Contenedor = new Element('div', {
-      'id': this.options.name + '-BoxContent'
-    }).adopt(this.Content);
-
-		this.InBox = new Element('div', {
-			'id': this.options.name + '-InBox'
-		}).adopt(this.Contenedor);
-		
-		this.Box = new Element('div', {
-			'id': this.options.name + '-Box',
-			'styles': {
-				'display': 'none',
-				'z-index': this.options.zIndex + 2,
-				'position': 'absolute',
-				'top': '0',
-				'left': '0',
-				'width': this.options.BoxStyles['width'] + 'px'
-			}
-		}).adopt(this.InBox);
-
-    this.Overlay.inject(document.body,'bottom');
-    this.Box.inject(document.body,'bottom');
-
-    this.preloadImages();
-    
-		window.addEvent('resize', function() {
-			if(this.options.display == 1) {
-				this.Overlay.setStyles({
-					'height': window.getScrollHeight() + 'px',
-					'width': window.getScrollWidth() + 'px'
-				});
-				this.replaceBox();
-			}
-		}.bind(this));
-		
-		this.Box.addEvent('keydown', function(event) {
-        if (event.key == 'esc'){
-          this.options.onReturn = false;
-          this.display(0);
-        }
-    }.bind(this));
-		
-		window.addEvent('scroll', this.replaceBox.bind(this));
-	},
-
-  preloadImages: function() {
-    var img = new Array(2);
-    img[0] = new Image();img[1] = new Image();img[2] = new Image();
-    img[0].src = this.Box.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
-    img[1].src = this.InBox.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
-    img[2].src = this.Contenedor.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
-  },
-
-
-  togFlashObjects: function(state) {
-    var hideobj=new Array("embed", "iframe", "object");
-    for (var y = 0; y < hideobj.length; y++) {
-     var objs = document.getElementsByTagName(hideobj[y]);
-     for(var i = 0; i < objs.length; i++) {
-      objs[i].style.visibility = state;
-     }
-    }
-  },
-
-
-	/*
-	Property: display
-		Show or close box
-		
-	Argument:
-		option - integer, 1 to Show box and 0 to close box (with a transition).
-	*/	
-	display: function(option){
-		if(this.Transition)
-			this.Transition.cancel();				
-
-		// Show Box	
-		if(this.options.display == 0 && option != 0 || option == 1) {
-
-      if(Browser.name == 'ie')
-        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'hidden' });
-        
-      this.togFlashObjects('hidden');
-
-			this.Overlay.setStyle('display', 'block');
-			this.options.display = 1;
-                        this.Overlay.setStyle('visibility', 'visible');
-			this.fireEvent('onShowStart', [this.Overlay]);
-
-			this.Transition = new Fx.Tween(this.Overlay,
-				{
-          property: 'opacity',
-					duration: this.options.showDuration,
-					transition: this.options.showEffect,
-					onComplete: function() {
-
-						var sizes = window.getSize();
-						var scrollito = window.getScroll();
-
-						this.Box.setStyles({
-							'display': 'block',
-							'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt()
-						});
-
-						this.replaceBox();
-						this.fireEvent('onShowComplete', [this.Overlay]);
-					}.bind(this)
-				}
-			).start(this.options.OverlayStyles['opacity']);
-
-		}
-		// Close Box
-		else {
-
-      if(Browser.name == 'ie' && Browser.version == 6)
-        $$('select', 'object', 'embed').each(function(node){ node.style.visibility = 'visible' });
-
-      this.togFlashObjects('visible');
-
-      this.queue.delay(500,this);
-
-			this.Box.setStyles({
-				'display': 'none',
-				'top': 0
-			});
-			this.Content.empty();
-			this.options.display = 0;
-
-			this.fireEvent('onCloseStart', [this.Overlay]);
-
-      if(this.i==1) {
-        this.Transition = new Fx.Tween(this.Overlay,
-          {
-            property: 'opacity',
-            duration: this.options.closeDuration,
-            transition: this.options.closeEffect,
-            onComplete: function() {
-                this.Overlay.setStyle('visibility', 'hidden');
-                this.fireEvent('onCloseComplete', [this.Overlay]);
+var SexyAlertBox = new Class(
+{
+    Implements: [Options, Chain],
+    getOptions: function()
+    {
+        return {
+            name: 'SexyAlertBox',
+            display: 0,
+            zIndex: 65555,
+            onReturn: false,
+            onReturnFunction: function() {},
+            BoxStyles:
+            {
+                'width': 500
+            },
+            OverlayStyles:
+            {
+                'background-color': '#000',
+                'opacity': 0.7
+            },
+            showDuration: 200,
+            showEffect: Fx.Transitions.linear,
+            closeDuration: 100,
+            closeEffect: Fx.Transitions.linear,
+            moveDuration: 500,
+            moveEffect: Fx.Transitions.Back.easeOut,
+            onShowStart: function() {},
+            onShowComplete: function() {},
+            onCloseStart: function() {},
+            onCloseComplete: function(properties)
+            {
+                this.options.onReturnFunction(this.options.onReturn);
             }.bind(this)
-          }
-        ).start(0);
-      }
+        };
+    },
+    initialize: function(options)
+    {
+        this.i = 0;
 
-		}
-	},
+        this.setOptions(this.getOptions(), options);
 
-	/*
-	Property: replaceBox
-		Move Box in screen center when brower is resize or scroll
-	*/
-	replaceBox: function() {
-		if(this.options.display == 1) {
-			var sizes = window.getSize();
-                        var scrollito = window.getScroll();
+        this.Overlay = new Element('div',
+        {
+            'id': 'BoxOverlay',
+            'styles':
+            {
+                'display': 'none',
+                'position': 'absolute',
+                'top': '0',
+                'left': '0',
+                'opacity': 0,
+                'z-index': this.options.zIndex,
+                'background-color': this.options.OverlayStyles['background-color'],
+                'height': window.getScrollHeight() + 'px',
+                'width': window.getScrollWidth() + 'px'
+            }
+        });
 
-			if(this.MoveBox)
-				this.MoveBox.cancel();
-			
-			this.MoveBox = new Fx.Morph(this.Box, {
-				duration: this.options.moveDuration,
-				transition: this.options.moveEffect
-			}).start({
+        this.Content = new Element('div',
+        {
+            'id': this.options.name + '-BoxContenedor'
+        });
 
-				'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt(),
-				'top': (scrollito.y + (sizes.y - this.Box.offsetHeight) / 2).toInt()
+        this.Contenedor = new Element('div',
+        {
+            'id': this.options.name + '-BoxContent'
+        }).adopt(this.Content);
 
-			});
-			
-      this.focusin.delay(this.options.moveDuration,this);
-			
-		}
-	},
+        this.InBox = new Element('div',
+        {
+            'id': this.options.name + '-InBox'
+        }).adopt(this.Contenedor);
 
-  focusin: function() {
-    if (!!$('BoxAlertBtnOk')) {
-      $('BoxAlertBtnOk').focus();
-    } else if (!!$('BoxPromptInput')) {
-        $('BoxPromptInput').focus();
-    } else if (!!$('BoxConfirmBtnOk')) {
-      $('BoxConfirmBtnOk').focus();
+        this.Box = new Element('div',
+        {
+            'id': this.options.name + '-Box',
+            'styles':
+            {
+                'display': 'none',
+                'z-index': this.options.zIndex + 2,
+                'position': 'absolute',
+                'top': '0',
+                'left': '0',
+                'width': this.options.BoxStyles['width'] + 'px'
+            }
+        }).adopt(this.InBox);
+
+        this.Overlay.inject(document.body, 'bottom');
+        this.Box.inject(document.body, 'bottom');
+
+        this.preloadImages();
+
+        window.addEvent('resize', function()
+        {
+            if (this.options.display == 1)
+            {
+                this.Overlay.setStyles(
+                {
+                    'height': window.getScrollHeight() + 'px',
+                    'width': window.getScrollWidth() + 'px'
+                });
+                this.replaceBox();
+            }
+        }.bind(this));
+
+        this.Box.addEvent('keydown', function(event)
+        {
+            if (event.key == 'esc')
+            {
+                this.options.onReturn = false;
+                this.display(0);
+            }
+        }.bind(this));
+
+        window.addEvent('scroll', this.replaceBox.bind(this));
+    },
+    preloadImages: function()
+    {
+        var img = new Array(2);
+        img[0] = new Image();
+        img[1] = new Image();
+        img[2] = new Image();
+        img[0].src = this.Box.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+        img[1].src = this.InBox.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+        img[2].src = this.Contenedor.getStyle('background-image').replace(new RegExp("url\\('?([^']*)'?\\)", 'gi'), "$1");
+    },
+    togFlashObjects: function(state)
+    {
+        var hideobj = new Array("embed", "iframe", "object");
+        for (var y = 0; y < hideobj.length; y++)
+        {
+            var objs = document.getElementsByTagName(hideobj[y]);
+            for (var i = 0; i < objs.length; i++)
+            {
+                objs[i].style.visibility = state;
+            }
+        }
+    },
+    /*
+     Property: display
+     Show or close box
+     
+     Argument:
+     option - integer, 1 to Show box and 0 to close box (with a transition).
+     */
+    display: function(option)
+    {
+        if (this.Transition)
+            this.Transition.cancel();
+
+        // Show Box	
+        if (this.options.display == 0 && option != 0 || option == 1)
+        {
+
+            if (Browser.name == 'ie')
+                $$('select', 'object', 'embed').each(function(node)
+                {
+                    node.style.visibility = 'hidden'
+                });
+
+            this.togFlashObjects('hidden');
+
+            this.Overlay.setStyle('display', 'block');
+            this.options.display = 1;
+            this.Overlay.setStyle('visibility', 'visible');
+            this.fireEvent('onShowStart', [this.Overlay]);
+
+            this.Transition = new Fx.Tween(this.Overlay,
+            {
+                property: 'opacity',
+                duration: this.options.showDuration,
+                transition: this.options.showEffect,
+                onComplete: function()
+                {
+
+                    var sizes = window.getSize();
+                    var scrollito = window.getScroll();
+
+                    this.Box.setStyles(
+                    {
+                        'display': 'block',
+                        'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt()
+                    });
+
+                    this.replaceBox();
+                    this.fireEvent('onShowComplete', [this.Overlay]);
+                }.bind(this)
+            }).start(this.options.OverlayStyles['opacity']);
+
+        }
+        // Close Box
+        else
+        {
+
+            if (Browser.name == 'ie' && Browser.version == 6)
+                $$('select', 'object', 'embed').each(function(node)
+                {
+                    node.style.visibility = 'visible'
+                });
+
+            this.togFlashObjects('visible');
+
+            this.queue.delay(500, this);
+
+            this.Box.setStyles(
+            {
+                'display': 'none',
+                'top': 0
+            });
+            this.Content.empty();
+            this.options.display = 0;
+
+            this.fireEvent('onCloseStart', [this.Overlay]);
+
+            if (this.i == 1)
+            {
+                this.Transition = new Fx.Tween(this.Overlay,
+                {
+                    property: 'opacity',
+                    duration: this.options.closeDuration,
+                    transition: this.options.closeEffect,
+                    onComplete: function()
+                    {
+                        this.Overlay.setStyle('visibility', 'hidden');
+                        this.fireEvent('onCloseComplete', [this.Overlay]);
+                    }.bind(this)
+                }).start(0);
+            }
+
+        }
+    },
+    /*
+     Property: replaceBox
+     Move Box in screen center when brower is resize or scroll
+     */
+    replaceBox: function()
+    {
+        if (this.options.display == 1)
+        {
+            var sizes = window.getSize();
+            var scrollito = window.getScroll();
+
+            if (this.MoveBox)
+                this.MoveBox.cancel();
+
+            this.MoveBox = new Fx.Morph(this.Box,
+            {
+                duration: this.options.moveDuration,
+                transition: this.options.moveEffect
+            }).start(
+            {
+                'left': (scrollito.x + (sizes.x - this.options.BoxStyles['width']) / 2).toInt(),
+                'top': (scrollito.y + (sizes.y - this.Box.offsetHeight) / 2).toInt()
+
+            });
+
+            this.focusin.delay(this.options.moveDuration, this);
+
+        }
+    },
+    focusin: function()
+    {
+        if (!!$('BoxAlertBtnOk'))
+        {
+            $('BoxAlertBtnOk').focus();
+        }
+        else if (!!$('BoxPromptInput'))
+        {
+            $('BoxPromptInput').focus();
+        }
+        else if (!!$('BoxConfirmBtnOk'))
+        {
+            $('BoxConfirmBtnOk').focus();
+        }
+    },
+    queue: function()
+    {
+        this.i--;
+        this.callChain();
+    },
+    /*
+     Property: messageBox
+     Core system for show all type of box
+     
+     Argument:
+     type - string, 'alert' or 'confirm' or 'prompt'
+     message - text to show in the box
+     properties - see Options below
+     input - text value of default 'input' when prompt
+     
+     Options:
+     textBoxBtnOk - text value of 'Ok' button
+     textBoxBtnCancel - text value of 'Cancel' button
+     onComplete - a function to fire when return box value
+     */
+    messageBox: function(type, message, properties, input)
+    {
+
+        this.chain(function()
+        {
+
+            properties = Object.append(
+            {
+                'textBoxBtnOk': 'OK',
+                'textBoxBtnCancel': 'Cancel',
+                'textBoxInputPrompt': null,
+                'password': false,
+                'onComplete': function() {}
+            }, properties ||
+            {});
+
+
+            this.options.onReturnFunction = properties.onComplete;
+
+            this.ContenedorBotones = new Element('div',
+            {
+                'id': this.options.name + '-Buttons'
+            });
+
+
+            if (type == 'alert' || type == 'info' || type == 'error')
+            {
+                this.AlertBtnOk = new Element('input',
+                {
+                    'id': 'BoxAlertBtnOk',
+                    'type': 'submit',
+                    'value': properties.textBoxBtnOk,
+                    'styles':
+                    {
+                        'width': '70px'
+                    }
+                });
+
+                this.AlertBtnOk.addEvent('click', function()
+                {
+                    this.options.onReturn = true;
+                    this.display(0);
+                }.bind(this));
+
+                if (type == 'alert')
+                    this.clase = 'BoxAlert';
+                else if (type == 'error')
+                    this.clase = 'BoxError';
+                else if (type == 'info')
+                    this.clase = 'BoxInfo';
+
+                this.Content.setProperty('class', this.clase).set('html', message);
+
+                this.AlertBtnOk.inject(this.ContenedorBotones, 'bottom');
+
+                this.ContenedorBotones.inject(this.Content, 'bottom');
+                this.display(1);
+            }
+            else if (type == 'confirm')
+            {
+                this.ConfirmBtnOk = new Element('input',
+                {
+                    'id': 'BoxConfirmBtnOk',
+                    'type': 'submit',
+                    'value': properties.textBoxBtnOk,
+                    'styles':
+                    {
+                        'width': '70px'
+                    }
+                });
+
+                this.ConfirmBtnCancel = new Element('input',
+                {
+                    'id': 'BoxConfirmBtnCancel',
+                    'type': 'submit',
+                    'value': properties.textBoxBtnCancel,
+                    'styles':
+                    {
+                        'width': '70px'
+                    }
+                });
+
+                this.ConfirmBtnOk.addEvent('click', function()
+                {
+                    this.options.onReturn = true;
+                    this.display(0);
+                }.bind(this));
+
+                this.ConfirmBtnCancel.addEvent('click', function()
+                {
+                    this.options.onReturn = false;
+                    this.display(0);
+                }.bind(this));
+
+                this.Content.setProperty('class', 'BoxConfirm').set('html', message);
+
+                this.ConfirmBtnOk.inject(this.ContenedorBotones, 'bottom');
+                this.ConfirmBtnCancel.inject(this.ContenedorBotones, 'bottom');
+
+                this.ContenedorBotones.inject(this.Content, 'bottom');
+                this.display(1);
+            }
+            else if (type == 'prompt')
+            {
+                this.PromptBtnOk = new Element('input',
+                {
+                    'id': 'BoxPromptBtnOk',
+                    'type': 'submit',
+                    'value': properties.textBoxBtnOk,
+                    'styles':
+                    {
+                        'width': '70px'
+                    }
+                });
+
+                this.PromptBtnCancel = new Element('input',
+                {
+                    'id': 'BoxPromptBtnCancel',
+                    'type': 'submit',
+                    'value': properties.textBoxBtnCancel,
+                    'styles':
+                    {
+                        'width': '70px'
+                    }
+                });
+
+                type = properties.password ? 'password' : 'text';
+                this.PromptInput = new Element('input',
+                {
+                    'id': 'BoxPromptInput',
+                    'type': type,
+                    'value': input,
+                    'styles':
+                    {
+                        'width': '250px'
+                    }
+                });
+
+                this.PromptBtnOk.addEvent('click', function()
+                {
+                    this.options.onReturn = this.PromptInput.value;
+                    this.display(0);
+                }.bind(this));
+
+                this.PromptBtnCancel.addEvent('click', function()
+                {
+                    this.options.onReturn = false;
+                    this.display(0);
+                }.bind(this));
+
+                this.Content.setProperty('class', 'BoxPrompt').set('html', message + '<br />');
+                this.PromptInput.inject(this.Content, 'bottom');
+                new Element('br').inject(this.Content, 'bottom');
+                this.PromptBtnOk.inject(this.ContenedorBotones, 'bottom');
+                this.PromptBtnCancel.inject(this.ContenedorBotones, 'bottom');
+
+
+                this.ContenedorBotones.inject(this.Content, 'bottom');
+
+                this.display(1);
+            }
+            else
+            {
+                this.options.onReturn = false;
+                this.display(0);
+            }
+
+        });
+
+        this.i++;
+
+        if (this.i == 1)
+            this.callChain();
+
+    },
+    /*
+     Property: alert
+     Shortcut for alert
+     
+     Argument:
+     properties - see Options in messageBox
+     */
+    alert: function(message, properties)
+    {
+        this.messageBox('alert', message, properties);
+    },
+    /*
+     Property: info
+     Shortcut for alert info
+     
+     Argument:
+     properties - see Options in messageBox
+     */
+    info: function(message, properties)
+    {
+        this.messageBox('info', message, properties);
+    },
+    /*
+     Property: error
+     Shortcut for alert error
+     
+     Argument:
+     properties - see Options in messageBox
+     */
+    error: function(message, properties)
+    {
+        this.messageBox('error', message, properties);
+    },
+    /*
+     Property: confirm
+     Shortcut for confirm
+     
+     Argument:
+     properties - see Options in messageBox
+     */
+    confirm: function(message, properties)
+    {
+        this.messageBox('confirm', message, properties);
+    },
+    /*
+     Property: prompt
+     Shortcut for prompt
+     
+     Argument:
+     properties - see Options in messageBox
+     */
+    prompt: function(message, input, properties)
+    {
+        this.messageBox('prompt', message, properties, input);
     }
-  },
-
-	queue: function() {
-		this.i--;
-		this.callChain();
-	},
-
-
-	/*
-	Property: messageBox
-		Core system for show all type of box
-		
-	Argument:
-		type - string, 'alert' or 'confirm' or 'prompt'
-		message - text to show in the box
-		properties - see Options below
-		input - text value of default 'input' when prompt
-		
-	Options:
-		textBoxBtnOk - text value of 'Ok' button
-		textBoxBtnCancel - text value of 'Cancel' button
-		onComplete - a function to fire when return box value
-	*/	
-	messageBox: function(type, message, properties, input) {
-
-		this.chain(function () {
-
-      properties = Object.append({
-        'textBoxBtnOk': 'OK',
-        'textBoxBtnCancel': 'Cancel',
-        'textBoxInputPrompt': null,
-        'password': false,
-        'onComplete': function(){}
-      }, properties || {});
-
-
-      this.options.onReturnFunction = properties.onComplete;
-
-      this.ContenedorBotones = new Element('div', {
-        'id': this.options.name + '-Buttons'
-      });
-      
-
-      if(type == 'alert' || type == 'info' || type == 'error')
-      {
-          this.AlertBtnOk = new Element('input', {
-            'id': 'BoxAlertBtnOk',
-            'type': 'submit',
-            'value': properties.textBoxBtnOk,
-            'styles': {
-              'width': '70px'
-            }
-          });
-          
-          this.AlertBtnOk.addEvent('click', function() {
-            this.options.onReturn = true;
-            this.display(0);
-          }.bind(this));
-        
-          if(type == 'alert')
-            this.clase = 'BoxAlert';
-          else if(type == 'error')
-            this.clase = 'BoxError';
-          else if(type == 'info')
-            this.clase = 'BoxInfo';
-        
-          this.Content.setProperty('class',this.clase).set('html',message);
-
-          this.AlertBtnOk.inject(this.ContenedorBotones,'bottom');
-          
-          this.ContenedorBotones.inject(this.Content,'bottom');
-          this.display(1);
-      }
-      else if(type == 'confirm')
-      {
-          this.ConfirmBtnOk = new Element('input', {
-            'id': 'BoxConfirmBtnOk',
-            'type': 'submit',
-            'value': properties.textBoxBtnOk,
-            'styles': {
-              'width': '70px'
-            }
-          });
-
-          this.ConfirmBtnCancel = new Element('input', {
-            'id': 'BoxConfirmBtnCancel',
-            'type': 'submit',
-            'value': properties.textBoxBtnCancel,
-            'styles': {
-              'width': '70px'
-            }
-          });
-
-          this.ConfirmBtnOk.addEvent('click', function() {
-            this.options.onReturn = true;
-            this.display(0);
-          }.bind(this));
-
-          this.ConfirmBtnCancel.addEvent('click', function() {
-            this.options.onReturn = false;
-            this.display(0);
-          }.bind(this));
-
-          this.Content.setProperty('class','BoxConfirm').set('html',message);
-
-          this.ConfirmBtnOk.inject(this.ContenedorBotones,'bottom');
-          this.ConfirmBtnCancel.inject(this.ContenedorBotones,'bottom');
-          
-          this.ContenedorBotones.inject(this.Content,'bottom');
-          this.display(1);
-      }
-      else if(type == 'prompt')
-      {
-          this.PromptBtnOk = new Element('input', {
-            'id': 'BoxPromptBtnOk',
-            'type': 'submit',
-            'value': properties.textBoxBtnOk,
-            'styles': {
-              'width': '70px'
-            }
-          });
-
-          this.PromptBtnCancel = new Element('input', {
-            'id': 'BoxPromptBtnCancel',
-            'type': 'submit',
-            'value': properties.textBoxBtnCancel,
-            'styles': {
-              'width': '70px'
-            }
-          });
-          
-          type = properties.password ? 'password' : 'text';
-          this.PromptInput = new Element('input', {
-            'id': 'BoxPromptInput',
-            'type': type,
-            'value': input,
-            'styles': {
-              'width': '250px'
-            }
-          });
-
-          this.PromptBtnOk.addEvent('click', function() {
-            this.options.onReturn = this.PromptInput.value;
-            this.display(0);
-          }.bind(this));
-
-          this.PromptBtnCancel.addEvent('click', function() {
-            this.options.onReturn = false;
-            this.display(0);
-          }.bind(this));
-
-          this.Content.setProperty('class','BoxPrompt').set('html',message + '<br />');
-          this.PromptInput.inject(this.Content,'bottom');
-          new Element('br').inject(this.Content,'bottom');
-          this.PromptBtnOk.inject(this.ContenedorBotones,'bottom');
-          this.PromptBtnCancel.inject(this.ContenedorBotones,'bottom');
-
-
-          this.ContenedorBotones.inject(this.Content,'bottom');
-
-          this.display(1);
-      }
-      else
-      {
-          this.options.onReturn = false;
-          this.display(0);		
-      }
-
-    });
-
-		this.i++;
-
-		if(this.i==1) this.callChain();
-
-	},
-
-	/*
-	Property: alert
-		Shortcut for alert
-		
-	Argument:
-		properties - see Options in messageBox
-	*/		
-	alert: function(message, properties){
-		this.messageBox('alert', message, properties);
-	},
-
-	/*
-	Property: info
-		Shortcut for alert info
-		
-	Argument:
-		properties - see Options in messageBox
-	*/		
-	info: function(message, properties){
-		this.messageBox('info', message, properties);
-	},
-
-	/*
-	Property: error
-		Shortcut for alert error
-		
-	Argument:
-		properties - see Options in messageBox
-	*/		
-	error: function(message, properties){
-		this.messageBox('error', message, properties);
-	},
-
-	/*
-	Property: confirm
-		Shortcut for confirm
-		
-	Argument:
-		properties - see Options in messageBox
-	*/
-	confirm: function(message, properties){
-		this.messageBox('confirm', message, properties);
-	},
-
-	/*
-	Property: prompt
-		Shortcut for prompt
-		
-	Argument:
-		properties - see Options in messageBox
-	*/	
-	prompt: function(message, input, properties){
-		this.messageBox('prompt', message, properties, input);
-	}
 });
 
 SexyAlertBox.implement(new Events, new Options);
@@ -509,5 +572,5 @@ SexyAlertBox.implement(new Events, new Options);
 var Sexy;
 
 //window.addEvent('domready', function() {
-  Sexy = new SexyAlertBox();
+Sexy = new SexyAlertBox();
 //});
