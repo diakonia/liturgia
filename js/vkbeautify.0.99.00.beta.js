@@ -71,7 +71,7 @@ function createShiftArr(step) {
 	}
 
 	var shift = ['\n']; // array of shifts
-	for(ix=0;ix<100;ix++){
+	for(var ix=0;ix<100;ix++){
 		shift.push(shift[ix]+space); 
 	}
 	return shift;
@@ -112,7 +112,7 @@ vkbeautify.prototype.xml = function(text,step) {
 				inComment = false; 
 			} else 
 			// <elm></elm> //
-			if( /^<\w/.exec(ar[ix-1]) && /^<\/\w/.exec(ar[ix]) &&
+			if( ix > 0 && /^<\w/.exec(ar[ix-1]) && /^<\/\w/.exec(ar[ix]) &&
 				/^<[\w:\-\.\,]+/.exec(ar[ix-1]) == /^<\/[\w:\-\.\,]+/.exec(ar[ix])[0].replace('/','')) { 
 				str += ar[ix];
 				if(!inComment) deep--;
@@ -152,12 +152,12 @@ vkbeautify.prototype.xml = function(text,step) {
 
 vkbeautify.prototype.json = function(text,step) {
 
-	var step = step ? step : this.step;
+	var step1 = step ? step : this.step;
 	
 	if (typeof JSON === 'undefined' ) return text; 
 	
-	if ( typeof text === "string" ) return JSON.stringify(JSON.parse(text), null, step);
-	if ( typeof text === "object" ) return JSON.stringify(text, null, step);
+	if ( typeof text === "string" ) return JSON.stringify(JSON.parse(text), null, step1);
+	if ( typeof text === "object" ) return JSON.stringify(text, null, step1);
 		
 	return text; // text is not string nor object
 }

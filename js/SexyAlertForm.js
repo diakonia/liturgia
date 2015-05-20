@@ -10,7 +10,7 @@ var SexyAlertForm = new Class({
 		{
 			
 			this.chain(function () {
-					properties = $extend
+					properties = Object.append
 					(
 						{
 							'textBoxBtnOk': 'OK',
@@ -18,7 +18,7 @@ var SexyAlertForm = new Class({
 							'textBoxBtnCancel': 'Cancel',
 							'textBoxInputPrompt': null,
 							'password': false,
-							'onComplete': $empty,
+							'onComplete': function(){},
 							'formsubmits': false
 						},
 						properties || {}
@@ -79,13 +79,13 @@ var SexyAlertForm = new Class({
 					//this.Content.setProperty('class','BoxForm').set('html',message );
 					this.Content.setProperty('class','BoxForm');
 					this.FormForm.set('html',message );
-					this.FormForm.injectInside(this.Content);
-					var Junk = new Element('br').injectInside(this.Content);
-					this.FormBtnOk.injectInside(this.ContenedorBotones);
-					this.FormBtnCancel.injectInside(this.ContenedorBotones);
+					this.FormForm.inject(this.Content,'bottom');
+					var Junk = new Element('br').inject(this.Content,'bottom');
+					this.FormBtnOk.inject(this.ContenedorBotones,'bottom');
+					this.FormBtnCancel.inject(this.ContenedorBotones,'bottom');
 					
 					
-					this.ContenedorBotones.injectInside(this.Content);
+					this.ContenedorBotones.inject(this.Content,'bottom');
 					//TODO: Could probably use the input to poputale the fields,
 					this.display(1);
 			});

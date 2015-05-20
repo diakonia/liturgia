@@ -1,4 +1,4 @@
-var swfUploadFile = $empty;
+var swfUploadFile = function(){};
 var eUploadFile = $('btnUploadFile');
 var sUploadFileIdle = eUploadFile.get('html');
 var UploadFileUpdate = function() 
@@ -38,23 +38,26 @@ swfUploadFile = new Swiff.Uploader({
  onQueue: UploadFileUpdate,
  onFileComplete: function(file) {
   var oResponse = JSON.decode(file.response.text, true);
-  if($type(oResponse) == 'object')
+  if(typeOf(oResponse) == 'object')
   {
    if (oResponse.error) {
     Sexy.error('Failed Upload<br />Uploading <em>' + oResponse.name + '</em> failed, please try again. (Error: #' + oResponse.code + ' ' + oResponse.error + ')');
    } else {
     
     var sNewSlideType = $('selectNewSetSlide').get('value');
-    var newSG = aBlankNodes[sNewSlideType].clone(true);
+    var newSG = aBlankNodes[sNewSlideType].cloneNode(true);
     var sName = sNewSlideType;
     newSG.setAttribute('name', sName);
     newSG.setAttribute('title', sName);
     newSG.getElement('body').empty();
-    var sNotes =  newSG.getElement('notes').get('text');
-    sNotes = sNotes.replace('[[file]]', oResponse.client_os_file);
+    var notesElt = newSG.getElementsByTagName('notes')[0];
+    if(notesElt != undefined)
+    {
+        var sNotes =  notesElt.textContent;
+        sNotes = sNotes.replace('[[file]]', oResponse.client_os_file);
     
-    newSG.getElement('notes').set('text', sNotes);
-    
+        notesElt.textContent = sNotes;
+    }
     var li = addListItem('slidegroups', sName, newSG, 'custom');
     
     editSetItem(li);

@@ -1,18 +1,18 @@
-var oSetFetchRequest = $empty;
+var oSetFetchRequest = function(){};
 
 //REQUEST OBJECTS
   //Gets the set with the blank reading etc in.
   var oBlanksRequest = new Request({
 		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set&file=blanks",
-		onSuccess: function(txt, xml){	
-      eBlanksDoc = $(xml);
+		onSuccess: function(txt, xml){
+      eBlanksDoc = xml.documentElement;
       var sName = '';
-      var aBlanks = eBlanksDoc.getElements('slide_group');
-      aBlanks.each(function(item,index){
+      var aBlanks = eBlanksDoc.getElementsByTagName('slide_group');
+      Array.each(aBlanks,function(item,index,object){
           sName = item.getAttribute('name');
           aBlankNodes[sName] = item;
           var myEl = new Element('option', {'value':sName, 'text':sName});
-          $('selectNewSetSlide').adopt(myEl);
+          $('selectNewSetSlide').adopt(myEl); 
       });
     },
      onRequest: function(){
@@ -107,7 +107,7 @@ var oSetFetchRequest = $empty;
         return;
       }
       
-      if($chk(jsonObj.exists))
+      if(!!(jsonObj.exists))
       {
         Sexy.prompt('<h1>Name in use, please try again.</h1>', jsonObj.exists.name, { onComplete: 
           function(returnvalue) {
@@ -121,7 +121,7 @@ var oSetFetchRequest = $empty;
         return;
       }
       
-      if($chk(jsonObj.newset))
+      if(!!(jsonObj.newset))
       {
         var myEl = new Element('option', {'value':jsonObj.newset.file, 'text':jsonObj.newset.name});
         $('selectSetChooser').adopt(myEl);
@@ -144,11 +144,11 @@ var oSetFetchRequest = $empty;
     method:'get',
 		url: "fetch.php?church="+CONST_CHOOSEN_CHURCH+"&type=set",
 		onSuccess: function(txt, xml){	
-      eSetDoc = $(xml);
+                        eSetDoc = xml.documentElement;
 			var eSGs = $('slidegroups');
 			eSGs.empty();
-			var mySGs = eSetDoc.getElements('slide_group');
-			mySGs.each(function(item, index){
+			var mySGs = eSetDoc.getElementsByTagName('slide_group');
+			Array.each(mySGs,function(item, index, object){
         item.setAttribute('id', 'sg_'+(index));
         var sName = item.getAttribute('name');	
         var sType = item.getAttribute('type');

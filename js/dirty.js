@@ -1,6 +1,6 @@
 //DIRTY
 this.addEvent('beforeunload', function(e){
-  if( bDirty && $defined(e))
+  if( bDirty && e != undefined)
   {
     e.stop();
   }
@@ -8,7 +8,7 @@ this.addEvent('beforeunload', function(e){
 
 var setDirty = function(bIsDirty)
 {
-  if(!$defined(bIsDirty))
+  if(bIsDirty == undefined)
   {
     bIsDirty = true;
   }

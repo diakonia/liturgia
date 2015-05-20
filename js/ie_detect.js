@@ -1,7 +1,10 @@
-Sexy = new SexyAlertBox();
-if($defined(Browser.Engine.trident) && Browser.Engine.trident)
+if(Browser.name == 'ie')
 {
-  Sexy.error( 'This is "totally untested and highly dangerous" code <br/>and it don\'t work in I.E. try <a target="_blank" href="http://getfirefox.com">firefox<a>.');
-  exit(-1);
+    if(Browser.version <= 8)
+    {
+        Sexy.error( 'Liturgia will not work at all on IE 8 or lower. Please install another browser, e.g. <a target="_blank" href="http://getfirefox.com">firefox<a>.');
+    }
+    else
+        Sexy.error( 'Liturgia is totally untested in Internet Explorer and will almost certainly break. Please install another browser, e.g. <a target="_blank" href="http://getfirefox.com">firefox<a>.');
 }
 

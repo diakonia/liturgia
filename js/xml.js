@@ -12,31 +12,31 @@
 
   var showLyricsFromXML = function(sXML)
   {
-    eSongDoc = $(sXML);
+    eSongDoc = sXML.documentElement;
     $('displaySongLyrics').empty(); 
-    var sLyrics = eSongDoc.getElement('lyrics').get('text').replace(/\n/g, '<br />');
-    var sTitle = eSongDoc.getElement('title').get('text');
+    var sLyrics = eSongDoc.getElementsByTagName('lyrics')[0].get('text').replace(/\n/g, '<br />');
+    var sTitle = eSongDoc.getElementsByTagName('title')[0].get('text');
     $('displaySongTitle').set('html', sTitle);
     $('displaySongLyrics').set('html', sLyrics);
     
     var sSource = null;
-    var eUser1 = eSongDoc.getElement('user1');
+    var eUser1 = eSongDoc.getElementsByTagName('user1')[0];
     if(eUser1)
     {
-     sSource = eUser1.get('text');
+     sSource = eUser1.textContent;
     }
     if (!sSource)
     {
-      if(eSongDoc.getElement('hymnNumber'))
+      if(eSongDoc.getElementsByTagName('hymnNumber')[0] != undefined)
       {
-        sSource = eSongDoc.getElement('hymnNumber').get('text');
+        sSource = eSongDoc.getElementsByTagName('hymnNumber')[0].textContent;
       }
     }
     if (!sSource)
     {
-      if(eSongDoc.getElement('hymn_number'))
+      if(eSongDoc.getElementsByTagName('hymn_number')[0] != undefined)
       {
-        sSource = eSongDoc.getElement('hymn_number').get('text');
+        sSource = eSongDoc.getElementsByTagName('hymn_number')[0].textContent;
       }
     }
     
@@ -49,8 +49,8 @@
     {
       $('displaySongSource').empty();
     }
-    $('displaySongAuthor').set('html', eSongDoc.getElement('author').get('text'));
-    $('displaySongCopyright').set('html', eSongDoc.getElement('copyright').get('text'));
+    $('displaySongAuthor').set('html', eSongDoc.getElementsByTagName('author')[0].textContent);
+    $('displaySongCopyright').set('html', eSongDoc.getElementsByTagName('copyright')[0].textContent);
     
     //var sPath = eSongDoc.getElement('').get('text');
     //$('displaySongPath').set('html', sPath);
@@ -63,25 +63,27 @@
   
   var getSetXML = function()
   {
-    var eSGs = eSetDoc.getElement('slide_groups');
-		eSGs.empty();
+    var eSGsOld = eSetDoc.getElementsByTagName('slide_groups')[0];
+    var eSGsNew = myXMLDoc.createElement('slide_groups')
+		
 		
     var items = $('slidegroups').childNodes;
 		
 		for(var i = 0; i < items.length; i++)
 		{
-			item = items[i];
-      eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
+			var item = items[i];
+      eSGsNew.appendChild(item.retrieve('xmlnode').clone(true));
 		}
+                eSetDoc.replaceChild(eSGsNew,eSGsOld);
 		
 		var serializer = new XMLSerializer();
 		var xString = serializer.serializeToString(eSetDoc);
 		
-		rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
+		var rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
 		xString = xString.replace(rNS, '');
 
 		//console.log("getSetXML xString =", xString);
-		xmlString = vkbeautify.xml(xString, 2);
+		var xmlString = vkbeautify.xml(xString, 2);
 		//console.log("getSetXML xmlString =", xmlString);
 		return xmlString;
   };
@@ -153,20 +155,21 @@ var saveSet = function()
       }); 
     }
     
-    xNode.getElement('notes').set('text', $('notesSetSlide').get('value'));
-    xNode.getElement('title').set('text', $('titleSetSlide').get('value'));
+    xNode.getElementsByTagName('notes')[0].textContent = $('notesSetSlide').get('value');
+    xNode.getElementsByTagName('title')[0].textContent = $('titleSetSlide').get('value');
     xNode.setAttribute('name', $('nameSetSlide').get('value'));
     //console.log("xNode =", xNode);
-    var eSlides = xNode.getElement('slides');
-		eSlides.empty();
+    var eSlidesOld = xNode.getElementsByTagName('slides')[0];
+    var eSlidesNew = myXMLDoc.createElement('slides');
     
     aText.each(function(item, index){
-      var mySlide = new Element('slide');
-      var myBody = new Element('body');
-      myBody.set('text', item);
-      mySlide.adopt(myBody);
-      eSlides.adopt(mySlide);
+      var mySlide = myXMLDoc.createElement('slide');
+      var myBody = myXMLDoc.createElement('body');
+      myBody.textContent = item;
+      mySlide.appendChild(myBody);
+      eSlidesNew.appendChild(mySlide);
     });
+    xNode.replaceChild(eSlidesNew,eSlidesOld);
     li.store('xmlnode',  xNode);
     setDirty();
   };

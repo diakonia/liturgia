@@ -89,7 +89,7 @@ var Uploader = new Class({
 		if (!doc || !doc.body) return;
 		$clear(this.runner);
 				
-		var align = (Browser.Engine.trident) ? 'left' : 'right';
+		var align = (Browser.name == 'ie') ? 'left' : 'right';
 		doc.body.innerHTML = '<form method="post" enctype="multipart/form-data" id="form">' +
 			'<input type="file" id="file" style="position:absolute;' + align + ':0;top:0" />' +
 			'<input type="submit" /><div id="data"></div></form>' + 
@@ -108,7 +108,7 @@ var Uploader = new Class({
 			return;
 		}
 		
-		$extend(this.file, {
+		Object.append(this.file, {
 			onmousedown: function() {
 				if (Browser.Engine.presto) return true;
 				(function() {
@@ -182,7 +182,7 @@ var Uploader = new Class({
 
 });
 
-$extend(Uploader, {
+Object.append(Uploader, {
 
 	STATUS_QUEUED: 0,
 	STATUS_RUNNING: 1,
@@ -307,11 +307,11 @@ Uploader.File = new Class({
 		more.innerHTML = '';
 		if (merged.data) {
 			if (merged.mergeData && base.data && options.data) {
-				if ($type(base.data) == 'string') merged.data = base.data + '&' + options.data;
+				if (typeOf(base.data) == 'string') merged.data = base.data + '&' + options.data;
 				else merged.data = $merge(base.data, options.data);
 			}
 			
-			var query = ($type(merged.data) == 'string') ? merged.data : Hash.toQueryString(merged.data);
+			var query = (typeOf(merged.data) == 'string') ? merged.data : Hash.toQueryString(merged.data);
 			
 			if (query.length) {
 				if (merged.method == 'get') {

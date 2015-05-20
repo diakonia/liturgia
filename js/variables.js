@@ -10,5 +10,6 @@
   var iThinking = 0;
 	var swfUpload = null;
   var sUploadButtonIdle = null;
-  var UploadButtonUpdate = $empty;
+  var UploadButtonUpdate = function(){};
 
+var myXMLDoc = (new DOMParser()).parseFromString('<?xml version="1.0" encoding="UTF-8"?><dummy />',"text/xml");

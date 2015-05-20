@@ -167,7 +167,7 @@ FancyUpload3.Attach.File = new Class({
 
 		if (this.response.error) {
 			var msg = MooTools.lang.get('FancyUpload', 'errors')[this.response.error] || '{error} #{code}';
-			this.errorMessage = msg.substitute($extend({name: this.name}, this.response));
+			this.errorMessage = msg.substitute(Object.append({name: this.name}, this.response));
 			
 			this.base.fireEvent('fileError', [this, this.response, this.errorMessage]);
 			this.fireEvent('error', [this, this.response, this.errorMessage]);
