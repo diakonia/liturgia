@@ -27,7 +27,7 @@ if (CONST_SVN_AUTO && defined('SVN_REVISION_HEAD'))
             apiSendError('Could Not Update File');
         }
 
-        $aCommitLog = svn_commit('Auto commit from MooSong user ' . $_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
+        $aCommitLog = svn_commit('Auto commit from Service Editor user ' . $_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
         if ($aCommitLog === false)
         {
             apiSendError('Could Not Commit File');

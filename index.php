@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" href="css/moosong.css" type="text/css"  media="screen"/>
+        <link rel="stylesheet" href="css/application.css" type="text/css"  media="screen"/>
 
         <link rel="stylesheet" href="css/sexyalertbox.css" type="text/css" media="screen" />
         <link rel="stylesheet" href="css/sexyalertform.css" type="text/css" media="screen" />

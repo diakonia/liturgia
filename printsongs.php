@@ -20,8 +20,8 @@ if ($sContent)
 
     $foDoc = $proc->transformToDoc($xmlDoc);
     $foDoc->formatOutput = true;
-    $sFoFile = tempnam(CONST_TEMP_PATH, "MooSongFO");
-    $sPdfFile = tempnam(CONST_TEMP_PATH, "MooSongPdf");
+    $sFoFile = tempnam(CONST_TEMP_PATH, "ServiceEditorFO");
+    $sPdfFile = tempnam(CONST_TEMP_PATH, "ServiceEditorPdf");
     if ($sFoFile && $sPdfFile)
     {
         $foDoc->save($sFoFile);

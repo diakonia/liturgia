@@ -114,13 +114,13 @@ echo '<title id="windowtitle">' . CONST_SiteTitle . ': Service Editor</title>';
         </div>
 
         <div id="helpPanel">
-            <h2>MooSong Service Editor</h2>
+            <h2>Service Editor</h2>
             <p>A free software (GPL2) service editor for OpenSong files.</p>
             <ul>
-                <li><a href="http://code.google.com/p/moosong/" target="_blank">Project Website</a></li>
-                <li><a href="http://code.google.com/p/moosong/wiki/Help" target="_blank">Help</a></li>
-                <li><a href="http://code.google.com/p/moosong/issues/list" target="_blank">Report Bugs and Give Us Ideas</a></li>
-                <li><a href="http://code.google.com/p/moosong/downloads/detail?name=statusjs.xml" target="_blank">Get the VLC DVD integration files.</a></li>
+                <li><a href="http://diakonia.github.io/liturgia/" target="_blank">Project Website</a></li>
+                <li><a href="https://github.com/diakonia/liturgia/wiki" target="_blank">Help</a></li>
+                <li><a href="https://github.com/diakonia/liturgia/issues" target="_blank">Report Bugs and Give Us Ideas</a></li>
+                <li><a href="https://raw.githubusercontent.com/diakonia/liturgia/master/misc/status2.json" target="_blank">Get the VLC DVD integration files</a> (not needed for VLC 2.1+).</li>
             </ul>
         </div>
 

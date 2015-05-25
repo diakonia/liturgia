@@ -77,7 +77,7 @@ for ($i = 1; $i <= 10; $i++)
                 apiSendError('Could Not Add File');
             }
 
-            $aCommitLog = svn_commit('Intial auto commit from MooSong user ' . $_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
+            $aCommitLog = svn_commit('Intial auto commit from Service Editor user ' . $_SERVER['PHP_AUTH_USER'], array(realpath($sFullFilePath)));
             if ($aCommitLog === false)
             {
                 apiSendError('Could Not Commit File');

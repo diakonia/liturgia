@@ -42,9 +42,9 @@
                                                 echo $aDateInfo['sDayName'];
                                                 ?>
                                                 </font>
-                                        <?php } ?>
+                                            <?php } ?>
                                         </td>
-                <?php } ?>
+                                    <?php } ?>
                                     <td width="20%">
                                         <font size="3" face="Arial"><?php echo date('g.i a', $aEvent['iStart']); ?></font>
                                     </td>
@@ -73,9 +73,9 @@
                                                 {
                                                     ?>
                                                     <br><font size="1" face="Arial"><i>(
-                                                    <?php
-                                                    echo $aRota['sTitle'] . ':' . $aRota['sContent'];
-                                                    ?>
+                                                        <?php
+                                                        echo $aRota['sTitle'] . ':' . $aRota['sContent'];
+                                                        ?>
                                                         )</i></font>
                                                     <?php
                                                 }

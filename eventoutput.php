@@ -17,9 +17,9 @@ foreach ($aEvents as $sDate => $aDateInfo)
                 if ($aEvent['sTag'] !== 'NOTICE')
                 {
                     ?>
-                    <font size="3" face="Arial"><?php echo date('l j F Y  - g:i A', $aEvent['iStart']); ?></font><br />
+                    <font size="3" face="Arial"><?php echo date('l j F Y  - g:i A', $aEvent['iStart']); ?> </font><br />
                     <font size="3" face="Arial"><?php echo $aEvent['sWhere']; ?></font>
-            <?php } ?>
+                <?php } ?>
                 <br />
                 <font size="3" face="Arial"><?php echo $aEvent['sContent']; ?></font>
             </p>
