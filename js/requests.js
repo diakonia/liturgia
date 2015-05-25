@@ -43,7 +43,7 @@ var oSetFetchRequest = $empty;
         Sexy.error( jsonObj.message);
         return;
       }
-      aBibleData = jsonObj;
+      aBibleData = jsonObj.bible;
       //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
     },
      onRequest: function(){
