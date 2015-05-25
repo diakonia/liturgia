@@ -80,7 +80,7 @@ var getNodeChanges = function(sLiID, oFile)
            var outputs ={};
            for(var i=0; i<attributes.length; i++)
            {
-             sCurAttribute = attributes[i].nodeValue;
+             var sCurAttribute = attributes[i].nodeValue;
              oFile.each(function(item, index){
                sCurAttribute = sCurAttribute.replace('[['+index+']]', item);
              });             

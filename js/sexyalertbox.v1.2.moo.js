@@ -45,6 +45,7 @@ var SexyAlertBox = new Class({
 	getOptions: function() {
 		return {
 			name            : 'SexyAlertBox',
+                        display         : 0,
 			zIndex          : 65555,
 			onReturn        : false,
 			onReturnFunction: $empty,
@@ -145,9 +146,9 @@ var SexyAlertBox = new Class({
 
   togFlashObjects: function(state) {
     var hideobj=new Array("embed", "iframe", "object");
-    for (y = 0; y < hideobj.length; y++) {
+    for (var y = 0; y < hideobj.length; y++) {
      var objs = document.getElementsByTagName(hideobj[y]);
-     for(i = 0; i < objs.length; i++) {
+     for(var i = 0; i < objs.length; i++) {
       objs[i].style.visibility = state;
      }
     }
@@ -184,8 +185,8 @@ var SexyAlertBox = new Class({
 					transition: this.options.showEffect,
 					onComplete: function() {
 
-						sizes = window.getSize();
-						scrollito = window.getScroll();
+						var sizes = window.getSize();
+						var scrollito = window.getScroll();
 
 						this.Box.setStyles({
 							'display': 'block',
@@ -240,8 +241,8 @@ var SexyAlertBox = new Class({
 	*/
 	replaceBox: function() {
 		if(this.options.display == 1) {
-			sizes = window.getSize();
-      scrollito = window.getScroll();
+			var sizes = window.getSize();
+                        var scrollito = window.getScroll();
 
 			if(this.MoveBox)
 				this.MoveBox.cancel();
@@ -502,6 +503,8 @@ var SexyAlertBox = new Class({
 });
 
 SexyAlertBox.implement(new Events, new Options);
+
+var Sexy;
 
 window.addEvent('domready', function() {
   Sexy = new SexyAlertBox();

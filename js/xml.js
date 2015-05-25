@@ -70,18 +70,18 @@
 		
 		for(var i = 0; i < items.length; i++)
 		{
-			item = items[i];
+			var item = items[i];
       eSGs.adopt(items[i].retrieve('xmlnode').clone(true));
 		}
 		
 		var serializer = new XMLSerializer();
 		var xString = serializer.serializeToString(eSetDoc);
 		
-		rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
+		var rNS = new RegExp('xmlns="http://www\\.w3\\.org/1999/xhtml"','g');
 		xString = xString.replace(rNS, '');
 
 		//console.log("getSetXML xString =", xString);
-		xmlString = vkbeautify.xml(xString, 2);
+		var xmlString = vkbeautify.xml(xString, 2);
 		//console.log("getSetXML xmlString =", xmlString);
 		return xmlString;
   };

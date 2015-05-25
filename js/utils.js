@@ -5,7 +5,7 @@ function PadDigits(n, totalDigits)
   var pd = ''; 
   if (totalDigits > n.length) 
   { 
-    for (i=0; i < (totalDigits-n.length); i++) 
+    for (var i=0; i < (totalDigits-n.length); i++) 
     { 
       pd += '0'; 
     } 
