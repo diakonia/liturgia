@@ -509,7 +509,7 @@ class filepath
         @chmod(realpath($this->getFullFile()), 0775);
     }
 
-    function svnUpdateType($sType, &$aMessages, &$aErrors)
+    public static function svnUpdateType($sType, &$aMessages, &$aErrors)
     {
         $sServerFolderPath = realpath(filepath::getServerFolderFromType($sType));
         if (isset($_SERVER['PHP_AUTH_USER']))
