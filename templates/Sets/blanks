@@ -86,7 +86,7 @@ Praise to you, O Christ.</body>
         <slide_group name="Video" type="custom" loop="true" seconds="20" print="true">
             <title>Video</title>
             <subtitle/>
-            <notes>Video @ "[[client_os_file]]" in the OpenSong Data folder.</notes>
+            <notes>Video @ "[[client_osong_rel_file]]" in the OpenSong Data folder.</notes>
             <slides>
                 <slide>
                     <body>[[video]]</body>
@@ -98,7 +98,7 @@ Praise to you, O Christ.</body>
             <subtitle/>
             <notes>DVD Clip from "[[dvdcliptitle]]"
 Description "[[dvdclipdesc]]"
-Run "[[client_os_file]]" in the OpenSong Data folder.
+Run "[[client_osong_rel_file]]" in the OpenSong Data folder.
 Info [[dvdclipinstructions]]</notes>
             <slides>
                 <slide>
@@ -109,7 +109,7 @@ Info [[dvdclipinstructions]]</notes>
         <slide_group name="Presentation" type="custom" loop="true" seconds="20" print="true">
             <title>Presentation</title>
             <subtitle/>
-            <notes>Presentation @ "[[client_os_file]]" in the OpenSong Data folder.</notes>
+            <notes>Presentation @ "[[client_osong_rel_file]]" in the OpenSong Data folder.</notes>
             <slides>
                 <slide>
                     <body>[[presentation]]</body>
@@ -119,7 +119,7 @@ Info [[dvdclipinstructions]]</notes>
         <slide_group name="Linux Presentation" type="external" loop="false" application="launch" action="start" app_filename="/usr/bin/openoffice.org " app_parameters="[[client_abs_file]]" wait_to_finish="true" print="true">
             <title>Linux Presentation</title>
             <subtitle/>
-            <notes>Should launch Presentation @ "[[client_os_file]]" in the OpenSong Data folder.</notes>
+            <notes>Should launch Presentation @ "[[client_osong_rel_file]]" in the OpenSong Data folder.</notes>
             <slides>
                 <slide>
                     <body>[[presentation]]</body>

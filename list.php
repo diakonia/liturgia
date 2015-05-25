@@ -57,7 +57,7 @@ while (false !== ($entry = $d->read()))
                 $aResults[$sName] = array('name' => $sName, 'file' => $sFile);
                 if (in_array($sType, array('presentation', 'video')))
                 {
-                    $aResults[$sName]['client_os_file'] = $oFilePath->getClientExternalRelativeFile();
+                    $aResults[$sName]['client_osong_rel_file'] = $oFilePath->getClientExternalRelativeFile();
                     $aResults[$sName]['client_abs_file'] = $oFilePath->getClientExternalAbsFile();
                 }
             }

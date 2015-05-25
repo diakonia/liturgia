@@ -61,7 +61,7 @@ swfUploadFile = new Swiff.Uploader(
                 if (notesElt != undefined)
                 {
                     var sNotes = notesElt.textContent;
-                    sNotes = sNotes.replace('[[file]]', oResponse.client_os_file);
+                    sNotes = sNotes.replace('[[file]]', oResponse.client_osong_rel_file);
 
                     notesElt.textContent = sNotes;
                 }

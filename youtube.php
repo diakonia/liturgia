@@ -72,7 +72,7 @@ apiSendResult(
             'name' => $oFilePath->getName(),
             'path' => $oFilePath->getPath(),
             'title' => $sTitle,
-            'client_os_file' => $oFilePath->getClientExternalRelativeFile(),
+            'client_osong_rel_file' => $oFilePath->getClientExternalRelativeFile(),
             'client_abs_file' => $oFilePath->getClientExternalAbsFile()
         )
 );

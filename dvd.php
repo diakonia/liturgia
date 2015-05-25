@@ -96,7 +96,7 @@ for ($i = 1; $i <= 10; $i++)
     if ($i == 1)
     {
         $aReturn = array(
-            'client_os_file' => $oFilePath->getClientExternalRelativeFile(),
+            'client_osong_rel_file' => $oFilePath->getClientExternalRelativeFile(),
             'dvdcliptitle' => $aData['dvdtitle'],
             'dvdclipdesc' => $aData['dvdclipdesc'],
             'dvdclipinstructions' => $sInstructions,
