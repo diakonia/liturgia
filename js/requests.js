@@ -41,8 +41,7 @@ var oBlanksRequest = new Request(
 var oBibleDataRequest = new Request.JSON(
 {
     method: 'get',
-    url: "bibles/poly_niv.json",
-    //url: "bibledata.php?bible=NIV",
+    url: "bibledata.php?bible=" + CONST_DEFAULT_BIBLE,
     onSuccess: function(jsonObj)
     {
         if (jsonObj === null)

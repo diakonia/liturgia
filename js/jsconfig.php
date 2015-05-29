@@ -10,4 +10,5 @@ if (defined('CONST_CHOOSEN_CHURCH'))
     echo CONST_CHOOSEN_CHURCH;
 }
 ?>";
+    var CONST_DEFAULT_BIBLE = "<?php echo CONST_DEFAULT_BIBLE; ?>";
 </script>

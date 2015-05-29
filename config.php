@@ -110,6 +110,11 @@ if (!defined('CONST_OpenSongPresentations'))
     define('CONST_OpenSongPresentations', CONST_OpenSongData . 'Presentations/');
 }
 
+if (!defined('CONST_DEFAULT_BIBLE'))
+{
+    define('CONST_DEFAULT_BIBLE', 'NIV');
+}
+
 if (!defined('CONST_VLC_BIN'))
 {
     define('CONST_VLC_BIN', '"C:\Program Files (x86)\VideoLan\VLC.EXE"');
