@@ -2,7 +2,7 @@
 
 //echo "\n<br><pre>\n_FILES =" .var_export($_FILES, TRUE)."</pre>";
 
-require_once('core.php');
+require_once('includes/core.php');
 
 getChurch(false);
 

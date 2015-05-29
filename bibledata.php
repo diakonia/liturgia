@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
-require_once('core.php');
+require_once('includes/core.php');
 
 $jsonFilePath = 'bibles/' . $_REQUEST['bible'] . 'json';
 if (file_exists($jsonFilePath))

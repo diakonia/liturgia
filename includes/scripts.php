@@ -1,6 +1,6 @@
 <?php
 
-@require_once('config.php');
+require_once('config.php');
 
 function print_deferred_script($item, $key)
 {

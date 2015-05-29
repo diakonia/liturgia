@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 
-require_once('core.php');
+require_once('includes/core.php');
 
 getChurch(false);
 

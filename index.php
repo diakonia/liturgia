@@ -9,9 +9,9 @@
         <!--<link rel="stylesheet" href="sexy/sexyalertbox.css" type="text/css" media="screen" />-->
 
         <?php
-        require('core.php');
-        require_once('js/jsconfig.php');
-        require_once('scripts.php');
+        require('includes/core.php');
+        require_once('includes/jsconfig.php');
+        require_once('includes/scripts.php');
 
         getChurch(true);
 
@@ -20,10 +20,10 @@
 
         if (CONST_SVN_AUTO === 0 || (isset($_REQUEST['updated']) && $_REQUEST['updated']))
         {
-            require('set.php');
+            require('includes/set.php');
         }
         else
         {
-            require('update.php');
+            require('includes/update.php');
         }
   
