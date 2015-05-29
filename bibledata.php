@@ -1,5 +1,6 @@
 <?php
 
+header('Content-Type: application/json');
 require_once('core.php');
 
 $xmlDoc = new DOMDocument();
