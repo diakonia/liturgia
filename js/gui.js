@@ -234,24 +234,10 @@ $('selectNewSetSlide').addEvent('change', function(e)
     if (sSelectedType == "Video")
     {
         $("btnUploadFile").fade("in");
-        swfUploadFile.setOptions(
-        {
-            url: 'upload.php?type=video&'
-                //typeFilter: {
-                //	'Images (*.mov, *.mp4, *.avi)': '*.mov; *.jpeg; *.mp4; *.avi'
-                //},
-        });
     }
     else if (sSelectedType == "Presentation")
     {
         $("btnUploadFile").fade("in");
-        swfUploadFile.setOptions(
-        {
-            url: 'upload.php?type=presentation&'
-                //typeFilter: {
-                //	'Images (*.mov, *.mp4, *.avi)': '*.mov; *.jpeg; *.mp4; *.avi'
-                //},
-        });
     }
     else
     {

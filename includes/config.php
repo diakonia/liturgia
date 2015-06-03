@@ -11,7 +11,6 @@ $scripts = array();
 $deferred_scripts = array(CONST_MooToolsJS,
     "js/vkbeautify.0.99.00.beta.js",
     "js/mootools-hacks.js", CONST_MooToolsExtensionsJS, CONST_SexyAlertBoxJS, "js/SexyAlertForm.js",
-    "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Fx.ProgressBar.js", "fancyupload/source/Swiff.Uploader.js",
     "js/ie_detect.js",
     "js/variables.js",
     "js/dirty.js",
@@ -21,7 +20,6 @@ $deferred_scripts = array(CONST_MooToolsJS,
     "js/xml.js",
     "js/gui.js",
     "js/utils.js",
-    "js/upload.js",
     "js/doing.js");
 
 if (!defined('CONST_UseMinifiedJS'))

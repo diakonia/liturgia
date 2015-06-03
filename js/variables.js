@@ -15,7 +15,6 @@ var aFileData = {
     {}
 };
 var iThinking = 0;
-var swfUpload = null;
 var sUploadButtonIdle = null;
 var UploadButtonUpdate = function() {};
 
