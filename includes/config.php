@@ -110,7 +110,32 @@ if (!defined('CONST_OpenSongPresentations'))
 
 if (!defined('CONST_DEFAULT_BIBLE'))
 {
-    define('CONST_DEFAULT_BIBLE', 'NIV');
+    define('CONST_DEFAULT_BIBLE', '*first*');
+}
+
+if (!defined('CONST_READING_ACCLAMATION'))
+{
+    define('CONST_READING_ACCLAMATION', TRUE);
+}
+
+if (!defined('CONST_READING_TEXT'))
+{
+    define('CONST_READING_TEXT', TRUE);
+}
+
+if (!defined('CONST_READING_FORMAT'))
+{
+    define('CONST_READING_FORMAT', 'Chapter');
+}
+
+if (!defined('CONST_READING_VERSES_PER_SLIDE'))
+{
+    define('CONST_READING_VERSES_PER_SLIDE', 2);
+}
+
+if (!defined('CONST_READING_MAX_CHARS_PER_SLIDE'))
+{
+    define('CONST_READING_CHARS_PER_SLIDE', 500);
 }
 
 if (!defined('CONST_VLC_BIN'))
@@ -121,7 +146,7 @@ if (!defined('CONST_VLC_BIN'))
 define('CONST_DVD_CLIP_BY_TIME_CMD_1', '<?xml version="1.0" encoding="UTF-8"?>
 <playlist xmlns="http://xspf.org/ns/0/" xmlns:vlc="http://www.videolan.org/vlc/playlist/ns/0/">
 	<title>Playlist</title>
-	<trackList>
+s	<trackList>
 		<track>
 			<location>dvdsimple:///D:\#<<dvdtitlenumber>></location>
 			<extension application="http://www.videolan.org/vlc/playlist/0">

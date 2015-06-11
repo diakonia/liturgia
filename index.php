@@ -9,6 +9,7 @@
         <!--<link rel="stylesheet" href="sexy/sexyalertbox.css" type="text/css" media="screen" />-->
 
         <?php
+        session_start();
         require('includes/core.php');
         require_once('includes/jsconfig.php');
         require_once('includes/scripts.php');

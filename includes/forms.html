@@ -1,6 +1,7 @@
 <!-- Dummy style block used in chasing down errors when editing -->
 <!--
 <style>
+    .format_row {}
     .vlc-live {}
     .vlc-live {}
     .vlc-start {}
@@ -22,10 +23,16 @@
     <h1>New Reading.</h1>
     <table>
         <tr>
+            <th>Version</th>
+            <td colspan="4">
+                <select name="bible_select">
+                </select>
+            </td>
+        </tr>
+        <tr>
             <th>Book</th>
             <td colspan="4">
-                <select name="book">
-                    <option value="Genesis">Genesis</option><option value="Exodus">Exodus</option><option value="Leviticus">Leviticus</option><option value="Numbers">Numbers</option><option value="Deuteronomy">Deuteronomy</option><option value="Joshua">Joshua</option><option value="Judges">Judges</option><option value="Ruth">Ruth</option><option value="1 Samuel">1 Samuel</option><option value="2 Samuel">2 Samuel</option><option value="1 Kings">1 Kings</option><option value="2 Kings">2 Kings</option><option value="1 Chronicles">1 Chronicles</option><option value="2 Chronicles">2 Chronicles</option><option value="Ezra">Ezra</option><option value="Nehemiah">Nehemiah</option><option value="Esther">Esther</option><option value="Job">Job</option><option value="Psalms">Psalms</option><option value="Proverbs">Proverbs</option><option value="Ecclesiastes">Ecclesiastes</option><option value="Song of Solomon">Song of Solomon</option><option value="Isaiah">Isaiah</option><option value="Jeremiah">Jeremiah</option><option value="Lamentations">Lamentations</option><option value="Ezekiel">Ezekiel</option><option value="Daniel">Daniel</option><option value="Hosea">Hosea</option><option value="Joel">Joel</option><option value="Amos">Amos</option><option value="Obadiah">Obadiah</option><option value="Jonah">Jonah</option><option value="Micah">Micah</option><option value="Nahum">Nahum</option><option value="Habakkuk">Habakkuk</option><option value="Zephaniah">Zephaniah</option><option value="Haggai">Haggai</option><option value="Zechariah">Zechariah</option><option value="Malachi">Malachi</option><option value="Matthew">Matthew</option><option value="Mark">Mark</option><option value="Luke">Luke</option><option value="John">John</option><option value="Acts">Acts</option><option value="Romans">Romans</option><option value="1 Corinthians">1 Corinthians</option><option value="2 Corinthians">2 Corinthians</option><option value="Galatians">Galatians</option><option value="Ephesians">Ephesians</option><option value="Philippians">Philippians</option><option value="Colossians">Colossians</option><option value="1 Thessalonians">1 Thessalonians</option><option value="2 Thessalonians">2 Thessalonians</option><option value="1 Timothy">1 Timothy</option><option value="2 Timothy">2 Timothy</option><option value="Titus">Titus</option><option value="Philemon">Philemon</option><option value="Hebrews">Hebrews</option><option value="James">James</option><option value="1 Peter">1 Peter</option><option value="2 Peter">2 Peter</option><option value="1 John">1 John</option><option value="2 John">2 John</option><option value="3 John">3 John</option><option value="Jude">Jude</option><option value="Revelation">Revelation</option>
+                <select name="book_select">
                 </select>
             </td>
         </tr>
@@ -33,28 +40,69 @@
             <th>From</th>
             <th>Chapter</th>
             <td>
-                <input name="chapter" value="1" size="3"/>
+                <select name="chapter_select">
+                </select>
             </td>
             <th>Verse</th>
             <td>
-                <input name="verse" value="1" size="3"/>
+                <select name="verse_select">
+                </select>
             </td>
         </tr>
         <tr>
             <th>To</th>
             <th>Chapter</th>
             <td>
-                <input name="chapter2" value="1" size="3"/>
+                <select name="chapter2_select">
+                </select>
             </td>
             <th>Verse</th>
             <td>
-                <input name="verse2" value="1" size="3"/>
+                <select name="verse2_select">
+                </select>
             </td>
         </tr>
         <tr>
             <th>Reader</th>
             <td colspan="4">
                 <input name="reader" value="" size="20"/>
+            </td>
+        </tr>
+        <tr>
+            <th>Include:</th><th>Text</th><td><input name="include_text" type="checkbox" /></td>
+            <th>Acclamation</th><td><input name="include_acclamation" type="checkbox" /></td>
+        </tr>
+        <tr class="format_row">
+            <th>Layout:</th>
+            <th>Format</th>
+            <td>
+                <select name="format"> 
+                    <option value="Chapter">Chapter</option>
+                    <option value="Verse">Verse</option>
+                </select>
+            </td>
+            <th>Verses per slide</th>
+            <td>
+                <select name="verses_per_slide"> 
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="format_row">
+            <td></td>
+            <th colspan="2">Max chars per slide</th>
+            <td colspan="2">
+                <input name="max_chars_per_slide" type="number" min="1" max="1999999" />
+            </td>
+        </tr>
+        <tr>
+            <th>Text</th>
+            <td colspan="4">
+                <textarea id="text_preview" rows="5" cols="40" readonly="readonly"></textarea>
             </td>
         </tr>
     </table>

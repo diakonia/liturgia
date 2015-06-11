@@ -5,7 +5,7 @@ var eSetDoc = null;
 var bDirty = false;
 var eSongDoc = null;
 //var sCurrLiID = '';
-var aBibleData = {};
+var aBibleList = [];
 var aFileData = {
     video:
     {},

@@ -3,51 +3,6 @@
 /* global oSongListFetchRequest, oSongPreviewFetchRequest, oSetNewRequest */
 /* global myXMLDoc, aBlankNodes, Sexy, iThinking */
 
-//need to sort out the cloning ids problem
-//TODO : remove renderBibleLookUp
-var renderBibleLookUp = function(aBible, book, chapter, verse)
-{
-    aBible = new Hash(aBible);
-    if ($('bookReading').options.length < 2)
-    {
-        $('bookReading').empty();
-        aBible.each(function(aChapters, sBook)
-        {
-            var myEl = new Element('option',
-            {
-                'value': sBook,
-                'text': sBook
-            });
-            $('bookReading').adopt(myEl);
-        });
-    }
-    $('bookReading').set('value', book);
-    /*
-     $('chapterReading').empty();
-     var oChapter = new Hash(aBible[book]);
-     oChapter.each(function(aPages, iChapter)
-     {
-     var myEl = new Element('option', {'value':iChapter, 'text':iChapter});
-     $('chapterReading').adopt(myEl);
-     });
-     $('chapterReading').set('value', chapter);
-     $('verseReading').empty();
-     var oPages = new Hash(aBible[book][chapter]);
-     var aPageKeys = oPages.getKeys();
-     
-     for(var i = 1 ; i < aPageKeys[aPageKeys.length - 1]; i++)
-     {
-     var myEl = new Element('option', {'value':i, 'text':i});
-     $('verseReading').adopt(myEl);
-     }
-     $('verseReading').set('value', verse);
-     */
-};
-
-
-
-//GUI stuff
-
 var editSetSong = function(eLi)
 {
     var xmlnode = eLi.retrieve('xmlnode');
@@ -69,28 +24,43 @@ var editSetSong = function(eLi)
     });
 };
 
-var editSetSlide = function(eLi)
+var getSlideText = function(slideXmlNode, ltypes)
 {
-    var xmlnode = eLi.retrieve('xmlnode');
-    oPanelSliders.show('editSetSlide');
-    var myBodys = xmlnode.getElementsByTagName('body');
+    var myBodys = slideXmlNode.getElementsByTagName('body');
     var aText = [];
     if (myBodys)
     {
         Array.each(myBodys, function(item, index, object)
         {
-            var nextText = item.get('text');
-            if (nextText.trim().length)
+            if (ltypes === undefined || ltypes.indexOf(item.parentElement.getAttribute('ltype')) !== -1)
             {
-                aText[aText.length] = nextText;
+                var nextText = item.get('text');
+                if (nextText.trim().length)
+                {
+                    aText[aText.length] = nextText;
+                }
             }
         });
     }
-    var sText = aText.join("\n---\n");
+    return aText.join("\n---\n");
+};
 
-    if (sText.match('\\[\\[verse\\]\\]'))
+var editSetSlide = function(eLi)
+{
+    var xmlNode = eLi.retrieve('xmlnode');
+    oPanelSliders.show('editSetSlide');
+    var sText = getSlideText(xmlNode);
+    var sType = xmlNode.getAttribute('type');
+    var ltype = xmlNode.getAttribute('ltype');
+    var ldata = xmlNode.getAttribute('ldata');
+
+    if (sType === "scripture" || sText.match('\\[\\[verse\\]\\]'))
     {
-        readingLookup();
+        var matches = ltype.match('^([OPG])$');
+        if (matches)
+        {
+            readingLookup(matches[1], ldata);
+        }
     }
 
     if (sText.match('\\[\\[songs\\]\\]'))
@@ -126,11 +96,11 @@ var editSetSlide = function(eLi)
 
 
     $('bodySetSlide').set('value', sText);
-    if (xmlnode.getElementsByTagName('notes')[0] !== undefined)
-        $('notesSetSlide').set('value', xmlnode.getElementsByTagName('notes')[0].textContent);
-    if (xmlnode.getElementsByTagName('title')[0] !== undefined)
-        $('titleSetSlide').set('value', xmlnode.getElementsByTagName('title')[0].textContent);
-    $('nameSetSlide').set('value', xmlnode.getAttribute('name'));
+    if (xmlNode.getElementsByTagName('notes')[0] !== undefined)
+        $('notesSetSlide').set('value', xmlNode.getElementsByTagName('notes')[0].textContent);
+    if (xmlNode.getElementsByTagName('title')[0] !== undefined)
+        $('titleSetSlide').set('value', xmlNode.getElementsByTagName('title')[0].textContent);
+    $('nameSetSlide').set('value', xmlNode.getAttribute('name'));
 
 };
 
@@ -148,16 +118,16 @@ var editSetItem = function(eLi)
         }
 
         eLi.addClass('highlight');
+    }
 
-        var sType = eLi.retrieve('xmlnode').getAttribute('type');
-        if (sType === 'song')
-        {
-            editSetSong(eLi);
-        }
-        if (sType === 'custom' || sType === 'external')
-        {
-            editSetSlide(eLi);
-        }
+    var sType = eLi.retrieve('xmlnode').getAttribute('type');
+    if (sType === 'song')
+    {
+        editSetSong(eLi);
+    }
+    if (sType === 'custom' || sType === 'external' || sType === "scripture")
+    {
+        editSetSlide(eLi);
     }
     //sCurrLiID = eLi.getAttribute('id');
     eLi.parentNode.store('sCurrLiID', eLi.getAttribute('id'));
@@ -233,16 +203,24 @@ $('btnSetSave').addEvent('click', function(e)
     saveSet();
 });
 
+$('btnUploadFile').addEvent('click', function(e)
+{
+    e.stop();
+    alert('upload');
+});
+
 $('selectNewSetSlide').addEvent('change', function(e)
 {
     var sSelectedType = this.get('value');
+    /* No longer allowing uploaded videos - they take way too much server space for no good reason
     if (sSelectedType === "Video")
     {
         $("btnUploadFile").fade("in");
     }
-    else if (sSelectedType === "Presentation")
+    else */
+    if (sSelectedType.match(/.*presentation.*/i))
     {
-        $("btnUploadFile").fade("in");
+        //        $("btnUploadFile").fade("in");
     }
     else
     {
@@ -416,7 +394,16 @@ $('btnNewSetSlide').addEvent('click', function(e)
         sName = newSG.getAttribute('name');
     }
 
-    var li = addListItem('slidegroups', sName, newSG, 'custom');
+    var names = sName.split("||");
+    if (names.length > 1)
+    {
+        sName = names[0];
+        newSG.setAttribute('name', names[1]);
+    }
+    var sType = newSG.getAttribute('type');
+
+    var li = addListItem('slidegroups', sName, newSG, sType);
+
     editSetItem(li);
     setDirty();
 });

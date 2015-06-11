@@ -52,6 +52,10 @@ h1 h2 h3 h4 {
     background: url('../images/song.png') no-repeat center;
 }
 
+#slidegroups li .list_scripture {
+	background: url('../images/bible.png') no-repeat center;
+}
+
 #slidegroups li .list_custom {
     background: url('../images/slide.png') no-repeat center;
 }

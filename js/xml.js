@@ -165,8 +165,7 @@ var saveSetSlide = function(options)
 
     if (typeof options !== 'undefined')
     {
-        var hOptions = new Hash(options);
-        hOptions.each(function(item, index)
+        Object.each(options, function(item, index)
         {
             xNode.setAttribute(index, (item));
         });
@@ -189,5 +188,6 @@ var saveSetSlide = function(options)
     });
     xNode.replaceChild(eSlidesNew, eSlidesOld);
     li.store('xmlnode', xNode);
+    li.childNodes[1].textContent = $('nameSetSlide').get('value');
     setDirty();
 };

@@ -1,5 +1,5 @@
 /* global oSetListFetchRequest, oBlanksRequest, oSetFetchRequest, oSongListFetchRequest, oVideoListFetchRequest */
-/* global oPresentationListFetchRequest, oBibleDataRequest */
+/* global oPresentationListFetchRequest, oBibleDataRequest, aBibleList */
 
 $("btnUploadFile").fade("out");
 oSetListFetchRequest.send();
@@ -14,4 +14,4 @@ oSetFetchRequest.send(
 oSongListFetchRequest.send();
 oVideoListFetchRequest.send();
 oPresentationListFetchRequest.send();
-oBibleDataRequest.send();
+oBibleDataRequest.send(aBibleList);

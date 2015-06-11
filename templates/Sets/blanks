@@ -12,17 +12,20 @@
             </slides>
         </slide_group>
 
-        <slide_group name="Reading" type="custom" seconds="0" loop="false" print="true">
-            <title/>
-            <subtitle/>
-            <notes>[[reader]] : [[book]] [[chapter]]:[[verse]] - [[chapter2]]:[[verse2]]</notes>
+        <slide_group type="scripture" ltype="O" name="Bible Reading||[[book]] [[reference]]|[[bible]]" seconds="0" loop="false" print="true">
+            <title>[[book]] [[reference]]|[[bible]]{{page}} : Page [[page]]{{/page}}</title>
+            <subtitle>[[Bible]]</subtitle>
+            <notes>[[reader]] : [[reference]] [[bible]]</notes>
             <slides>
-                <slide>
-                    <body>Page [[page]]
+                <slide ltype="acclamation">
+                    <body>{{page}}Page [[page]]{{/page}}
 
 Reading is taken from [[book]] chapter [[chapter]] beginning at verse [[verse]].</body>
                 </slide>
-                <slide>
+                <slide ltype="text">
+                    <body>[[text]]</body>
+                </slide>
+                <slide ltype="acclamation">
                     <body>Reader:
 This is the word of the Lord.
 All :
@@ -30,32 +33,38 @@ Thanks be to God.</body>
                 </slide>
             </slides>
         </slide_group>
-        <slide_group name="Psalm" type="custom" seconds="0" loop="false" print="true">
-            <title/>
-            <subtitle/>
-            <notes>[[reader]] : [[book]] [[chapter]]:[[verse]] - [[chapter2]]:[[verse2]]</notes>
+        <slide_group type="scripture" ltype="P" name="Psalm||[[book]] [[reference]]|[[bible]]" seconds="0" loop="false" print="true">
+            <title>[[book]] [[reference]]{{page}} : Page [[page]]{{/page}}</title>
+            <subtitle>[[Bible]]</subtitle>
+            <notes>[[reader]] : [[reference]] [[bible]]</notes>
             <slides>
-                <slide>
-                    <body>Psalm number [[chapter]] beginning at verse [[verse]].
+                <slide ltype="acclamation" >
+                    <body>{{page}}Page [[page]]{{/page}}
 
-Page [[page]]</body>
+Psalm number [[chapter]] beginning at verse [[verse]].</body>
+                </slide>
+                <slide ltype="text">
+                    <body>[[text]]</body>
                 </slide>
             </slides>
         </slide_group>
-        <slide_group name="Gospel Reading" type="custom" seconds="0" loop="false" print="true">
-            <title/>
-            <subtitle/>
-            <notes>[[reader]] : [[book]] [[chapter]]:[[verse]] - [[chapter2]]:[[verse2]]</notes>
+        <slide_group type="scripture" ltype="G" name="Gospel Reading||[[book]] [[reference]]|[[bible]]" seconds="0" loop="false" print="true">
+            <title>[[book]] [[reference]]{{page}} : Page [[page]]{{/page}}</title>
+            <subtitle>[[Bible]]</subtitle>
+            <notes>[[reader]] : [[reference]] [[bible]]</notes>
             <slides>
-                <slide>
-                    <body>Page [[page]]
+                <slide ltype="acclamation" >
+                    <body>{{page}}Page [[page]]{{/page}}
 
 Reader:
 Hear the Gospel of our Lord Jesus Christ according to [[book]] chapter [[chapter]]  beginning at verse [[verse]].
 All:
 Glory to you, O Lord</body>
                 </slide>
-                <slide>
+                <slide ltype="text">
+                    <body>[[text]]</body>
+                </slide>
+                <slide ltype="acclamation">
                     <body>Reader:
 This is the Gospel of the Lord.
 All:

@@ -1,4 +1,4 @@
-/* global Request, CONST_CHOOSEN_CHURCH, aBlankNodes, Sexy, CONST_DEFAULT_BIBLE, oPanelSliders, aFileData, $$ */
+/* global Request, CONST_CHOOSEN_CHURCH, aBlankNodes, Sexy, CONST_DEFAULT_BIBLE, oPanelSliders, aFileData, $$, aBibleList */
 
 var oSetFetchRequest = function() {};
 
@@ -14,7 +14,9 @@ var oBlanksRequest = new Request(
         var aBlanks = eBlanksDoc.getElementsByTagName('slide_group');
         Array.each(aBlanks, function(item, index, object)
         {
-            sName = item.getAttribute('name');
+            var names = item.getAttribute('name').split("||");
+            sName = names[0];
+
             aBlankNodes[sName] = item;
             var myEl = new Element('option',
             {
@@ -38,12 +40,9 @@ var oBlanksRequest = new Request(
     }
 });
 
-
-
-var oBibleDataRequest = new Request.JSON(
+var BibleDataRequest = new Class(
 {
-    method: 'get',
-    url: "bibledata.php?bible=" + CONST_DEFAULT_BIBLE,
+    Extends: Request.JSON,
     onSuccess: function(jsonObj)
     {
         if (jsonObj === null)
@@ -56,8 +55,69 @@ var oBibleDataRequest = new Request.JSON(
             Sexy.error(jsonObj.message);
             return;
         }
-        aBibleData = jsonObj.bible;
-        //renderBibleLookUp(aBibleData, 'Genesis', 1, 1);
+        if (typeOf(this.target) === "array")
+        {
+            var target = this.target;
+            target.empty();
+            jsonObj[this.reqType].each(function(item, index)
+            {
+                target.push(item);
+            });
+        }
+        else
+        {
+            var target = this.target;
+            var targetval;
+
+            // if we have no explicitly defined desired target value...
+            if (this.targetval === undefined || this.targetval === null)
+            {
+                // Save the current value
+                targetval = optionJsonField(this.target, this.fieldName);
+            }
+            else
+            {
+                // else use the explicit value.
+                targetval = this.targetval;
+            }
+            var found = false;
+            var fullvalue = null;
+            var fieldName = this.fieldName;
+            target.empty();
+            if (this.reqType !== 'bibles' && this.reqType !== 'verses')
+            {
+                var myEl = new Element('option',
+                {
+                    'value': null,
+                    'text': ''
+                });
+                target.adopt(myEl);
+            }
+            jsonObj[this.reqType].each(function(item, index)
+            {
+                var value = JSON.stringify(item);
+                var myEl = new Element('option',
+                {
+                    'value': value,
+                    'text': item[fieldName]
+                });
+                myEl.store('data', item);
+                if (targetval !== null && targetval !== '' && item[fieldName] === targetval)
+                {
+                    fullvalue = value;
+                    found = true;
+                }
+                target.adopt(myEl);
+            });
+            if (found)
+                target.value = fullvalue;
+        }
+        if (this.options.chainTo !== undefined && this.options.chainTo !== null && this.options.chainTo !==
+            {})
+        {
+            this.options.chainTo();
+        }
+        showThinking(false);
     },
     onRequest: function()
     {
@@ -70,8 +130,163 @@ var oBibleDataRequest = new Request.JSON(
     onFailure: function()
     {
         Sexy.error('The "Bible Data" request failed.');
+    },
+
+    target: null,
+    targetval: null,
+    bible: null,
+    book: null,
+    include: null,
+    exclude: null,
+    chapter: null,
+    verse: null,
+    chapter2: null,
+    verse2: null,
+    reqType: null,
+    fieldName: null,
+
+    initialize: function(options, target, targetval, bible, include, exclude, book, chapter, verse, chapter2, verse2)
+    {
+        var this_options = {
+            onSuccess: this.onSuccess,
+            onComplete: this.onComplete,
+            onFailure: this.onFailure,
+            onRequest: this.onRequest,
+            method: 'get',
+            url: "bibledata.php?church=" + CONST_CHOOSEN_CHURCH
+        };
+
+        Object.append(this_options, options);
+
+        this.parent(this_options);
+
+        this.target = target;
+        if (targetval !== undefined)
+        {
+            this.targetval = targetval;
+        }
+        if (bible !== undefined)
+        {
+            this.bible = bible;
+        }
+        if (book !== undefined)
+        {
+            this.book = book;
+        }
+        if (include !== undefined)
+        {
+            this.include = include;
+        }
+        if (exclude !== undefined)
+        {
+            this.exclude = exclude;
+        }
+        if (chapter !== undefined)
+        {
+            this.chapter = chapter;
+        }
+        if (verse !== undefined)
+        {
+            this.verse = verse;
+        }
+        if (chapter2 !== undefined)
+        {
+            this.chapter2 = chapter2;
+        }
+        if (verse2 !== undefined)
+        {
+            this.verse2 = verse2;
+        }
+    },
+
+    send: function(target, targetval, bible, include, exclude, book, chapter, verse, chapter2, verse2)
+    {
+        var url2 = this.options.url;
+        
+        this.reqType = "bibles";
+        this.fieldName = "bibleName";
+        if (target !== undefined) this.target = target;
+        if (targetval !== undefined) this.targetval = targetval;
+        if (bible !== undefined)
+        {
+            this.bible = bible;
+        }
+        if (this.bible !== null)
+        {
+            url2 = url2 + "&bible=" + this.bible;
+            this.reqType = "books";
+            this.fieldName = "bookName";
+        }
+        if (book !== undefined)
+        {
+            this.book = book;
+        }
+        if (this.book !== null)
+        {
+            url2 = url2 + "&book=" + this.book;
+            this.reqType = "chapters";
+            this.fieldName = "chapterNum";
+        }
+        if (include !== undefined)
+        {
+            this.include = include;
+        }
+        if (this.include !== null)
+        {
+            url2 = url2 + "&include=" + this.include;
+        }
+        if (exclude !== undefined)
+        {
+            this.exclude = exclude;
+        }
+        if (this.exclude !== null)
+        {
+            url2 = url2 + "&exclude=" + this.exclude;
+        }
+        if (chapter !== undefined)
+        {
+            this.chapter = chapter;
+        }
+        if (this.chapter !== null)
+        {
+            url2 = url2 + "&chapter=" + this.chapter;
+            this.reqType = "verses";
+            this.fieldName = "verseNum";
+        }
+        if (verse !== undefined)
+        {
+            this.verse = verse;
+        }
+        if (chapter2 !== undefined)
+        {
+            this.chapter2 = chapter2;
+        }
+        if (verse2 !== undefined)
+        {
+            this.verse2 = verse2;
+        }
+        if (this.verse !== null && this.chapter2 !== null && this.verse2 !== null)
+        {
+            url2 = url2 + "&verse=" + this.verse;
+            url2 = url2 + "&chapter2=" + this.chapter2;
+            url2 = url2 + "&verse2=" + this.verse2;
+            this.reqType = "verses_text";
+            this.fieldName = null;
+        }
+        if (this.reqType)
+        {
+            url2 = url2 + "&type=" + this.reqType;
+        }
+        this.options.url = url2;
+
+        this.parent();
     }
+
 });
+
+var oBibleDataRequest = new BibleDataRequest(
+{}, aBibleList);
+
 
 var oSetListFetchRequest = new Request.JSON(
 {

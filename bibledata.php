@@ -2,57 +2,47 @@
 
 header('Content-Type: application/json');
 require_once('includes/core.php');
+require_once('includes/Bibles.php');
 
-$jsonFilePath = 'bibles/' . $_REQUEST['bible'] . 'json';
-if (file_exists($jsonFilePath))
+if ($_REQUEST['type'] == "bibles")
 {
-    apiSendResult(file_get_contents($jsonFilePath));
+    apiSendResult(array('bibles' => array_values(Bibles::getInstance()->toArray())));
 }
 else
 {
-    $xmlDoc = new DOMDocument();
-    $xmlDoc->load('bibles/' . $_REQUEST['bible'] . '.xml');
-
-    $xpath = new DOMXpath($xmlDoc);
-
-    $aBooks = array();
-
-    $oBooks = $xpath->query("/bible/b");
-    if (!is_null($oBooks))
+    $bible = Bibles::getInstance()[$_REQUEST['bible']];
+    if ($_REQUEST['type'] == "books")
     {
-        for ($i = 0; $i < $oBooks->length; $i++)
+        $exclude = (array_key_exists('exclude', $_REQUEST)) ? $_REQUEST['exclude'] : null;
+        $include = (array_key_exists('include', $_REQUEST)) ? $_REQUEST['include'] : null;
+        apiSendResult(array('books' => array_values($bible->getBooks()->toArray($include, $exclude))));
+    }
+    else
+    {
+        $book = $bible->getBooks()[$_REQUEST['book']];
+        if (NULL == $book)
         {
-            $oBook = $oBooks->item($i);
-            $sBookName = $oBook->getAttribute('n');
-            $aChapters = array();
-            $oChapters = $xpath->query("c", $oBook);
-            if (!is_null($oChapters))
+            apiSendError("Book is not found!");
+            exit;
+        }
+        if ($_REQUEST['type'] == "chapters")
+        {
+            apiSendResult(array('chapters' => array_values($book->getChapters()->toArray())));
+        }
+        else
+        {
+            if ($_REQUEST['type'] == "verses_text")
             {
-                for ($j = 0; $j < $oChapters->length; $j++)
+                apiSendResult(array('verses_text' => array_values($book->getVerseRange($_REQUEST['chapter'], $_REQUEST['verse'], $_REQUEST['chapter2'], $_REQUEST['verse2']))));
+            }
+            else
+            {
+                $chapter = $book->getChapters()[$_REQUEST['chapter']];
+                if ($_REQUEST['type'] == "verses")
                 {
-                    //set_time_limit  ( int $seconds  );
-                    $oChapter = $oChapters->item($j);
-                    $aPages = array();
-                    $oPages = $xpath->query("v[@word]", $oChapter);
-                    if (!is_null($oPages))
-                    {
-                        for ($k = 0; $k < $oPages->length; $k++)
-                        {
-                            $aPages[$oPages->item($k)->getAttribute('n')] = (int) $oPages->item($k)->getAttribute('page');
-                        }
-                    }
-                    $oVerses = $xpath->query("v", $oChapter);
-                    if (!is_null($oVerses))
-                    {
-                        $aPages[$oVerses->item($oVerses->length - 1)->getAttribute('n')] = (int) $oVerses->item($oVerses->length - 1)->getAttribute('page');
-                    }
-
-                    $aChapters[$oChapter->getAttribute('n')] = $aPages;
+                    apiSendResult(array('verses' => array_values($chapter->getVerses()->toArray())));
                 }
             }
-            $aBooks[$oBook->getAttribute('n')] = $aChapters;
         }
     }
-
-    apiSendResult(array('bible' => $aBooks));
 }
