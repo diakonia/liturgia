@@ -1,0 +1,6 @@
+#!/bin/bash
+for a in js/*.js; do
+	if [[ $a != js/Moo* ]]; then 
+		js-beautify -b expand -r -f $a
+	fi
+done
