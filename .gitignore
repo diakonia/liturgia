@@ -1,4 +1,6 @@
-/liturgia/nbproject/private/
+/nbproject/
 /junk
-/localconfig.php
+/config/localconfig.php
 /phpinfo.php
+/nbproject/private/
+**/.directory
