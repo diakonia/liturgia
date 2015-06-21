@@ -1,9 +1,11 @@
+/* global Element, Browser, Function */
+
 Element.implement(
 {
     getValues: function(options)
     {
         var form = this;
-        if (form.get("tag") == "form")
+        if (form.get("tag") === "form")
         {
             options = Object.append(
             {
@@ -24,11 +26,11 @@ Element.implement(
                     sName = item.get('id');
                 }
                 var xValue;
-                if (item.get('type') == 'checkbox')
+                if (item.get('type') === 'checkbox')
                     xValue = item.get('checked');
                 else
                     xValue = item.get('value');
-                if (item.get('type') != 'submit' && sName)
+                if (item.get('type') !== 'submit' && sName)
                 {
                     aValues[sName] = xValue;
                 }

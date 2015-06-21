@@ -1,3 +1,5 @@
+/* global Request, CONST_CHOOSEN_CHURCH, aBlankNodes, Sexy, CONST_DEFAULT_BIBLE, oPanelSliders, aFileData, $$ */
+
 var oSetFetchRequest = function() {};
 
 //REQUEST OBJECTS
@@ -566,11 +568,11 @@ var oVLCRequest = new Request.JSONP(
 
         var time = jsonObj.time;
 
-        if (this.options.data == 'vlctest=true')
+        if (this.options.data === 'vlctest=true')
         {
             $$('.vlc-live').removeClass('hidden');
         }
-        else if (this.options.data != 'pos=end')
+        else if (this.options.data !== 'pos=end')
         {
             var dvdstartsecs = time % 60;
             $$('.dvdstartsecs').set('value', dvdstartsecs);
@@ -608,21 +610,21 @@ var oVLCRequest = new Request.JSONP(
     },
     onRequest: function()
     {
-        if (this.options.data != 'vlctest=true')
+        if (this.options.data !== 'vlctest=true')
         {
             showThinking(true);
         }
     },
     onComplete: function()
     {
-        if (this.options.data != 'vlctest=true')
+        if (this.options.data !== 'vlctest=true')
         {
             showThinking(false);
         }
     },
     onFailure: function()
     {
-        if (this.options.data != 'vlctest=true')
+        if (this.options.data !== 'vlctest=true')
         {
             Sexy.error('The "VLC" request failed.');
             //console.log( 'The "VLC" request failed.');

@@ -1,4 +1,6 @@
-//Doing
+/* global oSetListFetchRequest, oBlanksRequest, oSetFetchRequest, oSongListFetchRequest, oVideoListFetchRequest */
+/* global oPresentationListFetchRequest, oBibleDataRequest */
+
 $("btnUploadFile").fade("out");
 oSetListFetchRequest.send();
 oBlanksRequest.send();

@@ -1,3 +1,8 @@
+/* global CONST_CHOOSEN_CHURCH */
+/* global oSongEditFetchRequest, oPanelSliders, oSetFetchRequest */
+/* global oSongListFetchRequest, oSongPreviewFetchRequest, oSetNewRequest */
+/* global myXMLDoc, aBlankNodes, Sexy, iThinking */
+
 //need to sort out the cloning ids problem
 //TODO : remove renderBibleLookUp
 var renderBibleLookUp = function(aBible, book, chapter, verse)
@@ -121,9 +126,9 @@ var editSetSlide = function(eLi)
 
 
     $('bodySetSlide').set('value', sText);
-    if (xmlnode.getElementsByTagName('notes')[0] != undefined)
+    if (xmlnode.getElementsByTagName('notes')[0] !== undefined)
         $('notesSetSlide').set('value', xmlnode.getElementsByTagName('notes')[0].textContent);
-    if (xmlnode.getElementsByTagName('title')[0] != undefined)
+    if (xmlnode.getElementsByTagName('title')[0] !== undefined)
         $('titleSetSlide').set('value', xmlnode.getElementsByTagName('title')[0].textContent);
     $('nameSetSlide').set('value', xmlnode.getAttribute('name'));
 
@@ -145,11 +150,11 @@ var editSetItem = function(eLi)
         eLi.addClass('highlight');
 
         var sType = eLi.retrieve('xmlnode').getAttribute('type');
-        if (sType == 'song')
+        if (sType === 'song')
         {
             editSetSong(eLi);
         }
-        if (sType == 'custom' || sType == 'external')
+        if (sType === 'custom' || sType === 'external')
         {
             editSetSlide(eLi);
         }
@@ -231,11 +236,11 @@ $('btnSetSave').addEvent('click', function(e)
 $('selectNewSetSlide').addEvent('change', function(e)
 {
     var sSelectedType = this.get('value');
-    if (sSelectedType == "Video")
+    if (sSelectedType === "Video")
     {
         $("btnUploadFile").fade("in");
     }
-    else if (sSelectedType == "Presentation")
+    else if (sSelectedType === "Presentation")
     {
         $("btnUploadFile").fade("in");
     }
@@ -255,7 +260,7 @@ $('selectSetChooser').addEvent('change', function(e)
     //Get the value of the text input.
     var sFile = this.get('value');
     //The code here will execute if the input is empty.
-    if (!sFile || sFile == 'null')
+    if (!sFile || sFile === 'null')
     {
         $('slidegroups').empty();
     }
@@ -368,7 +373,7 @@ $('selectChooseSong').addEvent('change', function(e)
 {
     e.stop();
     var sFile = this.get('value');
-    if (!sFile || sFile == 'null')
+    if (!sFile || sFile === 'null')
     {
         $('displayChooseSong').empty();
     }
@@ -397,7 +402,7 @@ $('btnNewSetSlide').addEvent('click', function(e)
     var sNewSlideType = $('selectNewSetSlide').get('value');
 
     var newSG = aBlankNodes[sNewSlideType].cloneNode(true);
-    if (sNewSlideType == 'Blank')
+    if (sNewSlideType === 'Blank')
     {
         sName = prompt('Name For New Slides');
         if (sName === null)

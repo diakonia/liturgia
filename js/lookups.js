@@ -1,3 +1,7 @@
+/* global oNoticesFetchRequest, oVLCRequest, oDVDClipRequest */
+/* global oYouTubeFetchRequest */
+/* global oSexyAlertForm, aBibleData, aFileData, $$ */
+
 var noticesLookup = function()
 {
     oNoticesFetchRequest.send();
@@ -63,7 +67,7 @@ var getRecordFromList = function(aList, sField, xValue)
 
     for (var j = 0; j < aList.length; j++)
     {
-        if (aList[j][sField] == xValue)
+        if (aList[j][sField] === xValue)
         {
             return new Hash(aList[j]);
         }

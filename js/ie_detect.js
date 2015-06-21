@@ -1,4 +1,6 @@
-if (Browser.name == 'ie')
+/* global Browser, Sexy */
+
+if (Browser.name === 'ie')
 {
     if (Browser.version <= 8)
     {

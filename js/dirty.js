@@ -1,7 +1,8 @@
-//DIRTY
+/* global CONST_SiteTitle */
+
 this.addEvent('beforeunload', function(e)
 {
-    if (bDirty && e != undefined)
+    if (bDirty && e !== undefined)
     {
         e.stop();
     }
@@ -9,7 +10,7 @@ this.addEvent('beforeunload', function(e)
 
 var setDirty = function(bIsDirty)
 {
-    if (bIsDirty == undefined)
+    if (bIsDirty === undefined)
     {
         bIsDirty = true;
     }

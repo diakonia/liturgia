@@ -1,3 +1,5 @@
+/* global Chain, Fx, Browser, $$, Options */
+
 /**
  * Sexy Alert Box - for mootools 1.2 - jQUery 1.3
  * @name sexyalertbox.v1.2.js
@@ -134,7 +136,7 @@ var SexyAlertBox = new Class(
 
         window.addEvent('resize', function()
         {
-            if (this.options.display == 1)
+            if (this.options.display === 1)
             {
                 this.Overlay.setStyles(
                 {
@@ -147,7 +149,7 @@ var SexyAlertBox = new Class(
 
         this.Box.addEvent('keydown', function(event)
         {
-            if (event.key == 'esc')
+            if (event.key === 'esc')
             {
                 this.options.onReturn = false;
                 this.display(0);
@@ -191,13 +193,13 @@ var SexyAlertBox = new Class(
             this.Transition.cancel();
 
         // Show Box	
-        if (this.options.display == 0 && option != 0 || option == 1)
+        if (this.options.display === 0 && option !== 0 || option === 1)
         {
 
-            if (Browser.name == 'ie')
+            if (Browser.name === 'ie')
                 $$('select', 'object', 'embed').each(function(node)
                 {
-                    node.style.visibility = 'hidden'
+                    node.style.visibility = 'hidden';
                 });
 
             this.togFlashObjects('hidden');
@@ -234,10 +236,10 @@ var SexyAlertBox = new Class(
         else
         {
 
-            if (Browser.name == 'ie' && Browser.version == 6)
+            if (Browser.name === 'ie' && Browser.version === 6)
                 $$('select', 'object', 'embed').each(function(node)
                 {
-                    node.style.visibility = 'visible'
+                    node.style.visibility = 'visible';
                 });
 
             this.togFlashObjects('visible');
@@ -254,7 +256,7 @@ var SexyAlertBox = new Class(
 
             this.fireEvent('onCloseStart', [this.Overlay]);
 
-            if (this.i == 1)
+            if (this.i === 1)
             {
                 this.Transition = new Fx.Tween(this.Overlay,
                 {
@@ -277,7 +279,7 @@ var SexyAlertBox = new Class(
      */
     replaceBox: function()
     {
-        if (this.options.display == 1)
+        if (this.options.display === 1)
         {
             var sizes = window.getSize();
             var scrollito = window.getScroll();
@@ -360,7 +362,7 @@ var SexyAlertBox = new Class(
             });
 
 
-            if (type == 'alert' || type == 'info' || type == 'error')
+            if (type === 'alert' || type === 'info' || type === 'error')
             {
                 this.AlertBtnOk = new Element('input',
                 {
@@ -379,11 +381,11 @@ var SexyAlertBox = new Class(
                     this.display(0);
                 }.bind(this));
 
-                if (type == 'alert')
+                if (type === 'alert')
                     this.clase = 'BoxAlert';
-                else if (type == 'error')
+                else if (type === 'error')
                     this.clase = 'BoxError';
-                else if (type == 'info')
+                else if (type === 'info')
                     this.clase = 'BoxInfo';
 
                 this.Content.setProperty('class', this.clase).set('html', message);
@@ -393,7 +395,7 @@ var SexyAlertBox = new Class(
                 this.ContenedorBotones.inject(this.Content, 'bottom');
                 this.display(1);
             }
-            else if (type == 'confirm')
+            else if (type === 'confirm')
             {
                 this.ConfirmBtnOk = new Element('input',
                 {
@@ -437,7 +439,7 @@ var SexyAlertBox = new Class(
                 this.ContenedorBotones.inject(this.Content, 'bottom');
                 this.display(1);
             }
-            else if (type == 'prompt')
+            else if (type === 'prompt')
             {
                 this.PromptBtnOk = new Element('input',
                 {
@@ -506,7 +508,7 @@ var SexyAlertBox = new Class(
 
         this.i++;
 
-        if (this.i == 1)
+        if (this.i === 1)
             this.callChain();
 
     },

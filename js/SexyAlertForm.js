@@ -1,3 +1,5 @@
+/* global SexyAlertBox */
+
 var SexyAlertForm = new Class(
 {
     Extends: SexyAlertBox,
@@ -105,11 +107,11 @@ var SexyAlertForm = new Class(
         });
         this.i++;
 
-        if (this.i == 1)
+        if (this.i === 1)
         {
             this.callChain();
         }
-    },
+    }
 });
 
 var oSexyAlertForm;

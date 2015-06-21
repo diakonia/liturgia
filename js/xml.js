@@ -1,3 +1,7 @@
+/* global CONST_SundayCutOff, CONST_CHOOSEN_CHURCH */
+/* global bDirty, eSetDoc, myXMLDoc */
+/* global vkbeautify, Sexy, Request */
+
 var getDefaultSetName = function()
 {
     var oDate = new Date();
@@ -26,14 +30,14 @@ var showLyricsFromXML = function(sXML)
     }
     if (!sSource)
     {
-        if (eSongDoc.getElementsByTagName('hymnNumber')[0] != undefined)
+        if (eSongDoc.getElementsByTagName('hymnNumber')[0] !== undefined)
         {
             sSource = eSongDoc.getElementsByTagName('hymnNumber')[0].textContent;
         }
     }
     if (!sSource)
     {
-        if (eSongDoc.getElementsByTagName('hymn_number')[0] != undefined)
+        if (eSongDoc.getElementsByTagName('hymn_number')[0] !== undefined)
         {
             sSource = eSongDoc.getElementsByTagName('hymn_number')[0].textContent;
         }
@@ -63,7 +67,7 @@ var showLyricsFromXML = function(sXML)
 var getSetXML = function()
 {
     var eSGsOld = eSetDoc.getElementsByTagName('slide_groups')[0];
-    var eSGsNew = myXMLDoc.createElement('slide_groups')
+    var eSGsNew = myXMLDoc.createElement('slide_groups');
 
 
     var items = $('slidegroups').childNodes;

@@ -11,7 +11,7 @@ var oPanelSliders = {
         aNames = Array.from(aNames);
         for (var i = 0; i < this.aSliders.length; i++)
         {
-            if (aNames.indexOf(this.aSliders[i][0]) == -1)
+            if (aNames.indexOf(this.aSliders[i][0]) === -1)
             {
 
             }
@@ -26,7 +26,7 @@ var oPanelSliders = {
         aNames = Array.from(aNames);
         for (var i = 0; i < this.aSliders.length; i++)
         {
-            if (aNames.indexOf(this.aSliders[i][0]) == -1)
+            if (aNames.indexOf(this.aSliders[i][0]) === -1)
             {
                 this.aSliders[i][1].addClass('hidden');
             }
