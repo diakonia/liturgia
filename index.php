@@ -10,6 +10,9 @@
 
         <?php
         session_start();
+        echo '<script type="text/javascript" defer="defer">' .
+        'var setToLoad="' . (array_key_exists('selectedSet', $_REQUEST) ? $_REQUEST['selectedSet'] : '') .
+        '";</script>' . "\n";
         require_once('includes/core.php');
 
         getChurch(true);

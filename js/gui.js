@@ -242,6 +242,7 @@ $('selectSetChooser').addEvent('change', function(e)
     {
         $('slidegroups').empty();
     }
+    $('selectedSet').value = sFile;
     oSetFetchRequest.send(
     {
         data:

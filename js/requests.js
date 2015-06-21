@@ -1,4 +1,6 @@
-/* global Request, CONST_CHOOSEN_CHURCH, aBlankNodes, Sexy, CONST_DEFAULT_BIBLE, oPanelSliders, aFileData, $$, aBibleList */
+/* global Request, Sexy, $$ */
+/* global CONST_CHOOSEN_CHURCH, CONST_DEFAULT_BIBLE */
+/* global setToLoad, oPanelSliders, aBlankNodes, aFileData, aBibleList */
 
 var oSetFetchRequest = function() {};
 
@@ -202,7 +204,7 @@ var BibleDataRequest = new Class(
     send: function(target, targetval, bible, include, exclude, book, chapter, verse, chapter2, verse2)
     {
         var url2 = this.options.url;
-        
+
         this.reqType = "bibles";
         this.fieldName = "bibleName";
         if (target !== undefined) this.target = target;
@@ -321,7 +323,7 @@ var oSetListFetchRequest = new Request.JSON(
             });
             $('selectSetChooser').adopt(myEl);
         });
-        $('selectSetChooser').set('value', getDefaultSetName());
+        $('selectSetChooser').set('value', (setToLoad !== '') ? setToLoad : getDefaultSetName());
     },
     onRequest: function()
     {

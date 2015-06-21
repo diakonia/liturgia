@@ -1,5 +1,5 @@
 /* global oSetListFetchRequest, oBlanksRequest, oSetFetchRequest, oSongListFetchRequest, oVideoListFetchRequest */
-/* global oPresentationListFetchRequest, oBibleDataRequest, aBibleList */
+/* global oPresentationListFetchRequest, oBibleDataRequest, aBibleList, setToLoad */
 
 $("btnUploadFile").fade("out");
 oSetListFetchRequest.send();
@@ -8,7 +8,7 @@ oSetFetchRequest.send(
 {
     data:
     {
-        file: getDefaultSetName()
+        file: (setToLoad !== "") ? setToLoad : getDefaultSetName()
     }
 });
 oSongListFetchRequest.send();

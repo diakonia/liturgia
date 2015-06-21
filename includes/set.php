@@ -7,9 +7,19 @@ echo '<title id="windowtitle">' . CONST_SiteTitle . ': Service Editor</title>';
 
 
     <div id="setpanel">
+        <h4>All Data</h4>
+        <form id="svnform" method="POST" action="index.php" >
+            <input type="hidden" id="selectedSet" name="selectedSet" value="<?php echo array_key_exists('selectedSet', $_REQUEST) ? $_REQUEST['selectedSet'] : '' ?>" />
+            <input type="hidden" name="updated" value="0" />
+            <input id="btnReloadAll" type="submit" value="Reload" />
+        </form>
         <h4>Set</h4>
         <form id="SetChooser">
-            <select id="selectSetChooser"><option value="null">Loading ....</option></select>
+            <select id="selectSetChooser">
+                <option value="<?php echo array_key_exists('selectedSet', $_REQUEST) ? $_REQUEST['selectedSet'] : 'null' ?>">
+                    <?php echo array_key_exists('selectedSet', $_REQUEST) ? $_REQUEST['selectedSet'] : 'Loading ....' ?>
+                </option>
+            </select>
             <span id="dirtytext"></span><br />
             Set:
             <input id="btnSetNew" type="submit" value="New" />
