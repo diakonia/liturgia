@@ -10,9 +10,7 @@
 
         <?php
         session_start();
-        require('includes/core.php');
-        require_once('includes/jsconfig.php');
-        require_once('includes/scripts.php');
+        require_once('includes/core.php');
 
         getChurch(true);
 
@@ -21,6 +19,8 @@
 
         if (CONST_SVN_AUTO === 0 || (isset($_REQUEST['updated']) && $_REQUEST['updated']))
         {
+            require_once('includes/jsconfig.php');
+            require_once('includes/scripts.php');
             require('includes/set.php');
         }
         else
